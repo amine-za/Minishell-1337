@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 15:18:53 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/12 12:26:20 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/12 15:20:42 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	pipes_exec(t_cmd	*cmd, t_env **my_envp)
 	if (valid_path && !error)
 	{
 		envp = struct_to_env(my_envp);
+		// printf("waiting...\n");
 		if (execve(valid_path, cmd->cmd, envp) == -1)
 		{
 			printf("minishell: %s: %s\n", cmd->cmd[0], strerror(errno));
@@ -97,7 +98,7 @@ void	ft_pipe(t_cmd *cmd, t_env **my_envp)
 				perror("fork");
 				exit(EXIT_FAILURE);
 			}
-			if (pid == 0)
+			else if (pid == 0)
 			{
 				if (i == 0)
 					dup2(fd[i][1], STDOUT_FILENO);
@@ -118,8 +119,10 @@ void	ft_pipe(t_cmd *cmd, t_env **my_envp)
 					j++;
 				}
 				// Execute respective command
-				// if (!builtins(cmd, *my_envp))
+				if (!builtins(cmd, *my_envp))
 					pipes_exec(cmd, my_envp);
+				else
+					exit(EXIT_SUCCESS);
 			}
 			cmd = cmd->next;
 			i++;
