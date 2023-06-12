@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntaxe_error.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 22:57:56 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/02 13:11:50 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/12 23:32:23 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int	redirection_err(char **ar)
 	{
 		if (if_redirec(ar[i]) == 1 && if_redirec(ar[i - 1]))
 			err = 1;
-		// if (if_redirec(ar[i]) && ar[i - 1][0] == '|')
-		// 	err = 1;
+		if (if_redirec(ar[i]) && ar[i - 1][0] == '|')
+			err = 1;
 		if (ar[i + 1] && if_redirec(ar[i]) && ar[i + 1][0] == '|')
 			err = 1;
 		i++;
