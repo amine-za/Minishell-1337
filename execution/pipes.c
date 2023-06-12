@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 15:18:53 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/12 15:20:42 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/12 15:42:55 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,16 @@ void	ft_pipe(t_cmd *cmd, t_env **my_envp)
 					close(fd[j][0]);
 					close(fd[j][1]);
 					j++;
+				}
+				if (cmd->red && i == 0)
+				{
+					if (cmd->delimiter)
+					{
+						// printf("herdoc from pipes\n");
+						ft_herdoc(cmd);
+					}
+					if (cmd->file)
+						redirect(cmd);
 				}
 				// Execute respective command
 				if (!builtins(cmd, *my_envp))

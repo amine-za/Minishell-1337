@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:36:15 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/12 10:58:30 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/12 23:50:54 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,17 @@ int	execute(t_cmd	*cmd, t_env **my_envp)
 				printf("minishell: %s: %s\n", cmd->cmd[0], strerror(errno));
 				ft_free(cmd->cmd);
 				//free(line);
-				exit(EXIT_FAILURE);
+				printf(">>>>66\n");
+				global.exit_status = 127;
+				exit(global.exit_status);
 			}
 		}
 		else if (!valid_path && error == 2)
 		{
 			printf("hello\n");
 			printf("minishell: %s: command not found\n", cmd->cmd[0]);
+			printf(">>>>75\n");
+			global.exit_status = 127;
 			exit(127);
 		}
 	}
@@ -120,12 +124,12 @@ int	main(int ac, char **av, char **envp)
 		ft_signals();
 		line = readline("\033[1;35mminishell$ \033[0m");
 		if (!line)
-			exit (EXIT_FAILURE);
+			exit (global.exit_status);
 		if (*line)
 		{
 			add_history(line);
 			cmd = parsing1(line, my_envp);
-			if ((!cmd->cmd[0] && !cmd->red))
+			if (!cmd || (!cmd->cmd[0] && !cmd->red))
 				continue ;
 		}
 		else
@@ -165,6 +169,7 @@ int	main(int ac, char **av, char **envp)
 		ft_free(cmd->cmd);
 		free(cmd);
 		free(line);
+		// pause();
 		// unlink(cmd->heredoc_file);
 	}
 	return (0);
