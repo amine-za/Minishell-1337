@@ -11,6 +11,14 @@
 #include <readline/readline.h>
 # include <readline/history.h>
 # include "./libft/libft.h"
+
+typedef struct global
+{
+	int	exit_status;
+}	glb;
+
+glb	global;
+
 typedef struct vars
 {
 	int in_sgl;

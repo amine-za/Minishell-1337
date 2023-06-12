@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 10:38:37 by nettalha          #+#    #+#             */
-/*   Updated: 2023/05/31 14:55:15 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/12 21:58:31 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	heredoc(t_cmd *cmd, int i)
 			break ;
 		if (cmd->delimiter[i + 1] == NULL)
 		{
-			write(cmd->fd0, line, ft_strlen(line));
-			write(cmd->fd0, "\n", 1);
+			write(cmd->fd1, line, ft_strlen(line));
+			write(cmd->fd1, "\n", 1);
 		}
 		free(line);
 	}
