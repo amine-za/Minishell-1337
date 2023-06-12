@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 23:14:37 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/05 18:19:08 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/12 23:01:45 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,8 @@ char	**chrjoin(char **s, char c, int flag)
 		}
 		ar[i][0] = c;
 		ar[i][1] = '\0';
-		while(s[j])
-			free(s[j++]);
-		free(s);
+		ar[i+1] = NULL;
+		ft_free(s);
 		return(ar);
 	}
 	ar = malloc (sizeof (char *) * (len + 1));
@@ -93,11 +92,10 @@ char	**chrjoin(char **s, char c, int flag)
         i++;
     }
 	str[i] = c;
-	free(ar[len-1]);
+	// free(ar[len-1]);
     ar[len-1] = str;
-	while (j < len)
-		free(s[j++]);
-	free(s);
+	ar[len] = NULL;
+	ft_free(s);
 	return (ar);
 }
 
@@ -239,12 +237,6 @@ t_cmd	*parsing1(char *s, t_env *env)
 	t_cmd		*head;
 
 	i = 0;
-	// while (env)
-	// {
-	// 	printf("|%s|\n", env->value);
-	// 	env = env->next;
-	// }
-	// exit(0);
 	s = erase_spaces(s);
 	ar = tokenisation(s, env);
 	if (ar == NULL)
