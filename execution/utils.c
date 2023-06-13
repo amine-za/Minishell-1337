@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:35:52 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/06 18:12:27 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/13 13:01:00 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ int	check_key(char *str)
 }
 
 
-int	ft_error(char *input, char *message, int ret)
+void	ft_error(char *input, char *message, int errnb)
 {
 	input = ft_strjoin(input, ": ");
 	ft_putstr_fd("minishell: ", 2);
@@ -151,5 +151,6 @@ int	ft_error(char *input, char *message, int ret)
 		ft_putstr_fd(input, 2);
 	ft_putendl_fd(message, 2);
 	free(input);
-	return (ret);
+	global.exit_status = errnb;
+	printf("errnb>> %d\n", errnb);
 }
