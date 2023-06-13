@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:36:15 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/13 13:13:42 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/13 17:22:46 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,10 +151,7 @@ int	main(int ac, char **av, char **envp)
 		if (cmd->red)
 		{
 			if (cmd->delimiter)
-			{
-				// printf("herdoc from pipes\n");
 				ft_herdoc(cmd);
-			}
 			if (cmd->file)
 				redirect(cmd);
 		}
@@ -162,11 +159,6 @@ int	main(int ac, char **av, char **envp)
 		{
 			if (builtins(cmd, my_envp))
 			{
-				// if (cmd->cmd && cmd->delimiter)
-				// {
-				// 	printf("herdoc from builtins\n");
-				// 	ft_herdoc(cmd);
-				// }
 				backup_fds(1);
 				continue;
 			}

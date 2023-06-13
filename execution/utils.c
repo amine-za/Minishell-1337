@@ -6,12 +6,11 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:35:52 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/13 13:01:00 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/13 17:20:10 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 void	free_string(void *str)
 {
@@ -95,36 +94,6 @@ char	*getpath(char *cmd, t_env *env, int *error)
 	*error = 2;
 	return (0);
 }
-
-char	*quote_handler(char *s, char c)
-{
-	char	**str;
-
-	str = ft_split(s, c);
-	ft_bzero(s, ft_strlen(s));
-	while (*str)
-	{
-		s = ft_strjoin(s, *str);
-		str++;
-	}
-	return (s);
-}
-
-// int	ft_isalpha(int c)
-// {
-// 	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
-// 		return 1;
-// 	else
-// 		return 0;
-// }
-
-// int	ft_isalnum(int c)
-// {
-// 	if (ft_isalpha(c) || (c >= '0' && c <= '9'))
-// 		return 1;
-// 	else
-// 		return 0;
-// }
 
 int	check_key(char *str)
 {
