@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:36:15 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/13 17:22:46 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/14 10:38:06 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	execute(t_cmd	*cmd, t_env **my_envp)
 			{
 				printf("minishell: %s: %s\n", cmd->cmd[0], strerror(errno));
 				ft_free(cmd->cmd);
-				//free(line);
+				printf("errno>> %d\n", errno);
 				exit(errno);
 			}
 		}
@@ -77,66 +77,26 @@ int	execute(t_cmd	*cmd, t_env **my_envp)
 	return (pid);
 }
 
-char	*get_valid_path(t_cmd	*cmd, t_env *env, int *error)
-{
-	char	*valid_path;
-
-	valid_path = NULL;
-	if (!cmd->cmd[0])
-		return(NULL);
-	if (ft_strchr(cmd->cmd[0], '/') != NULL && !access(cmd->cmd[0], F_OK | R_OK | X_OK))
-		valid_path = ft_strdup(cmd->cmd[0]);
-	else if (ft_strnstr(cmd->cmd[0], "./", ft_strlen(cmd->cmd[0])))
-	{
-		if (!access(cmd->cmd[0], F_OK | R_OK | X_OK))
-			valid_path = ft_strdup(cmd->cmd[0]);
-		else
-			ft_error(cmd->cmd[0], strerror(errno), 126);
-	}
-	else
-	{
-		valid_path = getpath(cmd->cmd[0], env, error);
-	}
-	return (valid_path);
-}
-
-void	backup_fds(int n)
-{
-	int		original_stdin;
-	int		original_stdout;
-
-	original_stdin = 1337;
-	original_stdout = 1337;
-	if (n == 0)
-	{
-		original_stdin = dup(STDIN_FILENO);
-		original_stdout = dup(STDOUT_FILENO);
-	}
-	else if (n == 1)
-	{
-		dup2(original_stdin, STDIN_FILENO);
-		dup2(original_stdout, STDOUT_FILENO);
-	}
-}
-
 int	main(int ac, char **av, char **envp)
 {
 	t_cmd	*cmd;
 	char	*line;
 	t_env	*my_envp;
 	pid_t	pid;
-
-
+	int		original_stdin;
+	int		original_stdout;
 
 	(void)ac;
 	(void)av;
-	backup_fds(0);
+	original_stdin = dup(STDIN_FILENO);
+	original_stdout = dup(STDOUT_FILENO);
 	my_envp = env_to_struct(envp);
 	using_history();
 	while (1)
 	{
 		ft_signals();
 		line = readline("\033[1;35mminishell$ \033[0m");
+
 		if (!line)
 			exit (global.exit_status);
 		if (*line)
@@ -159,19 +119,22 @@ int	main(int ac, char **av, char **envp)
 		{
 			if (builtins(cmd, my_envp))
 			{
-				backup_fds(1);
+				dup2(original_stdin, STDIN_FILENO);
+				dup2(original_stdout, STDOUT_FILENO);
 				continue;
 			}
 			pid = execute(cmd, &my_envp);
 			waitpid(pid, &global.status, 0);
 			global.exit_status = WEXITSTATUS(global.status);
-			printf("exit_status>> %d\n", global.exit_status);
+			printf("main_exit_status>> %d\n", global.exit_status);
 		}
 		else
 		{
 			ft_pipe(cmd, &my_envp);
 		}
-		backup_fds(1);
+		dup2(original_stdin, STDIN_FILENO);
+		dup2(original_stdout, STDOUT_FILENO);
+		// backup_fds(1);
 		ft_free(cmd->cmd);
 		free(cmd);
 		free(line);
