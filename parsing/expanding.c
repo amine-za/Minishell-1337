@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:16:01 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/14 19:04:32 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/14 19:29:25 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	dollar_count(char *s)
 	count = 0;
 	while (s[i])
 	{
-		if (s[i] == '$' && s[i+1] && (ft_isalnum(s[i+1]) || s[i+1] == '_' || s[i+1] == '$'))
+		if (s[i] == '$' && s[i+1] && (ft_isalnum(s[i+1]) || s[i+1] == '_' || s[i+1] == '?'))
 			count++;
 		i++;
 	}
@@ -67,16 +67,15 @@ char	*dollar_search(char *s)
 	j = 0;
 	while (s[indc])
 	{
-		if (s[indc] == '$' && s[indc+1] && (ft_isalpha(s[indc+1]) || s[indc+1] == '_'))
+		if (s[indc] == '$' && s[indc+1] && (ft_isalpha(s[indc+1]) || s[indc+1] == '_' || s[indc+1] == '?'))
 			break;
 		indc++;
 	}
-	// printf("			%s\n", &s[indc]);
 	i = indc;
 	if (s[i] == '$')
 	{
 		str = calloc (1, ft_strlen(&s[i++]) + 1);
-		while(s[i] && (ft_isalnum(s[i]) || s[i] == '_' || s[i] == '$'))
+		while(s[i] && (ft_isalnum(s[i]) || s[i] == '_' || s[i] == '?'))
 			str[j++] = s[i++];
 		// i++;
 		if (!s[i])
@@ -96,7 +95,7 @@ char	*search_for_var(t_env *p, char *var_name, char *f_part)
 {
 	if (!var_name)
 		return(f_part);
-	if (var_name[0] == '$')
+	if (var_name[0] == '?')
 	{
 		f_part = ft_strjoin(f_part, ft_itoa(global.exit_status));
 		return(f_part);
@@ -195,7 +194,8 @@ char	**var_case(char **ar, t_env *env)
 	{
 		while (ar[j][i] && ar[j][0] != '\'')
 		{
-			if (ar[j][i] == '$' && ar[j][i+1] && (ft_isalnum(ar[j][i+1]) || ar[j][i+1] == '_' || ar[j][i+1] == '$'))
+			if (ar[j][i] == '$' && ar[j][i+1] 
+				&& (ft_isalnum(ar[j][i+1]) || ar[j][i+1] == '_' || ar[j][i+1] == '?'))
 			{
 				ar[j]  = env_chck(ar[j], i, env);
 				break;

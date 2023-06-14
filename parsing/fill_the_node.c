@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 12:39:48 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/12 23:17:52 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/14 19:19:46 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	redirec_fill(t_cmd *cmd, char **ar)
 	cmd->red = NULL;
 	cmd->file = NULL;
 	cmd->delimiter = NULL;
-	while (ar[i] && ar[i][0] && ar[i][0] != '|')
+	while (ar[i] && ar[i][0] != '|')
 	{
 		if ((!ft_strcmp("<", ar[i]) || !ft_strcmp(">", ar[i]) || !ft_strcmp(">>", ar[i])) && ar[i+1])
 		{
@@ -38,7 +38,7 @@ void	redirec_fill(t_cmd *cmd, char **ar)
 	}
 	if (!ar[i])
 		i = 0;
-	if (ar[i][0] == '|')
+	if (ar[i] && ar[i][0] == '|')
 		i++;
 	if (s)
 	{

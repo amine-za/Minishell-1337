@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 23:14:37 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/12 23:35:18 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/14 19:31:05 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,6 +237,7 @@ t_cmd	*parsing1(char *s, t_env *env)
 	t_cmd		*head;
 
 	i = 0;
+	// printf("exit is : %s\n", ft_itoa(global.exit_status));
 	s = erase_spaces(s);
 	ar = tokenisation(s, env);
 	if (ar == NULL)
