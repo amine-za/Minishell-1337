@@ -6,12 +6,11 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:35:52 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/06 18:12:27 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/14 10:32:19 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 void	free_string(void *str)
 {
@@ -96,35 +95,31 @@ char	*getpath(char *cmd, t_env *env, int *error)
 	return (0);
 }
 
-char	*quote_handler(char *s, char c)
+char	*get_valid_path(t_cmd	*cmd, t_env *env, int *error)
 {
-	char	**str;
+	char	*valid_path;
 
-	str = ft_split(s, c);
-	ft_bzero(s, ft_strlen(s));
-	while (*str)
+	valid_path = NULL;
+	if (!cmd->cmd[0])
+		return(NULL);
+	if (ft_strchr(cmd->cmd[0], '/') != NULL && !access(cmd->cmd[0], F_OK | R_OK | X_OK))
+		valid_path = ft_strdup(cmd->cmd[0]);
+	else if (ft_strnstr(cmd->cmd[0], "./", ft_strlen(cmd->cmd[0])))
 	{
-		s = ft_strjoin(s, *str);
-		str++;
+		if (!access(cmd->cmd[0], F_OK | R_OK | X_OK))
+			valid_path = ft_strdup(cmd->cmd[0]);
+		else
+		{
+			ft_error(cmd->cmd[0], strerror(errno), 126);
+			exit(global.exit_status);
+		}
 	}
-	return (s);
+	else
+	{
+		valid_path = getpath(cmd->cmd[0], env, error);
+	}
+	return (valid_path);
 }
-
-// int	ft_isalpha(int c)
-// {
-// 	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
-// 		return 1;
-// 	else
-// 		return 0;
-// }
-
-// int	ft_isalnum(int c)
-// {
-// 	if (ft_isalpha(c) || (c >= '0' && c <= '9'))
-// 		return 1;
-// 	else
-// 		return 0;
-// }
 
 int	check_key(char *str)
 {
@@ -143,7 +138,7 @@ int	check_key(char *str)
 }
 
 
-int	ft_error(char *input, char *message, int ret)
+void	ft_error(char *input, char *message, int errnb)
 {
 	input = ft_strjoin(input, ": ");
 	ft_putstr_fd("minishell: ", 2);
@@ -151,5 +146,6 @@ int	ft_error(char *input, char *message, int ret)
 		ft_putstr_fd(input, 2);
 	ft_putendl_fd(message, 2);
 	free(input);
-	return (ret);
+	global.exit_status = errnb;
+	printf("exit_status>> %d\n", global.exit_status);
 }

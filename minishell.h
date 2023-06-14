@@ -14,10 +14,11 @@
 
 typedef struct global
 {
+	int	status;
 	int	exit_status;
 }	glb;
 
-glb	global;
+extern glb	global;
 
 typedef struct vars
 {
@@ -76,7 +77,7 @@ char	*getpath(char *cmd, t_env *env, int *error);
 int		builtins(t_cmd *cmd, t_env *my_envp);
 void	ft_exit0(char **cmd);
 int		check_key(char *str);
-int		ft_error(char *input, char *message, int ret);
+void	ft_error(char *input, char *message, int errnb);
 int		builtins_with_path(char **cmd);
 void	ft_free(char **s);
 void	free_string(void *str);

@@ -6,11 +6,13 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:36:15 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/12 23:50:54 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/14 10:38:06 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+glb	global;
 
 void	print_cmd(t_cmd *cmd)
 {
@@ -62,45 +64,17 @@ int	execute(t_cmd	*cmd, t_env **my_envp)
 			{
 				printf("minishell: %s: %s\n", cmd->cmd[0], strerror(errno));
 				ft_free(cmd->cmd);
-				//free(line);
-				printf(">>>>66\n");
-				global.exit_status = 127;
-				exit(global.exit_status);
+				printf("errno>> %d\n", errno);
+				exit(errno);
 			}
 		}
 		else if (!valid_path && error == 2)
 		{
-			printf("hello\n");
 			printf("minishell: %s: command not found\n", cmd->cmd[0]);
-			printf(">>>>75\n");
-			global.exit_status = 127;
 			exit(127);
 		}
 	}
 	return (pid);
-}
-
-char	*get_valid_path(t_cmd	*cmd, t_env *env, int *error)
-{
-	char	*valid_path;
-
-	valid_path = NULL;
-	if (!cmd->cmd[0])
-		return(NULL);
-	if (ft_strchr(cmd->cmd[0], '/') != NULL && !access(cmd->cmd[0], F_OK | R_OK | X_OK))
-		valid_path = ft_strdup(cmd->cmd[0]);
-	else if (ft_strnstr(cmd->cmd[0], "./", ft_strlen(cmd->cmd[0])))
-	{
-		if (!access(cmd->cmd[0], F_OK | R_OK | X_OK))
-			valid_path = ft_strdup(cmd->cmd[0]);
-		else
-			ft_error(cmd->cmd[0], strerror(errno), errno);
-	}
-	else
-	{
-		valid_path = getpath(cmd->cmd[0], env, error);
-	}
-	return (valid_path);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -112,7 +86,6 @@ int	main(int ac, char **av, char **envp)
 	int		original_stdin;
 	int		original_stdout;
 
-
 	(void)ac;
 	(void)av;
 	original_stdin = dup(STDIN_FILENO);
@@ -123,6 +96,7 @@ int	main(int ac, char **av, char **envp)
 	{
 		ft_signals();
 		line = readline("\033[1;35mminishell$ \033[0m");
+
 		if (!line)
 			exit (global.exit_status);
 		if (*line)
@@ -137,10 +111,7 @@ int	main(int ac, char **av, char **envp)
 		if (cmd->red)
 		{
 			if (cmd->delimiter)
-			{
-				// printf("herdoc from pipes\n");
 				ft_herdoc(cmd);
-			}
 			if (cmd->file)
 				redirect(cmd);
 		}
@@ -148,17 +119,14 @@ int	main(int ac, char **av, char **envp)
 		{
 			if (builtins(cmd, my_envp))
 			{
-				// if (cmd->cmd && cmd->delimiter)
-				// {
-				// 	printf("herdoc from builtins\n");
-				// 	ft_herdoc(cmd);
-				// }
 				dup2(original_stdin, STDIN_FILENO);
 				dup2(original_stdout, STDOUT_FILENO);
 				continue;
 			}
 			pid = execute(cmd, &my_envp);
-			waitpid(pid, NULL, 0);
+			waitpid(pid, &global.status, 0);
+			global.exit_status = WEXITSTATUS(global.status);
+			printf("main_exit_status>> %d\n", global.exit_status);
 		}
 		else
 		{
@@ -166,6 +134,7 @@ int	main(int ac, char **av, char **envp)
 		}
 		dup2(original_stdin, STDIN_FILENO);
 		dup2(original_stdout, STDOUT_FILENO);
+		// backup_fds(1);
 		ft_free(cmd->cmd);
 		free(cmd);
 		free(line);
