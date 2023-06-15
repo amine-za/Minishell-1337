@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:36:15 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/14 10:38:06 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/15 11:47:27 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	execute(t_cmd	*cmd, t_env **my_envp)
 	int		error;
 	char	**envp;
 	char	*valid_path;
-	// printf("hello from execute function\n");
+
 	error = 0;
 	pid = fork();
 	if (pid == -1)
@@ -46,16 +46,6 @@ int	execute(t_cmd	*cmd, t_env **my_envp)
 	}
 	if (pid == 0)
 	{
-		// if (cmd->red)
-		// {
-		// 	if (cmd->delimiter)
-		// 	{
-		// 		printf("herdoc from execute\n");
-		// 		ft_herdoc(cmd);
-		// 	}
-		// 	if (cmd->file)
-		// 		redirect(cmd);
-		// }
 		valid_path = get_valid_path(cmd, *my_envp, &error);
 		if (valid_path && !error)
 		{
@@ -134,7 +124,6 @@ int	main(int ac, char **av, char **envp)
 		}
 		dup2(original_stdin, STDIN_FILENO);
 		dup2(original_stdout, STDOUT_FILENO);
-		// backup_fds(1);
 		ft_free(cmd->cmd);
 		free(cmd);
 		free(line);

@@ -254,9 +254,31 @@
 // 	return 0;
 // }
 
-int	main(int ac, char **av, char **envp)
+
+void	readUntilEOF(int fd0, int fd1)
 {
-	printf("hello 1337\n");
-	return 0;
+	char buffer[1024];
+	ssize_t bytesRead;
+	while ((bytesRead = read(fd0, buffer, 1024)) > 0)
+		write(fd1, buffer, bytesRead);
+	if (bytesRead == -1)
+		perror("Error reading file");
+	close(fd0);
 }
 
+int main(int ac, char** av, char** envp) {
+	printf("hello 42\n");
+	int fd0 = open("file", O_RDONLY);
+	if (fd0 == -1) {
+		perror("Error opening file");
+		return 1;
+	}
+	// int fd1 = open("../file1.txt", O_WRONLY | O_CREAT);
+	// if (fd1 == -1) {
+	// 	perror("Error opening file");
+	// 	return 1;
+	// }
+	readUntilEOF(fd0, STDIN_FILENO);
+	printf("future is loading\n");
+	return 0;
+}

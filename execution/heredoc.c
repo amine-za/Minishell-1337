@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 10:38:37 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/12 21:58:31 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/15 11:57:26 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,14 @@ void	heredoc(t_cmd *cmd, int i)
 	}
 	while (1)
 	{
-		line = readline("heredoc> ");
-		if (!ft_strcmp(cmd->delimiter[i], line))
+		line = readline("> ");
+		if (!line)
 			break ;
+		if (!ft_strcmp(cmd->delimiter[i], line))
+		{
+			free(line);
+			break ;
+		}
 		if (cmd->delimiter[i + 1] == NULL)
 		{
 			write(cmd->fd1, line, ft_strlen(line));
@@ -33,7 +38,11 @@ void	heredoc(t_cmd *cmd, int i)
 		}
 		free(line);
 	}
-
+	if (cmd->delimiter[i + 1] == NULL)
+	{
+		cmd->fd1 = open(cmd->heredoc_file, O_RDONLY, 0777);
+		dup2(cmd->fd1, STDIN_FILENO);
+	}
 }
 
 void	ft_herdoc(t_cmd *cmd)
@@ -50,33 +59,3 @@ void	ft_herdoc(t_cmd *cmd)
 		i++;
 	}
 }
-
-// void	get_input(t_cmd *cmd)
-// {
-// 	int	i;
-// 	int	j;
-// 	int	k;
-
-// 	i = 0;
-// 	j = 0;
-// 	k = 0;
-// 	while (cmd->red[i])
-// 	{
-// 		if (!ft_strcmp(read[i], "<"))
-// 		{
-// 			if (!access(cmd->file[j], F_OK))
-// 			{
-
-// 			}
-// 		}
-// 		else if(!ft_strcmp(cmd->red[i], "<<"))
-// 		{
-// 			if (!access(ft_strjoin("/tmp/", cmd->delimiter[i]), F_OK))
-// 			{
-
-// 			}
-// 		}
-// 		i++;
-// 	}
-
-// }

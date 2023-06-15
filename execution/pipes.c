@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 15:18:53 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/12 15:42:55 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/15 11:56:14 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,17 @@ void	pipes_exec(t_cmd	*cmd, t_env **my_envp)
 	int		error;
 	char	**envp;
 	char	*valid_path;
-	// printf("hello from pipes execute function\n");
+
 	error = 0;
 	valid_path = get_valid_path(cmd, *my_envp, &error);
 	if (valid_path && !error)
 	{
 		envp = struct_to_env(my_envp);
-		// printf("waiting...\n");
 		if (execve(valid_path, cmd->cmd, envp) == -1)
 		{
 			printf("minishell: %s: %s\n", cmd->cmd[0], strerror(errno));
 			ft_free(cmd->cmd);
-			//free(line);
-			exit(EXIT_FAILURE);
+			exit(errno);
 		}
 	}
 	else if (!valid_path && error == 2)

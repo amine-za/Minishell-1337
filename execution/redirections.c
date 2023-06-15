@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:55:28 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/06 18:57:27 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/15 11:56:21 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	redirect(t_cmd	*cmd)
 	i = 0;
 	while (cmd->red[i])
 	{
-		// printf("----------welcome to my amazing redirection function %d----------\n", i);
 		if (!ft_strcmp(cmd->red[i], ">>"))
 		{
 			cmd->fd0 = open(cmd->file[i], O_RDWR | O_CREAT | O_APPEND, 0777);
@@ -44,6 +43,5 @@ int	redirect(t_cmd	*cmd)
 		i++;
 	}
 	close(cmd->fd0);
-	close(cmd->fd1);
 	return (0);
 }

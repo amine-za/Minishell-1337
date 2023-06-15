@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:35:52 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/14 10:32:19 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/15 12:03:15 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ char	*getpath(char *cmd, t_env *env, int *error)
 	paths = check_envp(env);
 	if (!paths)
 	{
-		printf("minishell: %s: No such file or directory\n", cmd);
+		ft_error(cmd, "No such file or directory", 1);
 		*error = 1;
-		return (0);
+		exit(global.exit_status);
 	}
 	i = 0;
 	while (paths[i])
