@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:16:01 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/14 19:29:25 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/15 16:49:34 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	dollar_count(char *s)
 	count = 0;
 	while (s[i])
 	{
-		if (s[i] == '$' && s[i+1] && (ft_isalnum(s[i+1]) || s[i+1] == '_' || s[i+1] == '?'))
+		if (s[i] == '$' && s[i + 1] && (ft_isalnum(s[i + 1]) || s[i + 1] == '_'
+				|| s[i + 1] == '?'))
 			count++;
 		i++;
 	}
@@ -32,11 +33,11 @@ char	*put_var_in(char *str, char *s, char *var)
 {
 	int	i;
 	int	j;
-    int y;
+	int	y;
 
 	i = 0;
 	j = 0;
-    y = 0;
+	y = 0;
 	while (s[i])
 	{
 		if (s[i] == '$')
@@ -67,17 +68,17 @@ char	*dollar_search(char *s)
 	j = 0;
 	while (s[indc])
 	{
-		if (s[indc] == '$' && s[indc+1] && (ft_isalpha(s[indc+1]) || s[indc+1] == '_' || s[indc+1] == '?'))
-			break;
+		if (s[indc] == '$' && s[indc + 1] && (ft_isalpha(s[indc + 1])
+				|| s[indc + 1] == '_' || s[indc + 1] == '?'))
+			break ;
 		indc++;
 	}
 	i = indc;
 	if (s[i] == '$')
 	{
-		str = calloc (1, ft_strlen(&s[i++]) + 1);
-		while(s[i] && (ft_isalnum(s[i]) || s[i] == '_' || s[i] == '?'))
+		str = ft_calloc(1, ft_strlen(&s[i++]) + 1);
+		while (s[i] && (ft_isalnum(s[i]) || s[i] == '_' || s[i] == '?'))
 			str[j++] = s[i++];
-		// i++;
 		if (!s[i])
 			indc = 0;
 		else
@@ -94,16 +95,16 @@ char	*dollar_search(char *s)
 char	*search_for_var(t_env *p, char *var_name, char *f_part)
 {
 	if (!var_name)
-		return(f_part);
+		return (f_part);
 	if (var_name[0] == '?')
 	{
 		f_part = ft_strjoin(f_part, ft_itoa(global.exit_status));
-		return(f_part);
+		return (f_part);
 	}
 	while (p->next)
 	{
 		if (ft_strcmp(var_name, p->key) == 0)
-			break;
+			break ;
 		p = p->next;
 		if (p->next == NULL)
 			return (f_part);
@@ -114,21 +115,21 @@ char	*search_for_var(t_env *p, char *var_name, char *f_part)
 
 char	*check_num_case(char *first_part, char *s, int sttc)
 {
-	char *str;
-	// static int sttc;
+	char	*str;
 
 	while (s[sttc])
 	{
-		if (s[sttc] == '$' && s[sttc+1] && (ft_isdigit(s[sttc+1]) || s[sttc+1] == '_'))
-			break;
+		if (s[sttc] == '$' && s[sttc + 1] && (ft_isdigit(s[sttc + 1])
+				|| s[sttc + 1] == '_'))
+			break ;
 		sttc++;
 	}
-	if (ft_isdigit(s[sttc+1]))
+	if (ft_isdigit(s[sttc + 1]))
 	{
-		if (s[sttc+2])
-			str = &s[sttc+2];
+		if (s[sttc + 2])
+			str = &s[sttc + 2];
 		else
-			return(first_part);
+			return (first_part);
 		sttc += 2;
 		while (str[sttc] && str[sttc] != '$')
 			sttc++;
@@ -136,11 +137,11 @@ char	*check_num_case(char *first_part, char *s, int sttc)
 		first_part = ft_strjoin(first_part, str);
 		printf("firs part = %s\n", first_part);
 		sleep(1);
-		return(first_part);
+		return (first_part);
 	}
 	return (NULL);
 }
-//i think mochkil f f_part in the funct up there
+
 char	*env_chck(char *s, int indc, t_env *p)
 {
 	int		i;
@@ -154,27 +155,19 @@ char	*env_chck(char *s, int indc, t_env *p)
 	spcl = NULL;
 	num_dllr = dollar_count(s);
 	head = p;
-	f_part = calloc (1, ft_strlen(s));
+	f_part = ft_calloc(1, ft_strlen(s));
 	while (i < indc)
 	{
 		f_part[i] = s[i];
 		i++;
 	}
-	// spcl = check_num_case(f_part, s);
 	var_name = dollar_search(s);
-	// if (spcl)
-	// 	f_part = spcl;
-	// else
 	f_part = search_for_var(p, var_name, f_part);
 	while (num_dllr != 1)
 	{
 		p = head;
-		// spcl = check_num_case(f_part, s);
 		var_name = dollar_search(s);
-		// if (spcl)
-		// 	f_part = spcl;
-		// else
-			f_part = search_for_var(p, var_name, f_part);
+		f_part = search_for_var(p, var_name, f_part);
 		num_dllr--;
 	}
 	free(s);
@@ -182,11 +175,10 @@ char	*env_chck(char *s, int indc, t_env *p)
 	return (f_part);
 }
 
-
 char	**var_case(char **ar, t_env *env)
 {
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -194,11 +186,11 @@ char	**var_case(char **ar, t_env *env)
 	{
 		while (ar[j][i] && ar[j][0] != '\'')
 		{
-			if (ar[j][i] == '$' && ar[j][i+1] 
-				&& (ft_isalnum(ar[j][i+1]) || ar[j][i+1] == '_' || ar[j][i+1] == '?'))
+			if (ar[j][i] == '$' && ar[j][i + 1] && (ft_isalnum(ar[j][i + 1])
+					|| ar[j][i + 1] == '_' || ar[j][i + 1] == '?'))
 			{
-				ar[j]  = env_chck(ar[j], i, env);
-				break;
+				ar[j] = env_chck(ar[j], i, env);
+				break ;
 			}
 			i++;
 		}

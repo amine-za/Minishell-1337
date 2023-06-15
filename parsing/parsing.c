@@ -6,13 +6,13 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 10:21:30 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/05/28 13:46:38 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/15 17:36:54 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char *rm_quotes(char *s, int flag)
+char	*rm_quotes(char *s, int flag)
 {
 	int		i;
 	int		j;
@@ -34,21 +34,19 @@ char *rm_quotes(char *s, int flag)
 			str[j++] = s[i];
 		i++;
 	}
-    if ( flag == 1 && (p.in_sgl == 1 || p.in_dbl == 1))
-    {
-        // free(s);
-        free(str);
-        return (NULL);
-    }
-    // free(s);
-	return(str);
+	if (flag == 1 && (p.in_sgl == 1 || p.in_dbl == 1))
+	{
+		free(str);
+		return (NULL);
+	}
+	return (str);
 }
 
 int	count_pipes(char *s)
 {
-	int	i;
-	int	res;
-	t_inf p;
+	int		i;
+	int		res;
+	t_inf	p;
 
 	i = 0;
 	res = 0;
@@ -67,31 +65,30 @@ int	count_pipes(char *s)
 	return (res);
 }
 
-void    print_ll(t_cmd *ll)
+void	print_ll(t_cmd *ll)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (ll)
 	{
 		printf("\n--------%d--------\n", i);
-		for(int x = 0; ll->cmd[x]; x++)
+		for (int x = 0; ll->cmd[x]; x++)
 			printf("[%s] ", ll->cmd[x]);
 		printf("\n");
 		printf("Lpipe = %d || Rpipe = %d\n", ll->Lpipe, ll->Rpipe);
 		// printf("err = %d\n", ll->err);
 		printf("\nred --> ");
-		for(int x = 0; ll->red[x]; x++)
+		for (int x = 0; ll->red[x]; x++)
 			printf("[%s] ", ll->red[x]);
 		printf("\nfile --> ");
-		for(int x = 0; ll->file[x]; x++)
+		for (int x = 0; ll->file[x]; x++)
 			printf("[%s] ", ll->file[x]);
 		printf("\ndelimiter --> ");
-		for(int x = 0; ll->delimiter[x]; x++)
+		for (int x = 0; ll->delimiter[x]; x++)
 			printf("[%s] ", ll->delimiter[x]);
 		printf("\n");
 		ll = ll->next;
 		i++;
 	}
 }
-

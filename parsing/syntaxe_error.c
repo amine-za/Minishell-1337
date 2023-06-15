@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 22:57:56 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/12 23:32:23 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/15 17:12:37 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,13 @@ int	redirection_err(char **ar)
 	{
 		if (if_redirec(ar[i]) == 1 && if_redirec(ar[i - 1]))
 			err = 1;
-		if (if_redirec(ar[i]) && ar[i - 1][0] == '|')
-			err = 1;
 		if (ar[i + 1] && if_redirec(ar[i]) && ar[i + 1][0] == '|')
 			err = 1;
 		i++;
 	}
 	if (err == 1)
 	{
-		printf("syntax error near unexpected token `|'\n");
+		printf("syntax error\n");
 		return (1);
 	}
 	return (0);
@@ -71,7 +69,7 @@ int	pipes_err(char **ar)
 		err = 1;
 	if (err == 1)
 	{
-		printf("syntax error near unexpected token `|'\n");
+		printf("syntax error\n");
 		return (1);
 	}
 	return (0);
@@ -144,13 +142,5 @@ int	syntaxe_err(char **ar)
 		return (1);
 	if (quotes_err(ar) == 1)
 		return (1);
-	// if (special_chars_err(ar) == 1)
-	// 	return (1);
 	return (0);
 }
-
-// int main()
-// {
-// 	printf("\"\\\"");
-// 	printf("\n");
-// }
