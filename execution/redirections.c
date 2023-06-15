@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:55:28 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/15 11:56:21 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/15 17:36:22 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,11 @@ int	redirect(t_cmd	*cmd)
 			cmd->fd0 = open(cmd->file[i], O_RDONLY, 0777);
 			if (cmd->fd0 == -1)
 			{
-				printf("minishell: %s: %s\n", cmd->file[i], strerror(errno));
-				i++;
-				continue;
+				// printf("minishell: %s: %s\n", cmd->file[i], strerror(errno));
+				ft_error(cmd->file[i], strerror(errno), 126);
+				dup2(global.o_stdin, STDIN_FILENO);
+				dup2(global.o_stdout, STDOUT_FILENO);
+				return (-1);
 			}
 			dup2(cmd->fd0, STDIN_FILENO);
 		}

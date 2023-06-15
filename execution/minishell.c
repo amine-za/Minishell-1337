@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:36:15 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/15 11:47:27 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/15 17:35:26 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,11 @@ int	main(int ac, char **av, char **envp)
 	char	*line;
 	t_env	*my_envp;
 	pid_t	pid;
-	int		original_stdin;
-	int		original_stdout;
 
 	(void)ac;
 	(void)av;
-	original_stdin = dup(STDIN_FILENO);
-	original_stdout = dup(STDOUT_FILENO);
+	global.o_stdin = dup(STDIN_FILENO);
+	global.o_stdout = dup(STDOUT_FILENO);
 	my_envp = env_to_struct(envp);
 	using_history();
 	while (1)
@@ -103,14 +101,17 @@ int	main(int ac, char **av, char **envp)
 			if (cmd->delimiter)
 				ft_herdoc(cmd);
 			if (cmd->file)
-				redirect(cmd);
+			{
+				if (redirect(cmd) == -1)
+					continue;
+			}
 		}
 		if (cmd->Rpipe == 0)
 		{
 			if (builtins(cmd, my_envp))
 			{
-				dup2(original_stdin, STDIN_FILENO);
-				dup2(original_stdout, STDOUT_FILENO);
+				dup2(global.o_stdin, STDIN_FILENO);
+				dup2(global.o_stdout, STDOUT_FILENO);
 				continue;
 			}
 			pid = execute(cmd, &my_envp);
@@ -122,8 +123,8 @@ int	main(int ac, char **av, char **envp)
 		{
 			ft_pipe(cmd, &my_envp);
 		}
-		dup2(original_stdin, STDIN_FILENO);
-		dup2(original_stdout, STDOUT_FILENO);
+		dup2(global.o_stdin, STDIN_FILENO);
+		dup2(global.o_stdout, STDOUT_FILENO);
 		ft_free(cmd->cmd);
 		free(cmd);
 		free(line);

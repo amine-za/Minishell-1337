@@ -16,6 +16,8 @@ typedef struct global
 {
 	int	status;
 	int	exit_status;
+	int		o_stdin;
+	int		o_stdout;
 }	glb;
 
 extern glb	global;

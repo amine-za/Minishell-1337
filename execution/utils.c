@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:35:52 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/15 12:03:15 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/15 17:29:54 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,5 +147,5 @@ void	ft_error(char *input, char *message, int errnb)
 	ft_putendl_fd(message, 2);
 	free(input);
 	global.exit_status = errnb;
-	printf("exit_status>> %d\n", global.exit_status);
+	printf(">>exit_status>> %d\n", global.exit_status);
 }
