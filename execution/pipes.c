@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 15:18:53 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/16 21:16:36 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/16 22:32:10 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,8 @@ void	ft_pipe(t_cmd *cmd, t_env **my_envp)
 			}
 			i++;
 		}
-
 		i = 0;
-		while (i <= size)
+		while (i <= size && cmd)
 		{
 			pid[i] = fork();
 			if (pid[i] == -1)
@@ -95,21 +94,30 @@ void	ft_pipe(t_cmd *cmd, t_env **my_envp)
 					dup2(fd[i - 1][0], STDIN_FILENO);
 				else
 				{
-					dup2(fd[i - 1][0], STDIN_FILENO);
 					dup2(fd[i][1], STDOUT_FILENO);
+					dup2(fd[i - 1][0], STDIN_FILENO);
 				}
-
 				// Close pipe ends
 				j = 0;
-				while (j < size)
+				while (j <= size)
 				{
 					close(fd[j][0]);
 					close(fd[j][1]);
 					j++;
 				}
-				
+				// if (i == 0)
+				// {
+				// 	char *arg[] = {"ls", "-la", NULL};
+				// 	execve("/bin/ls", arg, struct_to_env(my_envp));
+				// }
+				// if (i == 1)
+				// {
+				// 	char *arg[] = {"cat", "-e", NULL};
+				// 	execve("/bin/cat", arg, struct_to_env(my_envp));
+				// }
 				if (cmd->red && i == 0)
 				{
+					printf("red here ---------------------\n");
 					if (cmd->delimiter)
 						ft_herdoc(cmd);
 					if (cmd->file)
@@ -125,24 +133,23 @@ void	ft_pipe(t_cmd *cmd, t_env **my_envp)
 			i++;
 		}
 
-		// Wait for all child processes to complete
-		i = 0;
-		while (i <= size)
-		{
-			// wait(NULL);
-			waitpid(pid[i], &global.status, 0);
-			global.exit_status = WEXITSTATUS(global.status);
-			i++;
-		}
-		
 		// Close pipe ends in the parent process
 		i = 0;
-		while (i < size)
+		while (i <= size)
 		{
 			close(fd[i][0]);
 			close(fd[i][1]);
 			i++;
 		}
+		// Wait for all child processes to complete
+		i = 0;
+		while (i <= size)
+		{
+			waitpid(pid[i], &global.status, 0);
+			global.exit_status = WEXITSTATUS(global.status);
+			i++;
+		}
+		
 		i = 0;
 		while(i <= size)
 			free(fd[i++]);
