@@ -53,9 +53,9 @@ void	pipes_exec(t_cmd	*cmd, t_env **my_envp)
 
 void	ft_pipe(t_cmd *cmd, t_env **my_envp)
 {
-	pid_t	pid;
-	int		size;
 	int		**fd;
+	pid_t	*pid;
+	int		size;
 	int		i;
 	int		j;
 
@@ -63,16 +63,7 @@ void	ft_pipe(t_cmd *cmd, t_env **my_envp)
 	j = 0;
 	size = ft_cmdsize(cmd) - 1;
 	fd = malloc(sizeof(int *) * (size + 1));
-		// if (cmd->red)
-		// {
-		// 	if (cmd->delimiter)
-		// 	{
-		// 		printf("herdoc from pipes\n");
-		// 		ft_herdoc(cmd);
-		// 	}
-		// 	if (cmd->file)
-		// 		redirect(cmd);
-		// }
+	pid = malloc(sizeof(pid_t) * (size + 1));
 		while (i <= size)
 			fd[i++] = malloc(sizeof(int) * 2);
 		// Create pipes
@@ -90,13 +81,13 @@ void	ft_pipe(t_cmd *cmd, t_env **my_envp)
 		i = 0;
 		while (i <= size)
 		{
-			pid = fork();
-			if (pid == -1)
+			pid[i] = fork();
+			if (pid[i] == -1)
 			{
 				perror("fork");
 				exit(EXIT_FAILURE);
 			}
-			else if (pid == 0)
+			else if (pid[i] == 0)
 			{
 				if (i == 0)
 					dup2(fd[i][1], STDOUT_FILENO);
@@ -119,10 +110,7 @@ void	ft_pipe(t_cmd *cmd, t_env **my_envp)
 				if (cmd->red && i == 0)
 				{
 					if (cmd->delimiter)
-					{
-						// printf("herdoc from pipes\n");
 						ft_herdoc(cmd);
-					}
 					if (cmd->file)
 						redirect(cmd);
 				}
@@ -149,7 +137,9 @@ void	ft_pipe(t_cmd *cmd, t_env **my_envp)
 		i = 0;
 		while (i <= size)
 		{
-			wait(NULL);
+			// wait(NULL);
+			waitpid(pid[i], &global.status, 0);
+			global.exit_status = WEXITSTATUS(global.status);
 			i++;
 		}
 		i = 0;
