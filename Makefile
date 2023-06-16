@@ -52,7 +52,7 @@ OBJS	= ${SRCS:.c=.o}
 
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror
-NRLFLAGS = -lreadline -g -fsanitize=address
+NRLFLAGS = -lreadline -g #-fsanitize=address
 
 RM		= rm -f
 
@@ -65,7 +65,7 @@ ${LIBFT}:
 	@make -C ./libft
 
 ${NAME}:	${OBJS} ${LIBFT}
-	$(CC) $(CFLAGS) $(NRLFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) $^ $(NRLFLAGS) -o $@
 	@make clean -C ./libft
 
 clean:
