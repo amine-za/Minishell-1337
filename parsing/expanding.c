@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:16:01 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/15 16:49:34 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:22:34 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,18 @@ char	*put_var_in(char *str, char *s, char *var)
 	return (str);
 }
 
+int	dlr_srch_norm(char *s, int indc)
+{
+	while (s[indc])
+	{
+		if (s[indc] == '$' && s[indc + 1] && (ft_isalpha(s[indc + 1])
+				|| s[indc + 1] == '_' || s[indc + 1] == '?'))
+			break ;
+		indc++;
+	}
+	return (indc);
+}
+
 char	*dollar_search(char *s)
 {
 	static int	indc;
@@ -66,13 +78,7 @@ char	*dollar_search(char *s)
 
 	i = 0;
 	j = 0;
-	while (s[indc])
-	{
-		if (s[indc] == '$' && s[indc + 1] && (ft_isalpha(s[indc + 1])
-				|| s[indc + 1] == '_' || s[indc + 1] == '?'))
-			break ;
-		indc++;
-	}
+	indc = dlr_srch_norm(s, indc);
 	i = indc;
 	if (s[i] == '$')
 	{
@@ -142,6 +148,15 @@ char	*check_num_case(char *first_part, char *s, int sttc)
 	return (NULL);
 }
 
+void	env_chck_norm(char *f_part, char *s, int i, int indc)
+{
+	while (i < indc)
+	{
+		f_part[i] = s[i];
+		i++;
+	}
+}
+
 char	*env_chck(char *s, int indc, t_env *p)
 {
 	int		i;
@@ -149,18 +164,12 @@ char	*env_chck(char *s, int indc, t_env *p)
 	t_env	*head;
 	char	*f_part;
 	char	*var_name;
-	char	*spcl;
 
 	i = -1;
-	spcl = NULL;
 	num_dllr = dollar_count(s);
 	head = p;
 	f_part = ft_calloc(1, ft_strlen(s));
-	while (i < indc)
-	{
-		f_part[i] = s[i];
-		i++;
-	}
+	env_chck_norm(f_part, s, i, indc);
 	var_name = dollar_search(s);
 	f_part = search_for_var(p, var_name, f_part);
 	while (num_dllr != 1)

@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 23:14:37 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/15 17:46:52 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/16 18:18:38 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,8 +154,8 @@ char	**tokenisation(char *s, t_env *env)
 		{
 			ar = chrjoin(ar, s[i++], 1);
 			j = 0;
-			if (s[i - 1] != '|' && s[i - 1] && s[i + 1] && !(s[i] == '>'
-					&& s[i - 1] == '<') && !(s[i] == '<' && s[i - 1] == '>')
+			if (s[i - 1] != '|' && s[i - 1] && s[i + 1] && !(s[i] == '>' && s[i - 1] == '<')
+					&& !(s[i] == '<' && s[i - 1] == '>')
 				&& !(s[i - 1] == '>' && s[i] == ' ' && s[i + 1] == '<')
 				&& !(s[i - 1] == '<' && s[i] == ' ' && s[i + 1] == '>'))
 				j = 1;
@@ -185,6 +185,8 @@ char	**tokenisation(char *s, t_env *env)
 			break ;
 		else
 		{
+			if (s[i-1] == '|')
+				j = 1;
 			ar = chrjoin(ar, s[i++], j);
 			j = 0;
 		}
@@ -211,7 +213,6 @@ char	**tokenisation(char *s, t_env *env)
 	ar = var_case(ar, env);
 	while (ar[j])
 	{
-		// ar[j] = rm_quotes(ar[j], 0);
 		if (ar[j] == NULL)
 		{
 			while (ar[i])
@@ -221,6 +222,8 @@ char	**tokenisation(char *s, t_env *env)
 		}
 		j++;
 	}
+	for(int x = 0; ar[x]; x++)
+		printf("|%s|\n", ar[x]);
 	return (ar);
 }
 
@@ -253,7 +256,7 @@ t_cmd	*parsing1(char *s, t_env *env)
 	}
 	ll->next = NULL;
 	ll = head;
-	// print_ll(head);
+	print_ll(head);
 	ft_free(ar);
 	free(s);
 	return (head);

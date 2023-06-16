@@ -6,11 +6,30 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 12:39:48 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/15 17:36:16 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:27:00 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	fill_the_strings(char *s, char * ss, char *sss, char **ar, int i)
+{
+	while (ar[i] && ar[i][0] != '|')
+	{
+		if ((!ft_strcmp("<", ar[i]) || !ft_strcmp(">", ar[i])
+				|| !ft_strcmp(">>", ar[i])) && ar[i + 1])
+		{
+			s = ft_strjoin2(ft_strjoin2(s, " "), ar[i]);
+			ss = ft_strjoin2(ft_strjoin2(ss, " "), ar[i + 1]);
+		}
+		else if ((!ft_strcmp("<<", ar[i])) && ar[i + 1])
+		{
+			s = ft_strjoin2(ft_strjoin2(s, " "), ar[i]);
+			sss = ft_strjoin2(ft_strjoin2(sss, " "), ar[i + 1]);
+		}
+		i++;
+	}
+}
 
 void	redirec_fill(t_cmd *cmd, char **ar)
 {
