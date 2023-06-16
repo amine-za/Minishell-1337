@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 15:18:53 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/15 11:56:14 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/16 21:16:36 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	ft_pipe(t_cmd *cmd, t_env **my_envp)
 			fd[i++] = malloc(sizeof(int) * 2);
 		// Create pipes
 		i = 0;
-		while (i < size)
+		while (i <= size)
 		{
 			if (pipe(fd[i]) == -1)
 			{
@@ -107,6 +107,7 @@ void	ft_pipe(t_cmd *cmd, t_env **my_envp)
 					close(fd[j][1]);
 					j++;
 				}
+				
 				if (cmd->red && i == 0)
 				{
 					if (cmd->delimiter)
@@ -124,15 +125,6 @@ void	ft_pipe(t_cmd *cmd, t_env **my_envp)
 			i++;
 		}
 
-		// Close pipe ends in the parent process
-		i = 0;
-		while (i < size)
-		{
-			close(fd[i][0]);
-			close(fd[i][1]);
-			i++;
-		}
-
 		// Wait for all child processes to complete
 		i = 0;
 		while (i <= size)
@@ -142,9 +134,17 @@ void	ft_pipe(t_cmd *cmd, t_env **my_envp)
 			global.exit_status = WEXITSTATUS(global.status);
 			i++;
 		}
+		
+		// Close pipe ends in the parent process
+		i = 0;
+		while (i < size)
+		{
+			close(fd[i][0]);
+			close(fd[i][1]);
+			i++;
+		}
 		i = 0;
 		while(i <= size)
 			free(fd[i++]);
 		free(fd);
 }
-
