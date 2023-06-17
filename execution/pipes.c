@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 15:18:53 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/16 22:52:38 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/17 20:58:10 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void	ft_pipe(t_cmd *cmd, t_env **my_envp)
 				// 	char *arg[] = {"cat", "-e", NULL};
 				// 	execve("/bin/cat", arg, struct_to_env(my_envp));
 				// }
-				if (cmd->red && i == 0)
+				if (cmd->red)
 				{
 					printf("red here ---------------------\n");
 					if (cmd->delimiter)
