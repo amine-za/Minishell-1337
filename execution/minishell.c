@@ -6,31 +6,13 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:36:15 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/18 20:37:07 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/18 22:55:41 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 glb	g_glb;
-
-void	print_cmd(t_cmd *cmd)
-{
-	int	i;
-
-	i = 0;
-	while (cmd->cmd[i])
-		printf("cmd: %s\n", cmd->cmd[i++]);
-	i = 0;
-	while (cmd->red[i])
-		printf("red: %s\n", cmd->red[i++]);
-	i = 0;
-	while (cmd->file[i])
-		printf("file: %s\n", cmd->file[i++]);
-	i = 0;
-	while (cmd->delimiter[i])
-		printf("delimiter: %s\n", cmd->delimiter[i++]);
-}
 
 int	execute(t_cmd	*cmd, t_env **my_envp)
 {
@@ -101,20 +83,20 @@ int	main(int ac, char **av, char **envp)
 		{
 			continue ;
 		}
-		if (cmd->red)
-		{
-			if (cmd->delimiter)
-				ft_herdoc(cmd);
-			if (cmd->file)
-			{
-				if (redirect(cmd) == -1)
-				{
-					continue ;
-				}
-			}
-		}
 		if (cmd->Rpipe == 0)
 		{
+			if (cmd->red)
+			{
+				if (cmd->delimiter)
+					ft_herdoc(cmd);
+				if (cmd->file)
+				{
+					if (redirect(cmd) == -1)
+					{
+						continue ;
+					}
+				}
+			}
 			if (builtins(cmd, my_envp))
 			{
 				dup2(g_glb.o_stdin, STDIN_FILENO);
@@ -124,7 +106,6 @@ int	main(int ac, char **av, char **envp)
 			pid = execute(cmd, &my_envp);
 			waitpid(pid, &g_glb.status, 0);
 			g_glb.exit_status = WEXITSTATUS(g_glb.status);
-			printf("main_exit_status>> %d\n", g_glb.exit_status);
 		}
 		else
 		{

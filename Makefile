@@ -1,5 +1,5 @@
 NAME    = minishell
-USERNAME = azaghlou
+USERNAME = nettalha
 
 LIBFT   = ./libft/libft.a
 SRCS    = ./execution/minishell.c ./execution/builtins.c ./execution/redirections.c ./execution/pipes.c \
