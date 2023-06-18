@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:35:52 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/18 13:47:34 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/18 22:41:51 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ char	**check_envp(t_env *env)
 			}
 			else
 			{
-				printf("I found the PATH\n");
 				paths = ft_split(env->value, ':');
 				return (paths);
 			}

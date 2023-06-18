@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:55:28 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/18 13:43:34 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/18 22:42:07 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	redirect(t_cmd	*cmd)
 	int	i;
 
 	i = 0;
-	printf("red>> |%s|\nfile>> |%s|\n", cmd->red[i], cmd->file[i]);
 	while (cmd->red[i])
 	{
 		if (!ft_strcmp(cmd->red[i], ">>"))
