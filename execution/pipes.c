@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 15:18:53 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/18 13:42:56 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/18 20:30:00 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	ft_pipe(t_cmd *cmd, t_env **my_envp)
 		if (pid[i] == -1)
 		{
 			perror("fork");
-			exit(EXIT_FAILURE);
+			return ;
 		}
 		else if (pid[i] == 0)
 		{
