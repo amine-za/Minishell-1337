@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:55:28 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/16 22:42:49 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/18 13:43:34 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,9 @@ int	redirect(t_cmd	*cmd)
 			cmd->fd0 = open(cmd->file[i], O_RDWR | O_CREAT | O_APPEND, 0777);
 			if (cmd->fd0 == -1)
 			{
-				// printf("minishell: %s: %s\n", cmd->file[i], strerror(errno));
 				ft_error(cmd->file[i], "ambiguous redirect", 126);
-				dup2(global.o_stdin, STDIN_FILENO);
-				dup2(global.o_stdout, STDOUT_FILENO);
+				dup2(g_glb.o_stdin, STDIN_FILENO);
+				dup2(g_glb.o_stdout, STDOUT_FILENO);
 				return (-1);
 			}
 			dup2(cmd->fd0, STDOUT_FILENO);
@@ -38,10 +37,9 @@ int	redirect(t_cmd	*cmd)
 			cmd->fd0 = open(cmd->file[i], O_RDWR | O_TRUNC | O_CREAT, 0777);
 			if (cmd->fd0 == -1)
 			{
-				// printf("minishell: %s: %s\n", cmd->file[i], strerror(errno));
 				ft_error(cmd->file[i], "ambiguous redirect", 126);
-				dup2(global.o_stdin, STDIN_FILENO);
-				dup2(global.o_stdout, STDOUT_FILENO);
+				dup2(g_glb.o_stdin, STDIN_FILENO);
+				dup2(g_glb.o_stdout, STDOUT_FILENO);
 				return (-1);
 			}
 			dup2(cmd->fd0, STDOUT_FILENO);
@@ -51,10 +49,9 @@ int	redirect(t_cmd	*cmd)
 			cmd->fd0 = open(cmd->file[i], O_RDONLY, 0777);
 			if (cmd->fd0 == -1)
 			{
-				// printf("minishell: %s: %s\n", cmd->file[i], strerror(errno));
 				ft_error(cmd->file[i], strerror(errno), 126);
-				dup2(global.o_stdin, STDIN_FILENO);
-				dup2(global.o_stdout, STDOUT_FILENO);
+				dup2(g_glb.o_stdin, STDIN_FILENO);
+				dup2(g_glb.o_stdout, STDOUT_FILENO);
 				return (-1);
 			}
 			dup2(cmd->fd0, STDIN_FILENO);

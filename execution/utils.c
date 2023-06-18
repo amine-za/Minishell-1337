@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:35:52 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/15 17:29:54 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/18 13:47:34 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_free(char **s)
 	int	i;
 
 	if (!s)
-		return;
+		return ;
 	else
 	{
 		i = 0;
@@ -74,7 +74,7 @@ char	*getpath(char *cmd, t_env *env, int *error)
 	{
 		ft_error(cmd, "No such file or directory", 1);
 		*error = 1;
-		exit(global.exit_status);
+		exit(g_glb.exit_status);
 	}
 	i = 0;
 	while (paths[i])
@@ -101,8 +101,8 @@ char	*get_valid_path(t_cmd	*cmd, t_env *env, int *error)
 
 	valid_path = NULL;
 	if (!cmd->cmd[0])
-		return(NULL);
-	if (ft_strchr(cmd->cmd[0], '/') != NULL && !access(cmd->cmd[0], F_OK | R_OK | X_OK))
+		return (NULL);
+	if (ft_strchr(cmd->cmd[0], '/') && !access(cmd->cmd[0], F_OK | R_OK | X_OK))
 		valid_path = ft_strdup(cmd->cmd[0]);
 	else if (ft_strnstr(cmd->cmd[0], "./", ft_strlen(cmd->cmd[0])))
 	{
@@ -111,7 +111,7 @@ char	*get_valid_path(t_cmd	*cmd, t_env *env, int *error)
 		else
 		{
 			ft_error(cmd->cmd[0], strerror(errno), 126);
-			exit(global.exit_status);
+			exit(g_glb.exit_status);
 		}
 	}
 	else
@@ -137,7 +137,6 @@ int	check_key(char *str)
 	return (1);
 }
 
-
 void	ft_error(char *input, char *message, int errnb)
 {
 	input = ft_strjoin(input, ": ");
@@ -146,6 +145,6 @@ void	ft_error(char *input, char *message, int errnb)
 		ft_putstr_fd(input, 2);
 	ft_putendl_fd(message, 2);
 	free(input);
-	global.exit_status = errnb;
-	printf(">>exit_status>> %d\n", global.exit_status);
+	g_glb.exit_status = errnb;
+	printf(">>exit_status>> %d\n", g_glb.exit_status);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 10:36:15 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/06 14:34:42 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/18 13:49:49 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,52 +25,34 @@ int	ft_envsize(t_env *env)
 	return (i);
 }
 
-// t_env	*ft_envnew(char *key, char *value, int is_equ)
-// {
-// 	t_env	*node;
-
-// 	node = (t_env *)malloc(sizeof(t_env));
-// 	if (!node)
-// 		return (0);
-// 	node->value = value;
-// 	node->key = key;
-// 	node->is_equ = is_equ;
-// 	node->prev = NULL;
-// 	node->next = NULL;
-// 	return (node);
-// }
-
-t_env *ft_envnew(char *key, char *value, int is_equ)
+t_env	*ft_envnew(char *key, char *value, int is_equ)
 {
-    t_env *node = (t_env *)malloc(sizeof(t_env));
-    if (!node)
-        return NULL;
+	t_env	*node;
 
-    node->value = (char *)malloc((strlen(value) + 1) * sizeof(char));
-    if (!node->value)
-    {
-        free(node);
-        return NULL;
-    }
-    ft_strcpy(node->value, value);
-	// node->value = ft_strdup(value);
-
-    node->key = (char *)malloc((strlen(key) + 1) * sizeof(char));
-    if (!node->key)
-    {
-        free(node->value);
-        free(node);
-        return NULL;
-    }
-    ft_strcpy(node->key, key);
-	// node->key = ft_strdup(key);
-
-    node->is_equ = is_equ;
-    node->prev = NULL;
-    node->next = NULL;
+	node = (t_env *)malloc(sizeof(t_env));
+	if (!node)
+		return (NULL);
+	node->value = (char *)malloc((strlen(value) + 1) * sizeof(char));
+	if (!node->value)
+	{
+		free(node);
+		return (NULL);
+	}
+	ft_strcpy(node->value, value);
+	node->key = (char *)malloc((strlen(key) + 1) * sizeof(char));
+	if (!node->key)
+	{
+		free(node->value);
+		free(node);
+		return (NULL);
+	}
+	ft_strcpy(node->key, key);
+	node->is_equ = is_equ;
+	node->prev = NULL;
+	node->next = NULL;
 	free(key);
 	free(value);
-    return node;
+	return (node);
 }
 
 t_env	*ft_envlast(t_env *env)
@@ -111,16 +93,7 @@ void	ft_enviter(t_env *env, void (*f)(void *))
 	}
 }
 
-// void	ft_envdelone(t_env *env, void (*del)(void *))
-// {
-// 	if (!env || !del)
-// 		return ;
-// 	del(env->key);
-// 	del(env->key);
-// 	free(env);
-// }
-
-void	ft_envdelone(char* str, t_env **env)
+void	ft_envdelone(char *str, t_env **env)
 {
 	t_env	*current;
 
@@ -136,7 +109,7 @@ void	ft_envdelone(char* str, t_env **env)
 			if (current == *env)
 				*env = current->next;
 			free(current);
-			break;
+			break ;
 		}
 		current = current->next;
 	}
@@ -163,26 +136,12 @@ void	ft_upenv(char *key, char *value, t_env *envp)
 {
 	t_env	*current;
 
-	// printf("error here\n");
 	current = envp;
-	while(current)
+	while (current)
 	{
-		if(!ft_strcmp(current->key, key))
+		if (!ft_strcmp(current->key, key))
 			break ;
 		current = current->next;
 	}
 	current->value = ft_strdup(value);
-}
-
-void	ft_printenv(t_env *env)
-{
-	t_env	*current;
-
-	current = env;
-
-	while (current != NULL)
-	{
-		printf("%s = %s\n", current->key, current->value);
-		current = current->next;
-	}
 }

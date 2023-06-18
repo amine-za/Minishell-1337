@@ -6,10 +6,9 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 15:18:53 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/17 20:58:10 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/18 13:42:56 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../minishell.h"
 
@@ -64,94 +63,77 @@ void	ft_pipe(t_cmd *cmd, t_env **my_envp)
 	size = ft_cmdsize(cmd) - 1;
 	fd = malloc(sizeof(int *) * (size + 1));
 	pid = malloc(sizeof(pid_t) * (size + 1));
-		while (i <= size)
-			fd[i++] = malloc(sizeof(int) * 2);
-		// Create pipes
-		i = 0;
-		while (i <= size)
+	while (i <= size)
+		fd[i++] = malloc(sizeof(int) * 2);
+	i = 0;
+	while (i <= size)
+	{
+		if (pipe(fd[i]) == -1)
 		{
-			if (pipe(fd[i]) == -1)
+			perror("pipe");
+			exit(EXIT_FAILURE);
+		}
+		i++;
+	}
+	i = 0;
+	while (i <= size && cmd)
+	{
+		pid[i] = fork();
+		if (pid[i] == -1)
+		{
+			perror("fork");
+			exit(EXIT_FAILURE);
+		}
+		else if (pid[i] == 0)
+		{
+			if (i == 0)
+				dup2(fd[i][1], STDOUT_FILENO);
+			else if (i == size)
+				dup2(fd[i - 1][0], STDIN_FILENO);
+			else
 			{
-				perror("pipe");
-				exit(EXIT_FAILURE);
+				dup2(fd[i][1], STDOUT_FILENO);
+				dup2(fd[i - 1][0], STDIN_FILENO);
 			}
-			i++;
-		}
-		i = 0;
-		while (i <= size && cmd)
-		{
-			pid[i] = fork();
-			if (pid[i] == -1)
+			j = 0;
+			while (j <= size)
 			{
-				perror("fork");
-				exit(EXIT_FAILURE);
+				close(fd[j][0]);
+				close(fd[j][1]);
+				j++;
 			}
-			else if (pid[i] == 0)
+			if (cmd->red)
 			{
-				if (i == 0)
-					dup2(fd[i][1], STDOUT_FILENO);
-				else if (i == size)
-					dup2(fd[i - 1][0], STDIN_FILENO);
-				else
-				{
-					dup2(fd[i][1], STDOUT_FILENO);
-					dup2(fd[i - 1][0], STDIN_FILENO);
-				}
-				// Close pipe ends
-				j = 0;
-				while (j <= size)
-				{
-					close(fd[j][0]);
-					close(fd[j][1]);
-					j++;
-				}
-				// if (i == 0)
-				// {
-				// 	char *arg[] = {"ls", "-la", NULL};
-				// 	execve("/bin/ls", arg, struct_to_env(my_envp));
-				// }
-				// if (i == 1)
-				// {
-				// 	char *arg[] = {"cat", "-e", NULL};
-				// 	execve("/bin/cat", arg, struct_to_env(my_envp));
-				// }
-				if (cmd->red)
-				{
-					printf("red here ---------------------\n");
-					if (cmd->delimiter)
-						ft_herdoc(cmd);
-					if (cmd->file)
-						redirect(cmd);
-				}
-				// Execute respective command
-				if (!builtins(cmd, *my_envp))
-					pipes_exec(cmd, my_envp);
-				else
-					exit(EXIT_SUCCESS);
+				printf("red here ---------------------\n");
+				if (cmd->delimiter)
+					ft_herdoc(cmd);
+				if (cmd->file)
+					redirect(cmd);
 			}
-			cmd = cmd->next;
-			i++;
+			if (!builtins(cmd, *my_envp))
+				pipes_exec(cmd, my_envp);
+			else
+				exit(EXIT_SUCCESS);
 		}
-
-		// Close pipe ends in the parent process
-		i = 0;
-		while (i <= size)
-		{
-			close(fd[i][0]);
-			close(fd[i][1]);
-			i++;
-		}
-		// Wait for all child processes to complete
-		i = 0;
-		while (i <= size)
-		{
-			waitpid(pid[i], &global.status, 0);
-			global.exit_status = WEXITSTATUS(global.status);
-			i++;
-		}
-		
-		i = 0;
-		while(i <= size)
-			free(fd[i++]);
-		free(fd);
+		cmd = cmd->next;
+		i++;
+	}
+	i = 0;
+	while (i <= size)
+	{
+		close(fd[i][0]);
+		close(fd[i][1]);
+		i++;
+	}
+	i = 0;
+	while (i <= size)
+	{
+		waitpid(pid[i], &g_glb.status, 0);
+		g_glb.exit_status = WEXITSTATUS(g_glb.status);
+		i++;
+	}
+	i = 0;
+	while (i <= size)
+		free(fd[i++]);
+	free(fd);
 }
