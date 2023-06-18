@@ -38,7 +38,6 @@ int	execute(t_cmd	*cmd, t_env **my_envp)
 			{
 				printf("minishell: %s: %s\n", cmd->cmd[0], strerror(errno));
 				ft_free(cmd->cmd);
-				printf("errno>> %d\n", errno);
 				exit(errno);
 			}
 		}
