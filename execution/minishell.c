@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:36:15 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/15 21:47:02 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/17 20:53:10 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,8 @@ int	main(int ac, char **av, char **envp)
 		}
 		else
 		{
+			dup2(global.o_stdin, STDIN_FILENO);
+			dup2(global.o_stdout, STDOUT_FILENO);
 			ft_pipe(cmd, &my_envp);
 		}
 		dup2(global.o_stdin, STDIN_FILENO);
