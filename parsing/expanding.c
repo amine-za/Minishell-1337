@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:16:01 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/16 23:52:55 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/18 20:10:40 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char	*search_for_var(t_env *p, char *var_name, char *f_part)
 		return (f_part);
 	if (var_name[0] == '?')
 	{
-		f_part = ft_strjoin(f_part, ft_itoa(global.exit_status));
+		f_part = ft_strjoin(f_part, ft_itoa(g_glb.exit_status));
 		return (f_part);
 	}
 	while (p->next)

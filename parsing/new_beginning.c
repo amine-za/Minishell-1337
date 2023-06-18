@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 23:14:37 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/18 17:41:21 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/18 20:12:02 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ t_cmd	*parsing1(char *s, t_env *env)
 	}
 	ll->next = NULL;
 	ll = head;
-	print_ll(head);
+	// print_ll(head);
 	// ft_free(ar);
 	free(s);
 	return (head);
