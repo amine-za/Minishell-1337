@@ -6,28 +6,11 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:16:01 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/15 18:22:34 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/16 23:52:55 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	dollar_count(char *s)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (s[i])
-	{
-		if (s[i] == '$' && s[i + 1] && (ft_isalnum(s[i + 1]) || s[i + 1] == '_'
-				|| s[i + 1] == '?'))
-			count++;
-		i++;
-	}
-	return (count);
-}
 
 char	*put_var_in(char *str, char *s, char *var)
 {
@@ -57,7 +40,7 @@ char	*put_var_in(char *str, char *s, char *var)
 	return (str);
 }
 
-int	dlr_srch_norm(char *s, int indc)
+int	var_name_norm(char *s, int indc)
 {
 	while (s[indc])
 	{
@@ -69,7 +52,7 @@ int	dlr_srch_norm(char *s, int indc)
 	return (indc);
 }
 
-char	*dollar_search(char *s)
+char	*variable_name(char *s)
 {
 	static int	indc;
 	char		*str;
@@ -78,7 +61,7 @@ char	*dollar_search(char *s)
 
 	i = 0;
 	j = 0;
-	indc = dlr_srch_norm(s, indc);
+	indc = var_name_norm(s, indc);
 	i = indc;
 	if (s[i] == '$')
 	{
@@ -119,71 +102,6 @@ char	*search_for_var(t_env *p, char *var_name, char *f_part)
 	return (f_part);
 }
 
-char	*check_num_case(char *first_part, char *s, int sttc)
-{
-	char	*str;
-
-	while (s[sttc])
-	{
-		if (s[sttc] == '$' && s[sttc + 1] && (ft_isdigit(s[sttc + 1])
-				|| s[sttc + 1] == '_'))
-			break ;
-		sttc++;
-	}
-	if (ft_isdigit(s[sttc + 1]))
-	{
-		if (s[sttc + 2])
-			str = &s[sttc + 2];
-		else
-			return (first_part);
-		sttc += 2;
-		while (str[sttc] && str[sttc] != '$')
-			sttc++;
-		str[sttc] = '\0';
-		first_part = ft_strjoin(first_part, str);
-		printf("firs part = %s\n", first_part);
-		sleep(1);
-		return (first_part);
-	}
-	return (NULL);
-}
-
-void	env_chck_norm(char *f_part, char *s, int i, int indc)
-{
-	while (i < indc)
-	{
-		f_part[i] = s[i];
-		i++;
-	}
-}
-
-char	*env_chck(char *s, int indc, t_env *p)
-{
-	int		i;
-	int		num_dllr;
-	t_env	*head;
-	char	*f_part;
-	char	*var_name;
-
-	i = -1;
-	num_dllr = dollar_count(s);
-	head = p;
-	f_part = ft_calloc(1, ft_strlen(s));
-	env_chck_norm(f_part, s, i, indc);
-	var_name = dollar_search(s);
-	f_part = search_for_var(p, var_name, f_part);
-	while (num_dllr != 1)
-	{
-		p = head;
-		var_name = dollar_search(s);
-		f_part = search_for_var(p, var_name, f_part);
-		num_dllr--;
-	}
-	free(s);
-	free(var_name);
-	return (f_part);
-}
-
 char	**var_case(char **ar, t_env *env)
 {
 	int	i;
@@ -208,3 +126,31 @@ char	**var_case(char **ar, t_env *env)
 	}
 	return (ar);
 }
+// char	*check_num_case(char *first_part, char *s, int sttc)
+// {
+// 	char	*str;
+
+// 	while (s[sttc])
+// 	{
+// 		if (s[sttc] == '$' && s[sttc + 1] && (ft_isdigit(s[sttc + 1])
+// 				|| s[sttc + 1] == '_'))
+// 			break ;
+// 		sttc++;
+// 	}
+// 	if (ft_isdigit(s[sttc + 1]))
+// 	{
+// 		if (s[sttc + 2])
+// 			str = &s[sttc + 2];
+// 		else
+// 			return (first_part);
+// 		sttc += 2;
+// 		while (str[sttc] && str[sttc] != '$')
+// 			sttc++;
+// 		str[sttc] = '\0';
+// 		first_part = ft_strjoin(first_part, str);
+// 		printf("firs part = %s\n", first_part);
+// 		sleep(1);
+// 		return (first_part);
+// 	}
+// 	return (NULL);
+// }

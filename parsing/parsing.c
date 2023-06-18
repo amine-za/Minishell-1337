@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 10:21:30 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/15 17:36:54 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/18 14:37:39 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ char	*rm_quotes(char *s, int flag)
 	t_inf	p;
 	char	*str;
 
-	i = 0;
+	i = -1;
 	j = 0;
 	p.in_sgl = 0;
 	p.in_dbl = 0;
 	str = calloc(1, ft_strlen(s) + 1);
-	while (s[i])
+	while (s[++i])
 	{
 		if (s[i] == '\'' && p.in_dbl == 0)
 			p.in_sgl = cls_or_opn_qt(p.in_sgl);
@@ -32,7 +32,6 @@ char	*rm_quotes(char *s, int flag)
 			p.in_dbl = cls_or_opn_qt(p.in_dbl);
 		else
 			str[j++] = s[i];
-		i++;
 	}
 	if (flag == 1 && (p.in_sgl == 1 || p.in_dbl == 1))
 	{
@@ -87,7 +86,7 @@ void	print_ll(t_cmd *ll)
 		printf("\ndelimiter --> ");
 		for (int x = 0; ll->delimiter[x]; x++)
 			printf("[%s] ", ll->delimiter[x]);
-		printf("\n");
+		printf("-----------------\n");
 		ll = ll->next;
 		i++;
 	}

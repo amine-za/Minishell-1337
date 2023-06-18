@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 22:57:56 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/15 17:12:37 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/16 23:43:29 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,48 +72,6 @@ int	pipes_err(char **ar)
 		printf("syntax error\n");
 		return (1);
 	}
-	return (0);
-}
-
-int	char_err(char **ar, char c)
-{
-	int	i;
-
-	i = 0;
-	while (ar[i])
-	{
-		if (ar[i][0] == c)
-		{
-			printf("error\n");
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
-
-int	special_chars_err(char **ar)
-{
-	int	err;
-
-	err = 0;
-	err += char_err(ar, '!');
-	err += char_err(ar, '#');
-	err += char_err(ar, '*');
-	err += char_err(ar, '~');
-	err += char_err(ar, '.');
-	err += char_err(ar, ';');
-	err += char_err(ar, ':');
-	err += char_err(ar, '(');
-	err += char_err(ar, ')');
-	err += char_err(ar, '{');
-	err += char_err(ar, '}');
-	err += char_err(ar, '[');
-	err += char_err(ar, ']');
-	err += char_err(ar, '&');
-	err += char_err(ar, '\\');
-	if (err > 0)
-		return (1);
 	return (0);
 }
 
