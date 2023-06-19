@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 12:39:48 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/17 11:59:20 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/19 18:21:41 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,33 +102,35 @@ int	content_fill(t_cmd *ll, char **ar, int j)
 		if (ar[i][0] == '|')
 		{
 			ll->Rpipe = 1;
-			ll->cmd[j] = NULL;
+			// ll->cmd[j] = NULL;
 			i++;
 			break ;
 		}
 		ll->cmd[j++] = rm_quotes(ar[i++], 0);
 	}
 	if (!ar[i])
+	{
+		// ll->cmd[j] = NULL;
 		i = 0;
+	}
 	return (j);
 }
 
 t_cmd	*add_new(char **ar, t_cmd *prev)
 {
-	t_cmd		*ll;
-	int			j;
+	t_cmd	*ll;
+	int		j;
 
 	j = 0;
 	ll = malloc(sizeof(t_cmd));
 	ll->Rpipe = 0;
 	ll->prev = prev;
-	while (ar[j] && ar[j][0] != '|')
+	while (ar[j] && ar[j][0] && ar[j][0] != '|')
 		j++;
-	ll->cmd = malloc(sizeof(char *) * j + 1);
+	ll->cmd = ft_calloc(sizeof(char *), j + 2);
 	redirec_fill(ll, ar);
 	j = 0;
 	j = content_fill(ll, ar, j);
-	ll->cmd[j] = NULL;
 	return (ll);
 }
 	// while (ar[i] && ar[i][0] != '|')
