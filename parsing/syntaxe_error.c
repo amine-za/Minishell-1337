@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 22:57:56 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/16 23:43:29 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/19 17:52:02 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	redirection_err(char **ar)
 	int	i;
 	int	err;
 
-	i = 1;
+	i = 0;
 	err = 0;
 	while (ar[i])
 	{

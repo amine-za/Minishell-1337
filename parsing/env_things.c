@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:47:09 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/17 11:40:25 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/19 17:58:54 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	dollar_count(char *s)
 
 void	env_chck_norm(char *f_part, char *s, int i, int indc)
 {
-	while (i < indc)
+	while (i < indc && s[i])
 	{
 		f_part[i] = s[i];
 		i++;
@@ -46,11 +46,16 @@ char	*env_chck(char *s, int indc, t_env *p)
 	char	*f_part;
 	char	*var_name;
 
-	i = -1;
+	i = 0;
 	num_dllr = dollar_count(s);
 	head = p;
-	f_part = ft_calloc(1, ft_strlen(s));
-	env_chck_norm(f_part, s, i, indc);
+	f_part = ft_calloc(1, ft_strlen(s) + 1);
+	while (i < indc && s[i])
+	{
+		// printf("ik ben hier\n");
+		f_part[i] = s[i];
+		i++;
+	}
 	var_name = variable_name(s);
 	f_part = search_for_var(p, var_name, f_part);
 	while (num_dllr != 1)

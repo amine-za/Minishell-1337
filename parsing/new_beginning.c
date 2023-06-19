@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 23:14:37 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/18 20:12:02 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/19 18:31:39 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,19 @@ char	*erase_spaces(char *s)
 	j = 0;
 	p.in_sgl = 0;
 	p.in_dbl = 0;
-	ss = malloc(ft_strlen(s) + 1);
+	ss = calloc(1, ft_strlen(s) + 1);
 	while (s[i])
 	{
 		if (s[i] == '\'' && p.in_dbl == 0)
 			p.in_sgl = cls_or_opn_qt(p.in_sgl);
 		else if (s[i] == '\"' && p.in_sgl == 0)
 			p.in_dbl = cls_or_opn_qt(p.in_dbl);
-		if ((p.in_dbl == 0 && p.in_sgl == 0 && s[i - 1] == ' ' && s[i] == ' ')
+		if ((p.in_dbl == 0 && p.in_sgl == 0 && i > 0 && s[i - 1] == ' ' && s[i] == ' ')
 			|| (j == 0 && s[i] == ' '))
 			i++;
 		else
 			ss[j++] = s[i++];
 	}
-	ss[j] = '\0';
 	return (ss);
 }
 
@@ -60,9 +59,8 @@ char	**tokenisation(char *s, t_env *env)
 	j = 0;
 	p.in_sgl = 0;
 	p.in_dbl = 0;
-	ar = malloc(sizeof(char *));
-	ar[0] = malloc(sizeof(char));
-	ar[0] = NULL;
+	ar = ft_calloc(sizeof(char *), 1);
+	// ar[0] = malloc(sizeof(char));
 	while (s[i])
 	{
 		if (s[i + 1] && ((s[i] == '<' && s[i + 1] == '<' && p.in_dbl == 0
@@ -78,7 +76,7 @@ char	**tokenisation(char *s, t_env *env)
 		{
 			ar = chrjoin(ar, s[i++], 1);
 			j = 0;
-			if (s[i - 1] != '|' && s[i - 1] && s[i + 1]
+			if (i > 0 && s[i - 1] != '|' && s[i - 1] && s[i + 1]
 				&& !(s[i] == '>' && s[i - 1] == '<')
 				&& !(s[i] == '<' && s[i - 1] == '>')
 				&& !(s[i - 1] == '>' && s[i] == ' ' && s[i + 1] == '<')
@@ -88,7 +86,7 @@ char	**tokenisation(char *s, t_env *env)
 		else if (s[i] == '\'' && p.in_dbl == 0)
 		{
 			p.in_sgl = cls_or_opn_qt(p.in_sgl);
-			if (p.in_sgl == 1 && s[i - 1] == ' ')
+			if (p.in_sgl == 1 && i > 0 && s[i - 1] == ' ')
 				j = 1;
 			ar = chrjoin(ar, s[i++], j);
 			j = 0;
@@ -96,7 +94,7 @@ char	**tokenisation(char *s, t_env *env)
 		else if (s[i] == '\"' && p.in_sgl == 0)
 		{
 			p.in_dbl = cls_or_opn_qt(p.in_dbl);
-			if (p.in_dbl == 1 && s[i - 1] == ' ')
+			if (p.in_dbl == 1 && i > 0 && s[i - 1] == ' ')
 				j = 1;
 			ar = chrjoin(ar, s[i++], j);
 			j = 0;
@@ -110,7 +108,7 @@ char	**tokenisation(char *s, t_env *env)
 			break ;
 		else
 		{
-			if (s[i - 1] == '|')
+			if (i > 0 && s[i - 1] == '|')
 				j = 1;
 			ar = chrjoin(ar, s[i++], j);
 			j = 0;
@@ -140,9 +138,10 @@ char	**tokenisation(char *s, t_env *env)
 	{
 		if (ar[j] == NULL)
 		{
-			while (ar[i])
-				free(ar[i++]);
-			free(ar);
+			// while (ar[i])
+			// 	free(ar[i++]);
+			// free(ar);
+			ft_free(ar);
 			return (NULL);
 		}
 		j++;
