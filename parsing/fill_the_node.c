@@ -6,57 +6,145 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 12:39:48 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/19 18:21:41 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:20:59 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	fill_the_strings(char *s, char *ss, char *sss, char **ar)
-{
-	static int	i;
+// char	**fill_the_strings(char *s, char *ss, char *sss, char **ar)
+// {
+// 	char **ary;
+// 	static int	i;
 
+// 	ary = ft_calloc(sizeof(char *), 4);
+// 	while (ar[i] && ar[i][0] != '|')
+// 	{
+// 		if ((!ft_strcmp("<", ar[i]) || !ft_strcmp(">", ar[i])
+// 				|| !ft_strcmp(">>", ar[i])) && ar[i + 1])
+// 		{
+// 			s = ft_strjoin2(ft_strjoin2(s, " "), ar[i]);
+// 			ss = ft_strjoin2(ft_strjoin2(ss, " "), ar[i + 1]);
+// 		}
+// 		else if ((!ft_strcmp("<<", ar[i])) && ar[i + 1])
+// 		{
+// 			s = ft_strjoin2(ft_strjoin2(s, " "), ar[i]);
+// 			sss = ft_strjoin2(ft_strjoin2(sss, " "), ar[i + 1]);
+// 		}
+// 		i++;
+// 	}
+// 	if (ar[i] && ar[i][0] == '|')
+// 		i++;
+// 	if (!ar[i])
+// 		i = 0;
+// 	ary[0] = s;
+// 	ary[1] = ss;
+// 	ary[2] = sss;
+// 	return (ary);
+// }
+
+int	*count_red(char **ar)
+{
+	int	i;
+	int	*count;
+
+	i = 0;
+	count = malloc(sizeof(int) * 3);
+	count[0] = 0;
+	count[1] = 0;
+	count[2] = 0;
+	while (ar[i] && ar[i][0] != '|')
+	{
+		if ((!ft_strcmp("<", ar[i]) || !ft_strcmp(">", ar[i])
+				|| !ft_strcmp(">>", ar[i])))
+		{
+			count[0]++;
+			if (ar[i + 1])
+				count[1]++;
+		}
+		else if (!ft_strcmp("<<", ar[i]))
+		{
+			count[0]++;
+			if (ar[i + 1])
+				count[2]++;
+		}
+		i++;
+	}
+	return (count);
+}
+
+void	fill_red(t_cmd *cmd, char **ar)
+{
+	int	i;
+	int	j;
+	int	k;
+	int	*red_nb;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	red_nb = count_red(ar);
+	cmd->red = ft_calloc(sizeof(char *), red_nb[0] + 1);
+	cmd->file = ft_calloc(sizeof(char *), red_nb[1] + 1);
+	cmd->delimiter = ft_calloc(sizeof(char *), red_nb[2] + 1);
 	while (ar[i] && ar[i][0] != '|')
 	{
 		if ((!ft_strcmp("<", ar[i]) || !ft_strcmp(">", ar[i])
 				|| !ft_strcmp(">>", ar[i])) && ar[i + 1])
 		{
-			s = ft_strjoin2(ft_strjoin2(s, " "), ar[i]);
-			ss = ft_strjoin2(ft_strjoin2(ss, " "), ar[i + 1]);
+			cmd->red[j] = ft_strdup(ar[i]);
+			cmd->file[j] = ft_strdup(ar[i + 1]);
+			printf("red >> |%s|\n",cmd->red[j]);
+			printf("file >> |%s|\n",cmd->file[j]);
+			j++;
 		}
 		else if ((!ft_strcmp("<<", ar[i])) && ar[i + 1])
 		{
-			s = ft_strjoin2(ft_strjoin2(s, " "), ar[i]);
-			sss = ft_strjoin2(ft_strjoin2(sss, " "), ar[i + 1]);
+			cmd->red[j] = ft_strdup(ar[i]);
+			cmd->delimiter[k] = ft_strdup(ar[i + 1]);
+			printf("red >> |%s|\n",cmd->red[j]);
+			printf("delimiter >> |%s|\n",cmd->delimiter[j]);
+			j++;
+			k++;
 		}
 		i++;
 	}
-	if (ar[i] && ar[i][0] == '|')
-		i++;
-	if (!ar[i])
-		i = 0;
+	// if (j > 0)
+	// {cmd->red[j] = NULL;
+	// cmd->file[j] = NULL;}
+	// if (k > 0)
+	// 	cmd->delimiter[j] = NULL;
 }
 
-void	redirec_fill(t_cmd *cmd, char **ar)
-{
-	char		*s;
-	char		*ss;
-	char		*sss;
+// void	redirec_fill(t_cmd *cmd, char **ar)
+// {
+// 	// char		*s;
+// 	// char		*ss;
+// 	// char		*sss;
+// 	// char 		**ary ;
 
-	s = ft_strdup(" ");
-	ss = ft_strdup(" ");
-	sss = ft_strdup(" ");
-	cmd->red = NULL;
-	cmd->file = NULL;
-	cmd->delimiter = NULL;
-	fill_the_strings(s, ss, sss, ar);
-	if (s)
-		cmd->red = ft_split(s, ' ');
-	if (ss)
-		cmd->file = ft_split(ss, ' ');
-	if (sss)
-		cmd->delimiter = ft_split(sss, ' ');
-}
+// 	// s = NULL;
+// 	// ss = NULL;
+// 	// sss = NULL;
+// 	cmd->red = NULL;
+// 	cmd->file = NULL;
+// 	cmd->delimiter = NULL;
+// 	if (count_red(ar)[0])
+// 		fill_red(cmd, ar);
+// 	// ary = fill_the_strings(s, ss, sss, ar);
+// 	// if (ary[0])
+// 	// 	cmd->red = ft_split(ary[0], ' ');
+// 	// if (ary[1])
+// 	// 	cmd->file = ft_split(ary[1], ' ');
+// 	// if (ary[2])
+// 	// 	cmd->delimiter = ft_split(ary[2], ' ');
+// 	if (!cmd->red)
+// 		printf("yes\n");
+// 	if (!cmd->file)
+// 		printf("yes\n");
+// 	if (!cmd->delimiter)
+// 		printf("yes\n");
+// }
 
 // int	*count_red(char **ar)
 // {
@@ -128,7 +216,7 @@ t_cmd	*add_new(char **ar, t_cmd *prev)
 	while (ar[j] && ar[j][0] && ar[j][0] != '|')
 		j++;
 	ll->cmd = ft_calloc(sizeof(char *), j + 2);
-	redirec_fill(ll, ar);
+	fill_red(ll, ar);
 	j = 0;
 	j = content_fill(ll, ar, j);
 	return (ll);
