@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 12:39:48 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/20 15:36:48 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:51:31 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,11 @@ int	*count_red(char **ar)
 
 void	fill_red(t_cmd *cmd, char **ar)
 {
-	int	i;
+	static int	i;
 	int	j;
 	int	k;
 	int	*red_nb;
 
-	i = 0;
 	j = 0;
 	k = 0;
 	red_nb = count_red(ar);
@@ -105,6 +104,10 @@ void	fill_red(t_cmd *cmd, char **ar)
 		}
 		i++;
 	}
+	if (!ar[i])
+		i = 0;
+	else if (ar[i][0] == '|')
+		i++;
 	// if (j > 0)
 	// {cmd->red[j] = NULL;
 	// cmd->file[j] = NULL;}
