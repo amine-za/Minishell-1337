@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:36:15 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/18 22:55:41 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/20 22:58:38 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,18 +84,8 @@ int	main(int ac, char **av, char **envp)
 		}
 		if (cmd->Rpipe == 0)
 		{
-			if (cmd->red)
-			{
-				if (cmd->delimiter)
-					ft_herdoc(cmd);
-				if (cmd->file)
-				{
-					if (redirect(cmd) == -1)
-					{
-						continue ;
-					}
-				}
-			}
+			if (!check_red(cmd))
+				continue ;
 			if (builtins(cmd, my_envp))
 			{
 				dup2(g_glb.o_stdin, STDIN_FILENO);

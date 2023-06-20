@@ -6,11 +6,20 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:31:52 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/20 11:19:59 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/20 17:16:52 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ft_envadd(char	**s, int is_equ, t_env *envp)
+{
+	if (check_key(s[0]))
+		ft_envadd_back(envp, ft_envnew(s[0], s[1], is_equ));
+	else
+		ft_error(s[0], "not a valid identifier", 1);
+	free(s);
+}
 
 t_env	*ft_setenv(char *str, t_env *envp)
 {
@@ -36,11 +45,7 @@ t_env	*ft_setenv(char *str, t_env *envp)
 		}
 		current = current->next;
 	}
-	if (check_key(s[0]))
-		ft_envadd_back(envp, ft_envnew(s[0], s[1], is_equ));
-	else
-		ft_error(s[0], "not a valid identifier", 1);
-	free(s);
+	ft_envadd(s, is_equ, envp);
 	return (envp);
 }
 

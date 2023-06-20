@@ -6,11 +6,28 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:55:28 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/18 22:42:07 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/20 22:59:41 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	check_red(t_cmd *cmd)
+{
+	if (cmd->red)
+	{
+		if (cmd->delimiter)
+			ft_herdoc(cmd);
+		if (cmd->file)
+		{
+			if (redirect(cmd) == -1)
+			{
+				return (0);
+			}
+		}
+	}
+	return (1);
+}
 
 int	redirect(t_cmd	*cmd)
 {

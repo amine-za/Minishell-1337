@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 10:36:15 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/18 13:49:49 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/20 17:28:51 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ int	ft_envsize(t_env *env)
 	return (i);
 }
 
+void	ft_free2(void *s1, void *s2)
+{
+	free(s1);
+	free(s2);
+}
+
 t_env	*ft_envnew(char *key, char *value, int is_equ)
 {
 	t_env	*node;
@@ -34,37 +40,20 @@ t_env	*ft_envnew(char *key, char *value, int is_equ)
 		return (NULL);
 	node->value = (char *)malloc((strlen(value) + 1) * sizeof(char));
 	if (!node->value)
-	{
-		free(node);
-		return (NULL);
-	}
+		return (free(node), NULL);
 	ft_strcpy(node->value, value);
 	node->key = (char *)malloc((strlen(key) + 1) * sizeof(char));
 	if (!node->key)
 	{
-		free(node->value);
-		free(node);
+		ft_free2(node->value, node);
 		return (NULL);
 	}
 	ft_strcpy(node->key, key);
 	node->is_equ = is_equ;
 	node->prev = NULL;
 	node->next = NULL;
-	free(key);
-	free(value);
+	ft_free2(key, value);
 	return (node);
-}
-
-t_env	*ft_envlast(t_env *env)
-{
-	t_env	*current;
-
-	current = env;
-	if (current == NULL)
-		return (NULL);
-	while (current->next)
-		current = current->next;
-	return (current);
 }
 
 t_env	*ft_envadd_back(t_env *env, t_env *new_node)
@@ -80,17 +69,6 @@ t_env	*ft_envadd_back(t_env *env, t_env *new_node)
 		new_node->prev = node;
 	}
 	return (env);
-}
-
-void	ft_enviter(t_env *env, void (*f)(void *))
-{
-	if (!env || !f)
-		return ;
-	while (env)
-	{
-		f(env->value);
-		env = env->next;
-	}
 }
 
 void	ft_envdelone(char *str, t_env **env)
@@ -113,35 +91,4 @@ void	ft_envdelone(char *str, t_env **env)
 		}
 		current = current->next;
 	}
-}
-
-void	ft_envclear(t_env **env, void (*del)(void *))
-{
-	t_env	*current;
-	t_env	*next;
-
-	current = *env;
-	while (current)
-	{
-		next = current->next;
-		del(current->key);
-		del(current->value);
-		free(current);
-		current = next;
-	}
-	*env = NULL;
-}
-
-void	ft_upenv(char *key, char *value, t_env *envp)
-{
-	t_env	*current;
-
-	current = envp;
-	while (current)
-	{
-		if (!ft_strcmp(current->key, key))
-			break ;
-		current = current->next;
-	}
-	current->value = ft_strdup(value);
 }
