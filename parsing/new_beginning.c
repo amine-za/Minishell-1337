@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 23:14:37 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/19 18:31:39 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/20 13:34:09 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*erase_spaces(char *s)
 	j = 0;
 	p.in_sgl = 0;
 	p.in_dbl = 0;
-	ss = calloc(1, ft_strlen(s) + 1);
+	ss = ft_calloc(1, ft_strlen(s) + 2);
 	while (s[i])
 	{
 		if (s[i] == '\'' && p.in_dbl == 0)

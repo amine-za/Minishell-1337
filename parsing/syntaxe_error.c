@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 22:57:56 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/19 17:52:02 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/19 23:58:14 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ int	redirection_err(char **ar)
 	err = 0;
 	while (ar[i])
 	{
-		if (if_redirec(ar[i]) == 1 && if_redirec(ar[i - 1]))
+		if (if_redirec(ar[i]) && !ar[i + 1])
+			err = 1;
+		if (i > 0 && if_redirec(ar[i]) == 1 && if_redirec(ar[i - 1]))
 			err = 1;
 		if (ar[i + 1] && if_redirec(ar[i]) && ar[i + 1][0] == '|')
 			err = 1;
@@ -42,7 +44,8 @@ int	redirection_err(char **ar)
 	}
 	if (err == 1)
 	{
-		printf("syntax error\n");
+		ft_putstr_fd("syntax error\n", 2);
+		g_glb.exit_status = 258;
 		return (1);
 	}
 	return (0);
@@ -69,7 +72,8 @@ int	pipes_err(char **ar)
 		err = 1;
 	if (err == 1)
 	{
-		printf("syntax error\n");
+		ft_putstr_fd("syntax error\n", 2);
+		g_glb.exit_status = 258;
 		return (1);
 	}
 	return (0);
@@ -84,7 +88,8 @@ int	quotes_err(char **ar)
 	{
 		if (rm_quotes(ar[i], 1) == NULL)
 		{
-			printf("error\n");
+			ft_putstr_fd("syntax error\n", 2);
+			g_glb.exit_status = 258;
 			return (1);
 		}
 		i++;

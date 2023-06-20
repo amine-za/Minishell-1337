@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 12:39:48 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/20 15:20:59 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:36:48 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,16 +94,12 @@ void	fill_red(t_cmd *cmd, char **ar)
 		{
 			cmd->red[j] = ft_strdup(ar[i]);
 			cmd->file[j] = ft_strdup(ar[i + 1]);
-			printf("red >> |%s|\n",cmd->red[j]);
-			printf("file >> |%s|\n",cmd->file[j]);
 			j++;
 		}
 		else if ((!ft_strcmp("<<", ar[i])) && ar[i + 1])
 		{
 			cmd->red[j] = ft_strdup(ar[i]);
 			cmd->delimiter[k] = ft_strdup(ar[i + 1]);
-			printf("red >> |%s|\n",cmd->red[j]);
-			printf("delimiter >> |%s|\n",cmd->delimiter[j]);
 			j++;
 			k++;
 		}
