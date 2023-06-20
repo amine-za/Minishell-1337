@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:31:52 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/18 12:47:17 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/20 11:19:59 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_env	*ft_setenv(char *str, t_env *envp)
 	if (check_key(s[0]))
 		ft_envadd_back(envp, ft_envnew(s[0], s[1], is_equ));
 	else
-		printf("minishell: export : `%s' : not a valid identifier\n", s[0]);
+		ft_error(s[0], "not a valid identifier", 1);
 	free(s);
 	return (envp);
 }
@@ -51,9 +51,9 @@ t_env	*env_to_struct(char **envp)
 	char	**str;
 	t_env	*node;
 
-	i = 0;
+	i = -1;
 	env = NULL;
-	while (envp[i] != NULL)
+	while (envp[++i] != NULL)
 	{
 		str = ft_splitv2(envp[i], '=');
 		if (str && str[0] && str[1])
@@ -69,7 +69,6 @@ t_env	*env_to_struct(char **envp)
 			}
 		}
 		ft_free(str);
-		i++;
 	}
 	return (env);
 }
