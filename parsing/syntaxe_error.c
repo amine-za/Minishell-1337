@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 22:57:56 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/19 23:58:14 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:54:53 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	redirection_err(char **ar)
 	}
 	if (err == 1)
 	{
-		ft_putstr_fd("syntax error\n", 2);
+		ft_putstr_fd("minishell: syntax error\n", 2);
 		g_glb.exit_status = 258;
 		return (1);
 	}
@@ -72,7 +72,7 @@ int	pipes_err(char **ar)
 		err = 1;
 	if (err == 1)
 	{
-		ft_putstr_fd("syntax error\n", 2);
+		ft_putstr_fd("minishell: syntax error\n", 2);
 		g_glb.exit_status = 258;
 		return (1);
 	}
@@ -88,7 +88,7 @@ int	quotes_err(char **ar)
 	{
 		if (rm_quotes(ar[i], 1) == NULL)
 		{
-			ft_putstr_fd("syntax error\n", 2);
+			ft_putstr_fd("minishell: syntax error\n", 2);
 			g_glb.exit_status = 258;
 			return (1);
 		}

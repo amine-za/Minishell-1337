@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:47:09 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/19 17:58:54 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:08:36 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,12 @@ char	*env_chck(char *s, int indc, t_env *p)
 	char	*f_part;
 	char	*var_name;
 
-	i = 0;
+	i = -1;
 	num_dllr = dollar_count(s);
 	head = p;
 	f_part = ft_calloc(1, ft_strlen(s) + 1);
-	while (i < indc && s[i])
-	{
-		// printf("ik ben hier\n");
+	while (++i < indc && s[i])
 		f_part[i] = s[i];
-		i++;
-	}
 	var_name = variable_name(s);
 	f_part = search_for_var(p, var_name, f_part);
 	while (num_dllr != 1)
