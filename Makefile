@@ -7,7 +7,7 @@ SRCS    = ./execution/minishell.c ./execution/builtins.c ./execution/redirection
 		  ./execution/pipes_utils.c ./parsing/utils.c ./parsing/parsing.c ./parsing/utils.c \
           ./parsing/new_beginning.c ./parsing/expanding.c ./parsing/fill_the_node.c \
           ./parsing/syntaxe_error.c ./parsing/env_things.c ./parsing/chr_join.c \
-		  ./parsing/tokenisation.c ./parsing/tokenisation_things.c ./parsing/tokenisation_things1.c \
+		  ./parsing/tokenisation.c ./parsing/tokenisation_things.c ./parsing/tokenisation_things1.c
 OBJS	= ${SRCS:.c=.o}
 
 CC		= cc
