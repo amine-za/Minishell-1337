@@ -2,7 +2,7 @@ NAME	= minishell
 
 LIBFT	= ./libft/libft.a
 SRCS    = ./execution/minishell.c ./execution/builtins.c ./execution/redirections.c ./execution/pipes.c \
-          ./execution/heredoc.c ./execution/env_utils.c ./execution/envp_utils.c \
+          ./execution/heredoc.c ./execution/env_utils.c ./execution/envp_utils.c ./execution/envp_utils2.c \
           ./execution/utils.c ./execution/builtins_utils.c ./execution/signals.c \
 		  ./parsing/utils.c ./parsing/parsing.c ./parsing/utils.c \
           ./parsing/new_beginning.c ./parsing/expanding.c ./parsing/fill_the_node.c \

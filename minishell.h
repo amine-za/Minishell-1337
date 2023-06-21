@@ -73,6 +73,7 @@ void	ft_pipe(t_cmd *cmd, t_env **my_envp);
 void	ft_signals(void);
 int		ft_cmdsize(t_cmd *cmd);
 int		redirect(t_cmd	*cmd);
+int		check_red(t_cmd *cmd);
 void	ft_herdoc(t_cmd *cmd);
 char	*get_valid_path(t_cmd	*cmd, t_env *env, int *error);
 char	*getpath(char *cmd, t_env *env, int *error);
