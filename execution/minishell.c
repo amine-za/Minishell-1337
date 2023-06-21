@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:36:15 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/21 18:35:57 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/21 19:13:13 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
+	(void)pid;
 	g_glb.o_stdin = dup(STDIN_FILENO);
 	g_glb.o_stdout = dup(STDOUT_FILENO);
 	my_envp = env_to_struct(envp);
@@ -66,7 +67,7 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		ft_signals();
-		line = readline("\033[1;35mminishell$ \033[0m");
+		line = readline("minishell$ ");
 		if (!line)
 			exit (g_glb.exit_status);
 		if (*line)
@@ -82,26 +83,26 @@ int	main(int ac, char **av, char **envp)
 		{
 			continue ;
 		}
-		if (cmd->Rpipe == 0)
-		{
-			if (!check_red(cmd))
-				continue ;
-			if (builtins(cmd, my_envp))
-			{
-				dup2(g_glb.o_stdin, STDIN_FILENO);
-				dup2(g_glb.o_stdout, STDOUT_FILENO);
-				continue ;
-			}
-			pid = execute(cmd, &my_envp);
-			waitpid(pid, &g_glb.status, 0);
-			g_glb.exit_status = WEXITSTATUS(g_glb.status);
-		}
-		else
-		{
-			dup2(g_glb.o_stdin, STDIN_FILENO);
-			dup2(g_glb.o_stdout, STDOUT_FILENO);
-			ft_pipe(cmd, &my_envp);
-		}
+		// if (cmd->Rpipe == 0)
+		// {
+		// 	if (!check_red(cmd))
+		// 		continue ;
+		// 	if (builtins(cmd, my_envp))
+		// 	{
+		// 		dup2(g_glb.o_stdin, STDIN_FILENO);
+		// 		dup2(g_glb.o_stdout, STDOUT_FILENO);
+		// 		continue ;
+		// 	}
+		// 	pid = execute(cmd, &my_envp);
+		// 	waitpid(pid, &g_glb.status, 0);
+		// 	g_glb.exit_status = WEXITSTATUS(g_glb.status);
+		// }
+		// else
+		// {
+		// 	dup2(g_glb.o_stdin, STDIN_FILENO);
+		// 	dup2(g_glb.o_stdout, STDOUT_FILENO);
+		// 	ft_pipe(cmd, &my_envp);
+		// }
 		dup2(g_glb.o_stdin, STDIN_FILENO);
 		dup2(g_glb.o_stdout, STDOUT_FILENO);
 		ft_free(cmd->cmd);

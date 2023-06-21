@@ -12,7 +12,7 @@ SRCS    = ./execution/minishell.c ./execution/builtins.c ./execution/redirection
 OBJS    = ${SRCS:.c=.o}
 
 CC      = cc
-CFLAGS  = -Wall -Wextra -Werror -fsanitize=address
+CFLAGS  = -Wall -Wextra -Werror -g -fsanitize=address
 IFLAGS  = -I/goinfre/${USERNAME}/homebrew/opt/readline/include
 LFLAGS  = -L/goinfre/${USERNAME}/homebrew/opt/readline/lib -lreadline
 
