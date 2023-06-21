@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 10:21:30 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/20 13:09:18 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/21 18:12:03 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,33 +64,33 @@ int	count_pipes(char *s)
 	return (res);
 }
 
-void	print_ll(t_cmd *ll)
-{
-	int	i;
+// void	print_ll(t_cmd *ll)
+// {
+// 	int	i;
 
-	i = 0;
-	while (ll)
-	{
-		printf("\n--------%d--------\n", i);
-		for (int x = 0; ll->cmd[x]; x++)
-			printf("[%s] ", ll->cmd[x]);
-		printf("\n");
-		printf("Lpipe = %d || Rpipe = %d\n", ll->Lpipe, ll->Rpipe);
-		// printf("err = %d\n", ll->err);
-		if (ll->red)
-		{
-			printf("\nred --> ");
-			for (int x = 0; ll->red[x]; x++)
-				printf("[%s] ", ll->red[x]);
-			printf("\nfile --> ");
-			for (int x = 0; ll->file[x]; x++)
-				printf("[%s] ", ll->file[x]);
-			printf("\ndelimiter --> ");
-			for (int x = 0; ll->delimiter[x]; x++)
-				printf("[%s] ", ll->delimiter[x]);
-		}
-		printf("-----------------\n");
-		ll = ll->next;
-		i++;
-	}
-}
+// 	i = 0;
+// 	while (ll)
+// 	{
+// 		printf("\n--------%d--------\n", i);
+// 		for (int x = 0; ll->cmd[x]; x++)
+// 			printf("[%s] ", ll->cmd[x]);
+// 		printf("\n");
+// 		printf("Lpipe = %d || Rpipe = %d\n", ll->Lpipe, ll->Rpipe);
+// 		// printf("err = %d\n", ll->err);
+// 		if (ll->red)
+// 		{
+// 			printf("\nred --> ");
+// 			for (int x = 0; ll->red[x]; x++)
+// 				printf("[%s] ", ll->red[x]);
+// 			printf("\nfile --> ");
+// 			for (int x = 0; ll->file[x]; x++)
+// 				printf("[%s] ", ll->file[x]);
+// 			printf("\ndelimiter --> ");
+// 			for (int x = 0; ll->delimiter[x]; x++)
+// 				printf("[%s] ", ll->delimiter[x]);
+// 		}
+// 		printf("-----------------\n");
+// 		ll = ll->next;
+// 		i++;
+// 	}
+// }

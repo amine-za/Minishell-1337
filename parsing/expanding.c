@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:16:01 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/20 16:27:49 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:38:08 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,6 @@ char	*search_for_var(t_env *p, char *var_name, char *f_part)
 		if (ft_strcmp(var_name, p->key) == 0)
 			break ;
 		p = p->next;
-		// if (p->next == NULL)
-		// 	return (f_part);
 	}
 	if (p == NULL)
 		return (f_part);
@@ -128,6 +126,7 @@ char	**var_case(char **ar, t_env *env)
 	}
 	return (ar);
 }
+
 // char	*check_num_case(char *first_part, char *s, int sttc)
 // {
 // 	char	*str;
