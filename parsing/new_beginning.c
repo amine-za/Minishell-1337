@@ -87,7 +87,7 @@ t_cmd	*parsing1(char *s, t_env *env)
 	ll->Lpipe = 0;
 	ll = fill_linked_list(ll, ar, i, count_pipes(s));
 	ll = head;
-	ft_free(ar);
+	// ft_free(ar);
 	free(s);
 	return (head);
 }
