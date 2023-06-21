@@ -69,16 +69,10 @@ int	searche_for_red_and_fill(char **ar, t_cmd *cmd, int i)
 	return (i);
 }
 
-void	fill_red(t_cmd *cmd, char **ar)
+void	fill_red(t_cmd *cmd, char **ar, int *red_nb)
 {
 	static int	i;
-	int			j;
-	int			k;
-	int			*red_nb;
 
-	j = 0;
-	k = 0;
-	red_nb = count_red(ar);
 	cmd->red = ft_calloc(sizeof(char *), red_nb[0] + 2);
 	cmd->file = ft_calloc(sizeof(char *), red_nb[1] + 2);
 	cmd->delimiter = ft_calloc(sizeof(char *), red_nb[2] + 2);
@@ -88,13 +82,6 @@ void	fill_red(t_cmd *cmd, char **ar)
 	else if (ar[i][0] == '|')
 		i++;
 }
-
-	// if (j > 0)
-	// {cmd->red[j] = NULL;
-	// cmd->file[j] = NULL;}
-	// if (k > 0)
-	// 	cmd->delimiter[j] = NULL;
-// }
 
 int	content_fill(t_cmd *ll, char **ar, int j)
 {
@@ -127,15 +114,22 @@ t_cmd	*add_new(char **ar, t_cmd *prev)
 {
 	t_cmd	*ll;
 	int		j;
+	int		*red_nb;
 
 	j = 0;
 	ll = malloc(sizeof(t_cmd));
+	ll->red = NULL;
+	ll->file = NULL;
+	ll->delimiter = NULL;
 	ll->Rpipe = 0;
 	ll->prev = prev;
 	while (ar[j] && ar[j][0] && ar[j][0] != '|')
 		j++;
 	ll->cmd = ft_calloc(sizeof(char *), j + 2);
-	fill_red(ll, ar);
+	red_nb = count_red(ar);
+	if (*red_nb)
+		fill_red(ll, ar, red_nb);
+	free(red_nb);
 	j = 0;
 	j = content_fill(ll, ar, j);
 	return (ll);

@@ -31,7 +31,7 @@ char	**case_of_sgl_quote(char **ar, char *s, int *i, t_inf *p)
 
 	j = glbl_var_fct(0, 0);
 	p->in_sgl = cls_or_opn_qt(p->in_sgl);
-	if (p->in_sgl == 1 && i > 0 && s[i[0] - 1] == ' ')
+	if (p->in_sgl == 1 && i[0] > 0 && s[i[0] - 1] == ' ')
 		j = glbl_var_fct(1, 1);
 	ar = chrjoin(ar, s[i[0]++], j);
 	j = glbl_var_fct(0, 1);
@@ -44,7 +44,7 @@ char	**case_of_dbl_quotes(char **ar, char *s, int *i, t_inf *p)
 
 	j = glbl_var_fct(0, 0);
 	p->in_dbl = cls_or_opn_qt(p->in_dbl);
-	if (p->in_dbl == 1 && i > 0 && s[i[0] - 1] == ' ')
+	if (p->in_dbl == 1 && i[0] > 0 && s[i[0] - 1] == ' ')
 		j = glbl_var_fct(1, 1);
 	ar = chrjoin(ar, s[i[0]++], j);
 	j = glbl_var_fct(0, 1);

@@ -63,6 +63,7 @@ t_cmd	*fill_linked_list(t_cmd *ll, char **ar, int i, int count)
 			ll->Lpipe = 1;
 	}
 	ll->next = NULL;
+	// ft_free(ar);
 	return (head);
 }
 

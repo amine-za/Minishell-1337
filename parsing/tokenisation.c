@@ -45,9 +45,10 @@ void	remove_empty_args(char **ar)
 char	**tokenisation(char **ar, char *s, t_inf p)
 {
 	int	i;
-	int	j;
+	// int	j;
 
 	i = 0;
+	// j = 0;
 	while (s[i])
 	{
 		if (if_append_or_herdoc(s, &i, &p))
@@ -64,18 +65,16 @@ char	**tokenisation(char **ar, char *s, t_inf p)
 			break ;
 		else
 			ar = els(ar, s, &i);
-		j = glbl_var_fct(0, 0);
+		// j = glbl_var_fct(0, 0);
 	}
 	return (ar);
 }
 
 char	**check_and_token(char *s, t_env *env)
 {
-	int		i;
 	t_inf	p;
 	char	**ar;
 
-	i = 0;
 	p.in_sgl = 0;
 	p.in_dbl = 0;
 	ar = ft_calloc(sizeof(char *), 1);

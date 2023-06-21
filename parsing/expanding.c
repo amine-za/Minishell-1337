@@ -88,6 +88,7 @@ char	*search_for_var(t_env *p, char *var_name, char *f_part)
 	if (var_name[0] == '?')
 	{
 		f_part = ft_strjoin(f_part, ft_itoa(g_glb.exit_status));
+		free(var_name);
 		return (f_part);
 	}
 	while (p)
@@ -97,8 +98,12 @@ char	*search_for_var(t_env *p, char *var_name, char *f_part)
 		p = p->next;
 	}
 	if (p == NULL)
+	{
+		free(var_name);
 		return (f_part);
+	}
 	f_part = ft_strjoin(f_part, p->value);
+	free(var_name);
 	return (f_part);
 }
 

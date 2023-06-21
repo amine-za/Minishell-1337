@@ -59,6 +59,7 @@ char	**add_in_the_last_arg(char **ar, char **s, char c, int len)
 	while (s[i] && s[i][++j])
 		str[j] = s[i][j];
 	str[j] = c;
+	free(ar[i]);
 	ar[i] = str;
 	ft_free(s);
 	return (ar);
@@ -66,13 +67,9 @@ char	**add_in_the_last_arg(char **ar, char **s, char c, int len)
 
 char	**chrjoin(char **s, char c, int flag)
 {
-	int		i;
-	int		j;
 	int		len;
 	char	**ar;
 
-	i = 0;
-	j = 0;
 	len = 0;
 	ar = NULL;
 	while (s[len++])

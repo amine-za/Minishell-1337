@@ -23,6 +23,8 @@ char	*rm_quotes(char *s, int flag)
 	j = 0;
 	p.in_sgl = 0;
 	p.in_dbl = 0;
+	if (s && s[0] != '\'' && s[0] != '\"')
+		return (s);
 	str = calloc(1, ft_strlen(s) + 1);
 	while (s[++i])
 	{

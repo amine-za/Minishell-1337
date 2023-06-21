@@ -59,6 +59,7 @@ char	*env_chck(char *s, int indc, t_env *p)
 		p = head;
 		var_name = variable_name(s);
 		f_part = search_for_var(p, var_name, f_part);
+		free(var_name);
 		num_dllr--;
 	}
 	free(s);
