@@ -59,7 +59,7 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
-	(void)pid;
+	// (void)pid;
 	g_glb.o_stdin = dup(STDIN_FILENO);
 	g_glb.o_stdout = dup(STDOUT_FILENO);
 	my_envp = env_to_struct(envp);
@@ -83,29 +83,32 @@ int	main(int ac, char **av, char **envp)
 		{
 			continue ;
 		}
-		// if (cmd->Rpipe == 0)
-		// {
-		// 	if (!check_red(cmd))
-		// 		continue ;
-		// 	if (builtins(cmd, my_envp))
-		// 	{
-		// 		dup2(g_glb.o_stdin, STDIN_FILENO);
-		// 		dup2(g_glb.o_stdout, STDOUT_FILENO);
-		// 		continue ;
-		// 	}
-		// 	pid = execute(cmd, &my_envp);
-		// 	waitpid(pid, &g_glb.status, 0);
-		// 	g_glb.exit_status = WEXITSTATUS(g_glb.status);
-		// }
-		// else
-		// {
-		// 	dup2(g_glb.o_stdin, STDIN_FILENO);
-		// 	dup2(g_glb.o_stdout, STDOUT_FILENO);
-		// 	ft_pipe(cmd, &my_envp);
-		// }
+		if (cmd->Rpipe == 0)
+		{
+			if (!check_red(cmd))
+				continue ;
+			if (builtins(cmd, my_envp))
+			{
+				dup2(g_glb.o_stdin, STDIN_FILENO);
+				dup2(g_glb.o_stdout, STDOUT_FILENO);
+				continue ;
+			}
+			pid = execute(cmd, &my_envp);
+			waitpid(pid, &g_glb.status, 0);
+			g_glb.exit_status = WEXITSTATUS(g_glb.status);
+		}
+		else
+		{
+			dup2(g_glb.o_stdin, STDIN_FILENO);
+			dup2(g_glb.o_stdout, STDOUT_FILENO);
+			ft_pipe(cmd, &my_envp);
+		}
 		dup2(g_glb.o_stdin, STDIN_FILENO);
 		dup2(g_glb.o_stdout, STDOUT_FILENO);
 		ft_free(cmd->cmd);
+		ft_free(cmd->red);
+		ft_free(cmd->file);
+		ft_free(cmd->delimiter);
 		free(cmd);
 		free(line);
 	}
