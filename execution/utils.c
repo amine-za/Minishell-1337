@@ -6,34 +6,11 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:35:52 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/18 22:41:51 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/21 16:54:09 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	free_string(void *str)
-{
-	free(str);
-}
-
-void	ft_free(char **s)
-{
-	int	i;
-
-	if (!s)
-		return ;
-	else
-	{
-		i = 0;
-		while (s[i])
-		{
-			free(s[i]);
-			i++;
-		}
-	}
-	free(s);
-}
 
 char	**check_envp(t_env *env)
 {
@@ -75,22 +52,18 @@ char	*getpath(char *cmd, t_env *env, int *error)
 		*error = 1;
 		exit(g_glb.exit_status);
 	}
-	i = 0;
-	while (paths[i])
+	i = -1;
+	while (paths[++i])
 	{
 		part_path = ft_strjoin(paths[i], "/");
 		path = ft_strjoin(part_path, cmd);
 		free(part_path);
 		if ((access(path, F_OK & R_OK & X_OK)) == 0)
-		{
-			ft_free(paths);
-			return (path);
-		}
+			return (ft_free(paths), path);
 		free(path);
-		i++;
 	}
-	ft_free(paths);
 	*error = 2;
+	ft_free(paths);
 	return (0);
 }
 
@@ -134,16 +107,4 @@ int	check_key(char *str)
 		i++;
 	}
 	return (1);
-}
-
-void	ft_error(char *input, char *message, int errnb)
-{
-	input = ft_strjoin(input, ": ");
-	ft_putstr_fd("minishell: ", 2);
-	if (input != NULL)
-		ft_putstr_fd(input, 2);
-	ft_putendl_fd(message, 2);
-	free(input);
-	g_glb.exit_status = errnb;
-	printf(">>exit_status>> %d\n", g_glb.exit_status);
 }

@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:36:15 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/20 22:58:38 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/21 18:35:57 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	execute(t_cmd	*cmd, t_env **my_envp)
 	char	*valid_path;
 
 	error = 0;
-	pid = fork();
-	if (pid == -1)
+	// (pid = fork());
+	if ((pid = fork()) == -1)
 	{
 		perror("fork");
 		exit(EXIT_FAILURE);
@@ -36,7 +36,7 @@ int	execute(t_cmd	*cmd, t_env **my_envp)
 			envp = struct_to_env(my_envp);
 			if (execve(valid_path, cmd->cmd, envp) == -1)
 			{
-				printf("minishell: %s: %s\n", cmd->cmd[0], strerror(errno));
+				ft_error(cmd->cmd[0], strerror(errno), errno);
 				ft_free(cmd->cmd);
 				exit(errno);
 			}

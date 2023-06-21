@@ -6,24 +6,11 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 15:18:53 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/20 23:49:56 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/21 18:33:15 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	ft_cmdsize(t_cmd *cmd)
-{
-	int	i;
-
-	i = 0;
-	while (cmd != NULL)
-	{
-		cmd = cmd->next;
-		i++;
-	}
-	return (i);
-}
 
 void	pipes_exec(t_cmd	*cmd, t_env **my_envp)
 {
@@ -50,33 +37,56 @@ void	pipes_exec(t_cmd	*cmd, t_env **my_envp)
 	}
 }
 
+void	dup_fds(int **fd, int i, int size)
+{
+	if (i == 0)
+		dup2(fd[i][1], STDOUT_FILENO);
+	else if (i == size)
+		dup2(fd[i - 1][0], STDIN_FILENO);
+	else
+	{
+		dup2(fd[i][1], STDOUT_FILENO);
+		dup2(fd[i - 1][0], STDIN_FILENO);
+	}
+}
+
+void	alloc_fds(int **fd, int size)
+{
+	int	i;
+
+	i = 0;
+	while (i <= size)
+		fd[i++] = malloc(sizeof(int) * 2);
+}
+
+void	fds_opertions(int **fd, pid_t	*pid, int size, int n)
+{
+	if (n == 1)
+	{
+		alloc_fds(fd, size);
+		pipe_fds(fd, size);
+	}
+	else if (n == 2)
+	{
+		close_fds(fd, size);
+		wait_fds(pid, size);
+		free_fds(fd, size);
+	}
+}
+
 void	ft_pipe(t_cmd *cmd, t_env **my_envp)
 {
 	int		**fd;
 	pid_t	*pid;
 	int		size;
 	int		i;
-	int		j;
 
-	i = 0;
-	j = 0;
 	size = ft_cmdsize(cmd) - 1;
 	fd = malloc(sizeof(int *) * (size + 1));
 	pid = malloc(sizeof(pid_t) * (size + 1));
-	while (i <= size)
-		fd[i++] = malloc(sizeof(int) * 2);
-	i = 0;
-	while (i <= size)
-	{
-		if (pipe(fd[i]) == -1)
-		{
-			perror("pipe");
-			exit(EXIT_FAILURE);
-		}
-		i++;
-	}
-	i = 0;
-	while (i <= size && cmd)
+	fds_opertions(fd, pid, size, 1);
+	i = -1;
+	while (++i <= size && cmd)
 	{
 		pid[i] = fork();
 		if (pid[i] == -1)
@@ -86,48 +96,15 @@ void	ft_pipe(t_cmd *cmd, t_env **my_envp)
 		}
 		else if (pid[i] == 0)
 		{
-			if (i == 0)
-				dup2(fd[i][1], STDOUT_FILENO);
-			else if (i == size)
-				dup2(fd[i - 1][0], STDIN_FILENO);
-			else
-			{
-				dup2(fd[i][1], STDOUT_FILENO);
-				dup2(fd[i - 1][0], STDIN_FILENO);
-			}
-			j = 0;
-			while (j <= size)
-			{
-				close(fd[j][0]);
-				close(fd[j][1]);
-				j++;
-			}
-			if (cmd->red && cmd->file)
-				redirect(cmd);
+			dup_fds(fd, i, size);
+			close_fds(fd, size);
+			if (!check_red(cmd))
+				continue ;
 			if (!builtins(cmd, *my_envp))
 				pipes_exec(cmd, my_envp);
-			else
-				exit(EXIT_SUCCESS);
+			exit(EXIT_SUCCESS);
 		}
 		cmd = cmd->next;
-		i++;
 	}
-	i = 0;
-	while (i <= size)
-	{
-		close(fd[i][0]);
-		close(fd[i][1]);
-		i++;
-	}
-	i = 0;
-	while (i <= size)
-	{
-		waitpid(pid[i], &g_glb.status, 0);
-		g_glb.exit_status = WEXITSTATUS(g_glb.status);
-		i++;
-	}
-	i = 0;
-	while (i <= size)
-		free(fd[i++]);
-	free(fd);
+	fds_opertions(fd, pid, size, 2);
 }
