@@ -97,7 +97,7 @@ void	ex_env(char **cmd, t_env *my_envp);
 
 //pipes_utils
 void	free_fds(int **fd, int size);
-void	wait_fds(pid_t	*pid, int size);
+void	wait_pids(pid_t	*pid, int size);
 void	close_fds(int **fd, int size);
 void	pipe_fds(int **fd, int size);
 int		ft_cmdsize(t_cmd *cmd);
@@ -129,9 +129,9 @@ char        **case_of_sgl_quote(char **ar, char *s, int *i, t_inf *p);
 char        **case_of_dbl_quotes(char **ar, char *s, int *i, t_inf *p);
 void        case_of_space(int *i);
 char        **els(char **ar, char *s, int *i);
-int            if_append_or_herdoc(char *s, int *i, t_inf *p);
-int            if_pipe_or_red( char *s, int *i, t_inf *p);
+int         if_append_or_herdoc(char *s, int *i, t_inf *p);
+int         if_pipe_or_red( char *s, int *i, t_inf *p);
 char        **case_of_append_or_herdoc(char **ar, char *s, int *i);
-int            glbl_var_fct(int j, int flag);
+int         glbl_var_fct(int j, int flag);
 
 #endif
