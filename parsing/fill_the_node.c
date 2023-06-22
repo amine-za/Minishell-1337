@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 12:39:48 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/22 21:49:56 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/22 23:26:06 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,10 @@ void	fill_red(t_cmd *cmd, char **ar, int *red_nb)
 	static int	i;
 
 	cmd->red = ft_calloc(sizeof(char *), red_nb[0] + 2);
-	cmd->file = ft_calloc(sizeof(char *), red_nb[1] + 2);
-	cmd->delimiter = ft_calloc(sizeof(char *), red_nb[2] + 2);
+	if (red_nb[1] > 0)
+		cmd->file = ft_calloc(sizeof(char *), red_nb[1] + 2);
+	if (red_nb[2] > 0)
+		cmd->delimiter = ft_calloc(sizeof(char *), red_nb[2] + 2);
 	i = searche_for_red_and_fill(ar, cmd, i);
 	if (!ar[i])
 		i = 0;
