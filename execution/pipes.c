@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 15:18:53 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/22 12:51:00 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/22 16:11:10 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,6 @@ void	ft_pipe(t_cmd *cmd, t_env **my_envp)
 		else if (pid[i] == 0)
 		{
 			dup_fds(fd, i, size);
-			// close(fd[0][0]);
-			// close(fd[0][1]);
 			close_fds(fd, size);
 			if (!check_red(cmd))
 				continue ;
@@ -111,7 +109,5 @@ void	ft_pipe(t_cmd *cmd, t_env **my_envp)
 		}
 		cmd = cmd->next;
 	}
-	// close(fd[0][0]);
-	// close(fd[0][1]);
 	fds_opertions(fd, pid, size, 2);
 }
