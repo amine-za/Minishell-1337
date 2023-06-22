@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 17:22:16 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/21 18:00:06 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/22 19:54:52 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,10 @@ char	**check_and_token(char *s, t_env *env)
 	ar = tokenisation(ar, s, p);
 	remove_empty_args(ar);
 	if (syntaxe_err(ar) == 1)
+	{
+		ft_free(ar);
 		return (NULL);
+	}
 	ar = var_case(ar, env);
 	return (ar);
 }

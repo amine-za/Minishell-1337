@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:16:01 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/22 10:51:42 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/22 20:05:44 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,7 @@ char	*search_for_var(t_env *p, char *var_name, char *f_part)
 		return (f_part);
 	if (var_name[0] == '?')
 	{
-		f_part = ft_strjoin(f_part, ft_itoa(g_glb.exit_status));
-		// free(var_name);
+		f_part = ft_strjoin2(f_part, ft_itoa(g_glb.exit_status));
 		return (f_part);
 	}
 	while (p)
@@ -98,12 +97,8 @@ char	*search_for_var(t_env *p, char *var_name, char *f_part)
 		p = p->next;
 	}
 	if (p == NULL)
-	{
-		// free(var_name);
 		return (f_part);
-	}
-	f_part = ft_strjoin(f_part, p->value);
-	// free(var_name);
+	f_part = ft_strjoin2(f_part, p->value);
 	return (f_part);
 }
 

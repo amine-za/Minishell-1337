@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 22:57:56 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/20 15:54:53 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/22 18:23:40 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,18 +81,30 @@ int	pipes_err(char **ar)
 
 int	quotes_err(char **ar)
 {
-	int	i;
+	int		i;
+	int		j;
+	t_inf	p;
 
-	i = 0;
-	while (ar[i])
+	i = -1;
+	j = -1;
+	p.in_dbl = 0;
+	p.in_sgl = 0;
+	while (ar[++i])
 	{
-		if (rm_quotes(ar[i], 1) == NULL)
+		while (ar[i][++j])
+		{
+			if (ar[i][j] == '\'' && p.in_dbl == 0)
+				p.in_sgl = cls_or_opn_qt(p.in_sgl);
+			else if (ar[i][j] == '\"' && p.in_sgl == 0)
+				p.in_dbl = cls_or_opn_qt(p.in_dbl);
+		}
+		if (p.in_dbl == 1 || p.in_sgl == 1)
 		{
 			ft_putstr_fd("minishell: syntax error\n", 2);
 			g_glb.exit_status = 258;
 			return (1);
 		}
-		i++;
+		j = -1;
 	}
 	return (0);
 }

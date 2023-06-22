@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 23:14:37 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/21 18:11:54 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/22 19:54:59 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ t_cmd	*fill_linked_list(t_cmd *ll, char **ar, int i, int count)
 			ll->Lpipe = 1;
 	}
 	ll->next = NULL;
-	// ft_free(ar);
 	return (head);
 }
 
@@ -87,7 +86,7 @@ t_cmd	*parsing1(char *s, t_env *env)
 	ll->Lpipe = 0;
 	ll = fill_linked_list(ll, ar, i, count_pipes(s));
 	ll = head;
-	// ft_free(ar);
+	ft_free(ar);
 	free(s);
 	return (head);
 }

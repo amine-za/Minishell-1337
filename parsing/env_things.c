@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_things.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:47:09 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/22 10:52:33 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/22 20:01:34 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,12 @@ char	*env_chck(char *s, int indc, t_env *p)
 	while (num_dllr != 1)
 	{
 		p = head;
+		free(var_name);
 		var_name = variable_name(s);
 		f_part = search_for_var(p, var_name, f_part);
-		free(var_name);
 		num_dllr--;
 	}
 	free(s);
-	// free(var_name);
+	free(var_name);
 	return (f_part);
 }

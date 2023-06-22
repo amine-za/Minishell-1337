@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 12:39:48 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/20 21:43:02 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/22 19:37:03 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,17 @@ int	searche_for_red_and_fill(char **ar, t_cmd *cmd, int i)
 		if ((!ft_strcmp("<", ar[i]) || !ft_strcmp(">", ar[i])
 				|| !ft_strcmp(">>", ar[i])) && ar[i + 1])
 		{
+			free(cmd->red[j]);
 			cmd->red[j] = ft_strdup(ar[i]);
-			cmd->file[j] = ft_strdup(ar[i + 1]);
-			j++;
+			free(cmd->file[j]);
+			cmd->file[j++] = ft_strdup(ar[i + 1]);
 		}
 		else if ((!ft_strcmp("<<", ar[i])) && ar[i + 1])
 		{
-			cmd->red[j] = ft_strdup(ar[i]);
-			cmd->delimiter[k] = ft_strdup(ar[i + 1]);
-			j++;
-			k++;
+			free(cmd->red[j]);
+			cmd->red[j++] = ft_strdup(ar[i]);
+			free(cmd->delimiter[k]);
+			cmd->delimiter[k++] = ft_strdup(ar[i + 1]);
 		}
 		i++;
 	}
@@ -91,6 +92,8 @@ int	content_fill(t_cmd *ll, char **ar, int j)
 	{
 		if (ar[i][0] == '>' || ar[i][0] == '<')
 		{
+			// free(ar[i]);
+			// free(ar[i + 1]);
 			i += 2;
 			if (ar[i - 1] && ar[i])
 				continue ;
@@ -99,11 +102,12 @@ int	content_fill(t_cmd *ll, char **ar, int j)
 		}
 		if (ar[i][0] == '|')
 		{
+			// free(ar[i]);
 			ll->Rpipe = 1;
 			i++;
 			break ;
 		}
-		ll->cmd[j++] = rm_quotes(ar[i++], 0);
+		ll->cmd[j++] = rm_quotes(ar[i++]);
 	}
 	if (!ar[i])
 		i = 0;
@@ -123,6 +127,7 @@ t_cmd	*add_new(char **ar, t_cmd *prev)
 	ll->delimiter = NULL;
 	ll->Rpipe = 0;
 	ll->prev = prev;
+
 	while (ar[j] && ar[j][0] && ar[j][0] != '|')
 		j++;
 	ll->cmd = ft_calloc(sizeof(char *), j + 2);

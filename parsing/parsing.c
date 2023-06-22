@@ -6,13 +6,13 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 10:21:30 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/21 18:12:03 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/22 19:37:10 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*rm_quotes(char *s, int flag)
+char	*rm_quotes(char *s)
 {
 	int		i;
 	int		j;
@@ -24,7 +24,7 @@ char	*rm_quotes(char *s, int flag)
 	p.in_sgl = 0;
 	p.in_dbl = 0;
 	if (s && s[0] != '\'' && s[0] != '\"')
-		return (s);
+		return (ft_strdup(s));
 	str = calloc(1, ft_strlen(s) + 1);
 	while (s[++i])
 	{
@@ -35,11 +35,7 @@ char	*rm_quotes(char *s, int flag)
 		else
 			str[j++] = s[i];
 	}
-	if (flag == 1 && (p.in_sgl == 1 || p.in_dbl == 1))
-	{
-		free(str);
-		return (NULL);
-	}
+	// free(s);
 	return (str);
 }
 
