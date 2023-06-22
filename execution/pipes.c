@@ -6,13 +6,13 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 15:18:53 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/21 18:33:15 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/22 12:51:00 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	pipes_exec(t_cmd	*cmd, t_env **my_envp)
+void	pipes_exec(t_cmd *cmd, t_env **my_envp)
 {
 	int		error;
 	char	**envp;
@@ -25,14 +25,16 @@ void	pipes_exec(t_cmd	*cmd, t_env **my_envp)
 		envp = struct_to_env(my_envp);
 		if (execve(valid_path, cmd->cmd, envp) == -1)
 		{
-			printf("minishell: %s: %s\n", cmd->cmd[0], strerror(errno));
+			ft_error(cmd->cmd[0], strerror(errno), errno);
 			ft_free(cmd->cmd);
+			g_glb.exit_status = errno;
 			exit(errno);
 		}
 	}
 	else if (!valid_path && error == 2)
 	{
-		printf("minishell: %s: %s\n", cmd->cmd[0], strerror(errno));
+		ft_error(cmd->cmd[0], strerror(errno), errno);
+		g_glb.exit_status = 127;
 		exit(127);
 	}
 }
@@ -61,6 +63,7 @@ void	alloc_fds(int **fd, int size)
 
 void	fds_opertions(int **fd, pid_t	*pid, int size, int n)
 {
+	(void)pid;
 	if (n == 1)
 	{
 		alloc_fds(fd, size);
@@ -69,7 +72,7 @@ void	fds_opertions(int **fd, pid_t	*pid, int size, int n)
 	else if (n == 2)
 	{
 		close_fds(fd, size);
-		wait_fds(pid, size);
+		wait_pids(pid, size);
 		free_fds(fd, size);
 	}
 }
@@ -97,6 +100,8 @@ void	ft_pipe(t_cmd *cmd, t_env **my_envp)
 		else if (pid[i] == 0)
 		{
 			dup_fds(fd, i, size);
+			// close(fd[0][0]);
+			// close(fd[0][1]);
 			close_fds(fd, size);
 			if (!check_red(cmd))
 				continue ;
@@ -106,5 +111,7 @@ void	ft_pipe(t_cmd *cmd, t_env **my_envp)
 		}
 		cmd = cmd->next;
 	}
+	// close(fd[0][0]);
+	// close(fd[0][1]);
 	fds_opertions(fd, pid, size, 2);
 }

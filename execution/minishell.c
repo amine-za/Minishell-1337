@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:36:15 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/21 19:13:13 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/22 00:19:13 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	execute(t_cmd	*cmd, t_env **my_envp)
 			if (execve(valid_path, cmd->cmd, envp) == -1)
 			{
 				ft_error(cmd->cmd[0], strerror(errno), errno);
-				ft_free(cmd->cmd);
+				// ft_free(cmd->cmd);
 				exit(errno);
 			}
 		}
