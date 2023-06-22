@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_things.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:47:09 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/20 16:08:36 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/22 10:52:33 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,6 @@ char	*env_chck(char *s, int indc, t_env *p)
 		num_dllr--;
 	}
 	free(s);
-	free(var_name);
+	// free(var_name);
 	return (f_part);
 }
