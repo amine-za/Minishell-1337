@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:36:15 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/22 16:08:12 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/22 14:54:07 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ int	main(int ac, char **av, char **envp)
 		dup2(g_glb.o_stdout, STDOUT_FILENO);
 		free_cmd(cmd);
 		free(line);
-		// system("leaks minishell");
 	}
 	return (0);
 }
