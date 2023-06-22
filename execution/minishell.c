@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:36:15 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/22 00:19:13 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/22 14:54:07 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,14 @@ int	execute(t_cmd	*cmd, t_env **my_envp)
 			if (execve(valid_path, cmd->cmd, envp) == -1)
 			{
 				ft_error(cmd->cmd[0], strerror(errno), errno);
-				// ft_free(cmd->cmd);
+				ft_free(cmd->cmd);
 				exit(errno);
 			}
 		}
 		else if (!valid_path && error == 2)
 		{
-			printf("minishell: %s: command not found\n", cmd->cmd[0]);
+			ft_error(cmd->cmd[0], "command not found", errno);
+			// printf("minishell: %s: command not found\n", cmd->cmd[0]);
 			exit(127);
 		}
 	}
@@ -59,7 +60,7 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
-	// (void)pid;
+	(void)pid;
 	g_glb.o_stdin = dup(STDIN_FILENO);
 	g_glb.o_stdout = dup(STDOUT_FILENO);
 	my_envp = env_to_struct(envp);
@@ -75,22 +76,24 @@ int	main(int ac, char **av, char **envp)
 			add_history(line);
 			cmd = parsing1(line, my_envp);
 			if (!cmd || (!cmd->cmd[0] && !cmd->red))
-			{
 				continue ;
-			}
 		}
 		else
-		{
 			continue ;
-		}
 		if (cmd->Rpipe == 0)
 		{
 			if (!check_red(cmd))
+			{
+				// free_cmd(cmd);
+				free(line);
 				continue ;
+			}
 			if (builtins(cmd, my_envp))
 			{
 				dup2(g_glb.o_stdin, STDIN_FILENO);
 				dup2(g_glb.o_stdout, STDOUT_FILENO);
+				free_cmd(cmd);
+				free(line);
 				continue ;
 			}
 			pid = execute(cmd, &my_envp);
@@ -105,11 +108,7 @@ int	main(int ac, char **av, char **envp)
 		}
 		dup2(g_glb.o_stdin, STDIN_FILENO);
 		dup2(g_glb.o_stdout, STDOUT_FILENO);
-		ft_free(cmd->cmd);
-		ft_free(cmd->red);
-		ft_free(cmd->file);
-		ft_free(cmd->delimiter);
-		free(cmd);
+		free_cmd(cmd);
 		free(line);
 	}
 	return (0);
