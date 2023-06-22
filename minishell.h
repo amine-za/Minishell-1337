@@ -83,6 +83,7 @@ void	ft_free(char **s);
 void	free_string(void *str);
 t_cmd	*parsing1(char *s, t_env *env);
 int		syntaxe_err(char **ar);
+void	free_cmd(t_cmd *cmd);
 
 // builtins-utils
 int		builtins(t_cmd *cmd, t_env *my_envp);
