@@ -6,16 +6,17 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 11:42:54 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/21 18:25:42 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/22 12:58:29 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	**add_an_arg(char **ar, char **s, char c, int len)
+char	**add_an_arg(char **s, char c, int len)
 {
-	int	i;
-	int	j;
+	char	**ar;
+	int		i;
+	int		j;
 
 	i = -1;
 	j = -1;
@@ -26,59 +27,40 @@ char	**add_an_arg(char **ar, char **s, char c, int len)
 	i = -1;
 	while (s[++i])
 	{
+		j = -1;
 		while (s[i][++j])
 			ar[i][j] = s[i][j];
-		j = -1;
 	}
 	ar[i][0] = c;
 	ft_free(s);
 	return (ar);
 }
 
-char	**add_in_the_last_arg(char **ar, char **s, char c, int len)
+char	**add_in_the_last_arg(char **s, char c, int len)
 {
-	int		i;
 	int		j;
 	char	*str;
 
-	i = -1;
 	j = -1;
-	ar = ft_calloc(sizeof(char *), (len + 1));
-	while (++i < len - 1)
-		ar[i] = ft_calloc(1, ft_strlen(s[i]) + 1);
-	ar[i] = ft_calloc(1, ft_strlen(s[i]) + 2);
-	str = ft_calloc(1, ft_strlen(s[i]) + 2);
-	i = -1;
-	while (s[++i])
-	{
-		while (s[i][++j])
-			ar[i][j] = s[i][j];
-		j = -1;
-	}
-	i--;
-	while (s[i] && s[i][++j])
-		str[j] = s[i][j];
+	str = ft_calloc(1, ft_strlen(s[len - 1]) + 2);
+	while (s[len - 1] && s[len - 1][++j])
+		str[j] = s[len - 1][j];
 	str[j] = c;
-	free(ar[i]);
-	ar[i] = str;
-	ft_free(s);
-	return (ar);
+	free(s[len - 1]);
+	s[len - 1] = str;
+	return (s);
 }
 
 char	**chrjoin(char **s, char c, int flag)
 {
 	int		len;
-	char	**ar;
 
 	len = 0;
-	ar = NULL;
-	while (s[len++])
-	{
-	}
-	len--;
+	while (s[len])
+		len++;
 	if (flag == 1 || s[0] == NULL)
-		return (add_an_arg(ar, s, c, len));
-	return (add_in_the_last_arg(ar, s, c, len));
+		return (add_an_arg(s, c, len));
+	return (add_in_the_last_arg(s, c, len));
 }
 
 	// ar[i] = ft_calloc(1, ft_strlen(s[i]) + 2);
