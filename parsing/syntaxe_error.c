@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 22:57:56 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/22 18:23:40 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/22 21:51:58 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ int	quotes_err(char **ar)
 		if (p.in_dbl == 1 || p.in_sgl == 1)
 		{
 			ft_putstr_fd("minishell: syntax error\n", 2);
-			g_glb.exit_status = 258;
 			return (1);
 		}
 		j = -1;
@@ -116,6 +115,9 @@ int	syntaxe_err(char **ar)
 	if (redirection_err(ar) == 1)
 		return (1);
 	if (quotes_err(ar) == 1)
+	{
+		g_glb.exit_status = 258;
 		return (1);
+	}
 	return (0);
 }

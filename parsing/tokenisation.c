@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 17:22:16 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/22 19:54:52 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/22 21:52:53 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,8 @@ void	remove_empty_args(char **ar)
 char	**tokenisation(char **ar, char *s, t_inf p)
 {
 	int	i;
-	// int	j;
 
 	i = 0;
-	// j = 0;
 	while (s[i])
 	{
 		if (if_append_or_herdoc(s, &i, &p))
@@ -65,7 +63,6 @@ char	**tokenisation(char **ar, char *s, t_inf p)
 			break ;
 		else
 			ar = els(ar, s, &i);
-		// j = glbl_var_fct(0, 0);
 	}
 	return (ar);
 }

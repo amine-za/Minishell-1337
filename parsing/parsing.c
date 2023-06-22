@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 10:21:30 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/22 19:37:10 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/22 21:50:10 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ char	*rm_quotes(char *s)
 		else
 			str[j++] = s[i];
 	}
-	// free(s);
 	return (str);
 }
 

@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 12:39:48 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/22 19:37:03 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/22 21:49:56 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,6 @@ int	content_fill(t_cmd *ll, char **ar, int j)
 	{
 		if (ar[i][0] == '>' || ar[i][0] == '<')
 		{
-			// free(ar[i]);
-			// free(ar[i + 1]);
 			i += 2;
 			if (ar[i - 1] && ar[i])
 				continue ;
@@ -102,7 +100,6 @@ int	content_fill(t_cmd *ll, char **ar, int j)
 		}
 		if (ar[i][0] == '|')
 		{
-			// free(ar[i]);
 			ll->Rpipe = 1;
 			i++;
 			break ;
@@ -127,7 +124,6 @@ t_cmd	*add_new(char **ar, t_cmd *prev)
 	ll->delimiter = NULL;
 	ll->Rpipe = 0;
 	ll->prev = prev;
-
 	while (ar[j] && ar[j][0] && ar[j][0] != '|')
 		j++;
 	ll->cmd = ft_calloc(sizeof(char *), j + 2);
