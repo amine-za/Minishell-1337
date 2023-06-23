@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 12:39:48 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/23 21:25:58 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:50:31 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,16 @@
 
 int	*count_red(char **ar)
 {
-	static int	i;
+	int	i;
 	int	*count;
 
+	i = 0;
 	count = malloc(sizeof(int) * 3);
 	count[0] = 0;
 	count[1] = 0;
 	count[2] = 0;
-	while (ar[i] && ar[i][0] != '|')
+	// printf("					%s\n", ar[i]);
+	while (ar[++i] && ar[i][0] != '|')
 	{
 		if ((!ft_strcmp("<", ar[i]) || !ft_strcmp(">", ar[i])
 				|| !ft_strcmp(">>", ar[i])))
@@ -36,13 +38,7 @@ int	*count_red(char **ar)
 			if (ar[i + 1])
 				count[2]++;
 		}
-		i++;
 	}
-	if (ar[i] && ar[i][0] == '|')
-		i++;
-	if (!ar[i])
-		i = 0;
-	printf("count[%d][%d][%d]\n", count[0], count[1], count[2]);
 	return (count);
 }
 
@@ -75,13 +71,21 @@ int	searche_for_red_and_fill(char **ar, t_cmd *cmd, int i)
 	return (i);
 }
 
-void	fill_red(t_cmd *cmd, char **ar, int *red_nb)
+void	fill_red(t_cmd *cmd, char **ar)
 {
 	static int	i;
+	int	*red_nb;
 
+	// printf("				••i = %d\n", i);
+	red_nb = count_red(&ar[i]);
 	cmd->red = NULL;
 	cmd->file = NULL;
 	cmd->delimiter = NULL;
+	// if (!red_nb[0])
+	// {
+	// 	free(red_nb);
+	// 	return;
+	// }
 	cmd->red = ft_calloc(sizeof(char *), red_nb[0] + 2);
 	if (red_nb[1] > 0)
 		cmd->file = ft_calloc(sizeof(char *), red_nb[1] + 2);
@@ -92,6 +96,7 @@ void	fill_red(t_cmd *cmd, char **ar, int *red_nb)
 		i = 0;
 	else if (ar[i][0] == '|')
 		i++;
+	free(red_nb);
 }
 
 int	content_fill(t_cmd *ll, char **ar, int j)
@@ -123,9 +128,8 @@ int	content_fill(t_cmd *ll, char **ar, int j)
 
 t_cmd	*add_new(char **ar, t_cmd *prev)
 {
-	t_cmd	*ll;
 	int		j;
-	int		*red_nb;
+	t_cmd	*ll;
 
 	j = 0;
 	ll = malloc(sizeof(t_cmd));
@@ -137,10 +141,9 @@ t_cmd	*add_new(char **ar, t_cmd *prev)
 	while (ar[j] && ar[j][0] && ar[j][0] != '|')
 		j++;
 	ll->cmd = ft_calloc(sizeof(char *), j + 2);
-	red_nb = count_red(ar);
-	if (red_nb[0])
-		fill_red(ll, ar, red_nb);
-	free(red_nb);
+	// red_nb = count_red(ar);
+	// if (red_nb[0])
+	fill_red(ll, ar);
 	j = 0;
 	j = content_fill(ll, ar, j);
 	return (ll);

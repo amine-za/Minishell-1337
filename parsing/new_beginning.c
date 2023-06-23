@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 23:14:37 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/23 21:27:08 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:48:08 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ t_cmd	*parsing1(char *s, t_env *env)
 	ll->Lpipe = 0;
 	ll = fill_linked_list(ll, ar, i, count_pipes(s));
 	ll = head;
-	// print_ll(head);
+	print_ll(head);
 	ft_free(ar);
 	free(s);
 	return (head);

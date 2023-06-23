@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 10:21:30 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/23 20:18:59 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:02:38 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ char	*rm_quotes(char *s)
 	j = 0;
 	p.in_sgl = 0;
 	p.in_dbl = 0;
-	if (s && s[0] != '\'' && s[0] != '\"')
-		return (ft_strdup(s));
+	// if (s && s[0] != '\'' && s[0] != '\"')
+	// 	return (ft_strdup(s));
 	str = calloc(1, ft_strlen(s) + 1);
 	while (s[++i])
 	{
