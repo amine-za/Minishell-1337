@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:47:09 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/22 20:01:34 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/23 12:39:10 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,17 @@ char	*env_chck(char *s, int indc, t_env *p)
 	f_part = ft_calloc(1, ft_strlen(s) + 1);
 	while (++i < indc && s[i])
 		f_part[i] = s[i];
-	var_name = variable_name(s);
+	var_name = variable_name(s, 0);
 	f_part = search_for_var(p, var_name, f_part);
 	while (num_dllr != 1)
 	{
 		p = head;
 		free(var_name);
-		var_name = variable_name(s);
+		var_name = variable_name(s, 0);
 		f_part = search_for_var(p, var_name, f_part);
 		num_dllr--;
 	}
+	f_part = ft_strjoin2(f_part, variable_name(s, 1));
 	free(s);
 	free(var_name);
 	return (f_part);

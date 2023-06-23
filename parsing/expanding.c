@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:16:01 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/22 20:05:44 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/23 12:38:04 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*put_var_in(char *str, char *s, char *var)
 	return (str);
 }
 
-int	var_name_norm(char *s, int indc)
+int	indc_of_var_name(char *s, int indc)
 {
 	while (s[indc])
 	{
@@ -52,7 +52,7 @@ int	var_name_norm(char *s, int indc)
 	return (indc);
 }
 
-char	*variable_name(char *s)
+char	*variable_name(char *s, int flag)
 {
 	static int	indc;
 	char		*str;
@@ -61,7 +61,9 @@ char	*variable_name(char *s)
 
 	i = 0;
 	j = 0;
-	indc = var_name_norm(s, indc);
+	if (flag == 1)
+		return (&s[indc]);
+	indc = indc_of_var_name(s, indc);
 	i = indc;
 	if (s[i] == '$')
 	{
@@ -102,27 +104,39 @@ char	*search_for_var(t_env *p, char *var_name, char *f_part)
 	return (f_part);
 }
 
+t_inf	quotes_inf_for_var(t_inf p, char *ar, int i)
+{
+	if (ar[i] && ar[i] == '\'')
+		p.in_sgl = cls_or_opn_qt(p.in_sgl);
+	if (ar[i] && ar[i] == '\"')
+		p.in_dbl = cls_or_opn_qt(p.in_dbl);
+	return (p);
+}
+
 char	**var_case(char **ar, t_env *env)
 {
-	int	i;
 	int	j;
+	int	i;
+	t_inf	p;
 
-	i = 0;
-	j = 0;
-	while (ar[j])
+	j = -1;
+	i = -1;
+	p.in_dbl = 0;
+	p.in_sgl = 0;
+	while (ar[++j])
 	{
-		while (ar[j][i] && ar[j][0] != '\'')
+		while (ar[j][++i])// && ar[j][0] != '\'')
 		{
-			if (ar[j][i] == '$' && ar[j][i + 1] && (ft_isalnum(ar[j][i + 1])
-					|| ar[j][i + 1] == '_' || ar[j][i + 1] == '?'))
+			p = quotes_inf_for_var(p, ar[j], i);
+			if (ar[j][i] == '$' && ar[j][i + 1] && p.in_sgl == 0
+					&& (ft_isalnum(ar[j][i + 1]) || ar[j][i + 1] == '_' || ar[j][i + 1] == '?'))
 			{
 				ar[j] = env_chck(ar[j], i, env);
+				i = -1;
 				break ;
 			}
-			i++;
 		}
-		i = 0;
-		j++;
+		i = -1;
 	}
 	return (ar);
 }
