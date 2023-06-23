@@ -6,11 +6,20 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:47:09 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/23 12:39:10 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/23 16:07:47 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+t_inf	quotes_inf_for_var(t_inf p, char *ar, int i)
+{
+	if (ar[i] && ar[i] == '\'')
+		p.in_sgl = cls_or_opn_qt(p.in_sgl);
+	if (ar[i] && ar[i] == '\"')
+		p.in_dbl = cls_or_opn_qt(p.in_dbl);
+	return (p);
+}
 
 int	dollar_count(char *s)
 {
@@ -63,7 +72,6 @@ char	*env_chck(char *s, int indc, t_env *p)
 		num_dllr--;
 	}
 	f_part = ft_strjoin2(f_part, variable_name(s, 1));
-	free(s);
 	free(var_name);
-	return (f_part);
+	return (free(s), f_part);
 }

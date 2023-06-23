@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:16:01 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/23 12:38:04 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/23 16:04:55 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ char	*variable_name(char *s, int flag)
 
 	i = 0;
 	j = 0;
-	if (flag == 1)
+	if (flag == 1 && indc == 0)
+		return ("\0");
+	else if (flag == 1)
 		return (&s[indc]);
 	indc = indc_of_var_name(s, indc);
 	i = indc;
@@ -76,20 +78,24 @@ char	*variable_name(char *s, int flag)
 			indc = i;
 		return (str);
 	}
-	if (!s[i])
-		indc = 0;
-	if (s[indc] == '$')
-		indc++;
 	return (NULL);
 }
+	// if (!s[i])
+	// 	indc = 0;
+	// if (s[indc] == '$')
+	// 	indc++;
 
 char	*search_for_var(t_env *p, char *var_name, char *f_part)
 {
+	char	*exit_stts;
+
 	if (!var_name)
 		return (f_part);
 	if (var_name[0] == '?')
 	{
-		f_part = ft_strjoin2(f_part, ft_itoa(g_glb.exit_status));
+		exit_stts = ft_itoa(g_glb.exit_status);
+		f_part = ft_strjoin2(f_part, exit_stts);
+		free(exit_stts);
 		return (f_part);
 	}
 	while (p)
@@ -104,19 +110,10 @@ char	*search_for_var(t_env *p, char *var_name, char *f_part)
 	return (f_part);
 }
 
-t_inf	quotes_inf_for_var(t_inf p, char *ar, int i)
-{
-	if (ar[i] && ar[i] == '\'')
-		p.in_sgl = cls_or_opn_qt(p.in_sgl);
-	if (ar[i] && ar[i] == '\"')
-		p.in_dbl = cls_or_opn_qt(p.in_dbl);
-	return (p);
-}
-
 char	**var_case(char **ar, t_env *env)
 {
-	int	j;
-	int	i;
+	int		j;
+	int		i;
 	t_inf	p;
 
 	j = -1;
@@ -125,11 +122,12 @@ char	**var_case(char **ar, t_env *env)
 	p.in_sgl = 0;
 	while (ar[++j])
 	{
-		while (ar[j][++i])// && ar[j][0] != '\'')
+		while (ar[j][++i])
 		{
 			p = quotes_inf_for_var(p, ar[j], i);
 			if (ar[j][i] == '$' && ar[j][i + 1] && p.in_sgl == 0
-					&& (ft_isalnum(ar[j][i + 1]) || ar[j][i + 1] == '_' || ar[j][i + 1] == '?'))
+					&& (ft_isalnum(ar[j][i + 1])
+					|| ar[j][i + 1] == '_' || ar[j][i + 1] == '?'))
 			{
 				ar[j] = env_chck(ar[j], i, env);
 				i = -1;
