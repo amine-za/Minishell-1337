@@ -1,46 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   utils_3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/03 21:50:35 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/23 23:35:26 by nettalha         ###   ########.fr       */
+/*   Created: 2023/06/23 23:48:26 by nettalha          #+#    #+#             */
+/*   Updated: 2023/06/23 23:51:20 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <signal.h>
 
-void	handler(int num)
+void    backup_free(t_cmd *cmd, char *line)
 {
-	if (num == SIGINT)
-	{
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-}
-
-void	interrupt_heredoc(int num)
-{
-	if (num == SIGINT)
-	{
-		g_glb.exit_status = 1;
-		g_glb.sigint = 1;
-	}
-}
-
-void	ft_signals(void)
-{
-	signal(SIGINT, handler);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-void	herdoc_signals(void)
-{
-	signal(SIGINT, interrupt_heredoc);
-	signal(SIGQUIT, SIG_IGN);
+    backup_fds();
+    free(line);
+    free_ll(cmd);
 }

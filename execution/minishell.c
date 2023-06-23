@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:36:15 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/23 17:16:58 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:54:36 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,34 @@
 
 glb	g_glb;
 
-int	execute(t_cmd	*cmd, t_env **my_envp)
+void	execute2(t_cmd	*cmd, t_env **my_envp)
 {
-	pid_t	pid;
 	int		error;
 	char	**envp;
 	char	*valid_path;
 
 	error = 0;
+	valid_path = get_valid_path(cmd, *my_envp, &error);
+	if (valid_path && !error)
+	{
+		envp = struct_to_env(my_envp);
+		if (execve(valid_path, cmd->cmd, envp) == -1)
+		{
+			ft_error(cmd->cmd[0], strerror(errno), errno);
+			exit(errno);
+		}
+	}
+	else if (!valid_path && error == 2)
+	{
+		ft_error(cmd->cmd[0], "command not found", errno);
+		exit(127);
+	}
+}
+
+int	execute(t_cmd	*cmd, t_env **my_envp)
+{
+	pid_t	pid;
+
 	pid = fork();
 	if (pid == -1)
 	{
@@ -29,23 +49,7 @@ int	execute(t_cmd	*cmd, t_env **my_envp)
 		exit(EXIT_FAILURE);
 	}
 	if (pid == 0)
-	{
-		valid_path = get_valid_path(cmd, *my_envp, &error);
-		if (valid_path && !error)
-		{
-			envp = struct_to_env(my_envp);
-			if (execve(valid_path, cmd->cmd, envp) == -1)
-			{
-				ft_error(cmd->cmd[0], strerror(errno), errno);
-				exit(errno);
-			}
-		}
-		else if (!valid_path && error == 2)
-		{
-			ft_error(cmd->cmd[0], "command not found", errno);
-			exit(127);
-		}
-	}
+		execute2(cmd, my_envp);
 	return (pid);
 }
 
@@ -97,10 +101,7 @@ int	main(int ac, char **av, char **envp)
 			{
 				if (builtins(cmd, my_envp))
 				{
-					dup2(g_glb.o_stdin, STDIN_FILENO);
-					dup2(g_glb.o_stdout, STDOUT_FILENO);
-					free(line);
-					free_ll(cmd);
+					backup_free(cmd, line);
 					continue ;
 				}
 				pid = execute(cmd, &my_envp);
@@ -110,14 +111,10 @@ int	main(int ac, char **av, char **envp)
 		}
 		else
 		{
-			dup2(g_glb.o_stdin, STDIN_FILENO);
-			dup2(g_glb.o_stdout, STDOUT_FILENO);
+			backup_fds();
 			ft_pipe(cmd, &my_envp);
 		}
-		dup2(g_glb.o_stdin, STDIN_FILENO);
-		dup2(g_glb.o_stdout, STDOUT_FILENO);
-		free_ll(cmd);
-		free(line);
+		backup_free(cmd, line);
 	}
 	return (0);
 }
