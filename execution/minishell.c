@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:36:15 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/22 14:54:07 by codespace        ###   ########.fr       */
+/*   Updated: 2023/06/23 11:32:58 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	execute(t_cmd	*cmd, t_env **my_envp)
 	char	*valid_path;
 
 	error = 0;
-	// (pid = fork());
 	if ((pid = fork()) == -1)
 	{
 		perror("fork");
@@ -37,14 +36,12 @@ int	execute(t_cmd	*cmd, t_env **my_envp)
 			if (execve(valid_path, cmd->cmd, envp) == -1)
 			{
 				ft_error(cmd->cmd[0], strerror(errno), errno);
-				ft_free(cmd->cmd);
 				exit(errno);
 			}
 		}
 		else if (!valid_path && error == 2)
 		{
 			ft_error(cmd->cmd[0], "command not found", errno);
-			// printf("minishell: %s: command not found\n", cmd->cmd[0]);
 			exit(127);
 		}
 	}
@@ -60,7 +57,6 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
-	(void)pid;
 	g_glb.o_stdin = dup(STDIN_FILENO);
 	g_glb.o_stdout = dup(STDOUT_FILENO);
 	my_envp = env_to_struct(envp);
@@ -70,35 +66,46 @@ int	main(int ac, char **av, char **envp)
 		ft_signals();
 		line = readline("minishell$ ");
 		if (!line)
+		{
+			free(line);
 			exit (g_glb.exit_status);
+		}
 		if (*line)
 		{
 			add_history(line);
 			cmd = parsing1(line, my_envp);
 			if (!cmd || (!cmd->cmd[0] && !cmd->red))
+			{
+				free(line);
 				continue ;
+			}
 		}
 		else
+		{
+			free(line);
 			continue ;
+		}
 		if (cmd->Rpipe == 0)
 		{
 			if (!check_red(cmd))
 			{
-				// free_cmd(cmd);
 				free(line);
 				continue ;
 			}
-			if (builtins(cmd, my_envp))
+			if (cmd->cmd[0])
 			{
-				dup2(g_glb.o_stdin, STDIN_FILENO);
-				dup2(g_glb.o_stdout, STDOUT_FILENO);
-				free_cmd(cmd);
-				free(line);
-				continue ;
+				if (builtins(cmd, my_envp))
+				{
+					dup2(g_glb.o_stdin, STDIN_FILENO);
+					dup2(g_glb.o_stdout, STDOUT_FILENO);
+					free(line);
+					free_ll(cmd);
+					continue ;
+				}
+				pid = execute(cmd, &my_envp);
+				waitpid(pid, &g_glb.status, 0);
+				g_glb.exit_status = WEXITSTATUS(g_glb.status);
 			}
-			pid = execute(cmd, &my_envp);
-			waitpid(pid, &g_glb.status, 0);
-			g_glb.exit_status = WEXITSTATUS(g_glb.status);
 		}
 		else
 		{
@@ -108,7 +115,7 @@ int	main(int ac, char **av, char **envp)
 		}
 		dup2(g_glb.o_stdin, STDIN_FILENO);
 		dup2(g_glb.o_stdout, STDOUT_FILENO);
-		free_cmd(cmd);
+		free_ll(cmd);
 		free(line);
 	}
 	return (0);

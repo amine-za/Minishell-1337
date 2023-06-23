@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 10:38:37 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/22 17:22:57 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/22 22:57:29 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,9 @@ void	heredoc(t_cmd *cmd, int i)
 	{
 		cmd->fd1 = open(heredoc_file, O_RDONLY, 0777);
 		dup2(cmd->fd1, STDIN_FILENO);
+		free(heredoc_file);
+		close (cmd->fd1);
 	}
-	free(heredoc_file);
 }
 
 void	ft_herdoc(t_cmd *cmd)

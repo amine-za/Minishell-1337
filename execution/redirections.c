@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:55:28 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/21 17:05:33 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/22 23:30:07 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ int	check_red(t_cmd *cmd)
 		if (cmd->file)
 		{
 			if (redirect(cmd) == -1)
-			{
 				return (0);
-			}
 		}
 	}
 	return (1);
@@ -95,6 +93,6 @@ int	redirect(t_cmd	*cmd)
 		}
 		i++;
 	}
-	close(cmd->fd0);
+	// close(cmd->fd0);
 	return (0);
 }

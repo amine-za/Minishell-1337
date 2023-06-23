@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:31:52 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/20 17:16:52 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/23 13:12:40 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,18 @@ t_env	*ft_setenv(char *str, t_env *envp)
 	if (ft_strchr(str, '='))
 		is_equ = 1;
 	s = ft_splitv2(str, '=');
-	if (!str)
+	if (!s)
 		return (NULL);
 	while (current)
 	{
 		if (!ft_strcmp(current->key, s[0]))
 		{
 			if (ft_strcmp(s[1], "") || is_equ == 1)
-				current->value = s[1];
+			{
+				free(current->value);
+				current->value = ft_strdup(s[1]);
+			}
+			ft_free(s);
 			current->is_equ = is_equ;
 			return (envp);
 		}
