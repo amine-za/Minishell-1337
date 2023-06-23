@@ -73,8 +73,8 @@ void	ft_pipe(t_cmd *cmd, t_env **my_envp);
 void	ft_signals(void);
 int		ft_cmdsize(t_cmd *cmd);
 int		redirect(t_cmd	*cmd);
-int		check_red(t_cmd *cmd);
-void	ft_herdoc(t_cmd *cmd);
+int		check_red(t_cmd *cmd, int n);
+void	ft_herdoc(t_cmd *cmd, int n);
 char	*get_valid_path(t_cmd	*cmd, t_env *env, int *error);
 char	*getpath(char *cmd, t_env *env, int *error);
 int		check_key(char *str);
@@ -83,7 +83,7 @@ void	ft_free(char **s);
 void	free_string(void *str);
 t_cmd	*parsing1(char *s, t_env *env);
 int		syntaxe_err(char **ar);
-void	free_cmd(t_cmd *cmd);
+void	free_ll(t_cmd *cmd);
 
 // builtins-utils
 int		builtins(t_cmd *cmd, t_env *my_envp);
@@ -97,6 +97,8 @@ void	ft_exit0(char **cmd);
 void	ex_env(char **cmd, t_env *my_envp);
 
 //pipes_utils
+void	fds_opertions(int **fd, pid_t	*pid, int size, int n);
+void	dup_fds(int **fd, int i, int size);
 void	free_fds(int **fd, int size);
 void	wait_pids(pid_t	*pid, int size);
 void	close_fds(int **fd, int size);
@@ -107,7 +109,7 @@ int		ft_cmdsize(t_cmd *cmd);
 
 // amine's functions
 char        **chrjoin(char **s, char c, int flag);
-char        *rm_quotes(char *s, int flag);
+char        *rm_quotes(char *s);
 int         count_pipes(char *s);
 int         cls_or_opn_qt(int qt);
 int         chrch(char *s, char c);
@@ -122,7 +124,7 @@ char        *env_chck(char *s, int indc, t_env *p);
 void        env_chck_norm(char *f_part, char *s, int i, int indc);
 int         dollar_count(char *s);
 char        *search_for_var(t_env *p, char *var_name, char *f_part);
-char        *variable_name(char *s);
+char        *variable_name(char *s, int flag);
 char        **check_and_token(char *s, t_env *env);
 
 char        **case_of_red_or_pipe(char **ar, char *s, int *i);
@@ -134,5 +136,4 @@ int         if_append_or_herdoc(char *s, int *i, t_inf *p);
 int         if_pipe_or_red( char *s, int *i, t_inf *p);
 char        **case_of_append_or_herdoc(char **ar, char *s, int *i);
 int         glbl_var_fct(int j, int flag);
-
 #endif
