@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 15:18:53 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/23 16:50:53 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/23 17:17:14 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	ft_pipe2(t_cmd *cmd, t_env **my_envp, pid_t *pid, int **fd)
 		{
 			dup_fds(fd, i, size);
 			close_fds(fd, size);
-			if (!check_red(cmd))
+			if (!check_red(cmd, 1))
 				continue ;
 			if (!builtins(cmd, *my_envp))
 				pipes_exec(cmd, my_envp);
