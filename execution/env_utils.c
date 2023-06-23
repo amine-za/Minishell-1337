@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:31:52 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/23 13:12:40 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/23 16:49:12 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,21 @@ void	ft_envadd(char	**s, int is_equ, t_env *envp)
 	if (check_key(s[0]))
 		ft_envadd_back(envp, ft_envnew(s[0], s[1], is_equ));
 	else
+	{
 		ft_error(s[0], "not a valid identifier", 1);
+		ft_free(s);
+		return ;
+	}
 	free(s);
+}
+
+void	ft_update(t_env	*current, char **s, int is_equ)
+{
+	if (ft_strcmp(s[1], "") || is_equ == 1)
+	{
+		free(current->value);
+		current->value = ft_strdup(s[1]);
+	}
 }
 
 t_env	*ft_setenv(char *str, t_env *envp)
@@ -38,11 +51,7 @@ t_env	*ft_setenv(char *str, t_env *envp)
 	{
 		if (!ft_strcmp(current->key, s[0]))
 		{
-			if (ft_strcmp(s[1], "") || is_equ == 1)
-			{
-				free(current->value);
-				current->value = ft_strdup(s[1]);
-			}
+			ft_update(current, s, is_equ);
 			ft_free(s);
 			current->is_equ = is_equ;
 			return (envp);

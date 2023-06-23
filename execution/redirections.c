@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:55:28 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/22 23:30:07 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/23 15:47:14 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,5 @@ int	redirect(t_cmd	*cmd)
 		}
 		i++;
 	}
-	// close(cmd->fd0);
 	return (0);
 }

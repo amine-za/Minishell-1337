@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 21:50:35 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/22 21:39:11 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/23 15:18:19 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	handler(int num)
 	{
 		printf("\n");
 		rl_on_new_line();
-		// rl_replace_line("", 0);
+		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 }

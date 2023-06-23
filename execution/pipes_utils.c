@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:14:02 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/22 12:51:38 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/23 15:46:51 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	pipe_fds(int **fd, int size)
 	}
 }
 
-void	 close_fds(int **fd, int size)
+void	close_fds(int **fd, int size)
 {
 	int	i;
 
@@ -62,7 +62,6 @@ void	wait_pids(pid_t	*pid, int size)
 	int	i;
 
 	i = 0;
-	// printf("size>>|%d|\n", size);
 	while (i <= size)
 	{
 		waitpid(pid[i], &g_glb.status, 0);

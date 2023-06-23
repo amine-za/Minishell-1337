@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:36:15 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/23 11:32:58 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/23 15:48:05 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int	execute(t_cmd	*cmd, t_env **my_envp)
 	char	*valid_path;
 
 	error = 0;
-	if ((pid = fork()) == -1)
+	pid = fork();
+	if (pid == -1)
 	{
 		perror("fork");
 		exit(EXIT_FAILURE);

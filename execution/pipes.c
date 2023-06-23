@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 15:18:53 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/22 23:14:18 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/23 16:04:02 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,43 +39,31 @@ void	pipes_exec(t_cmd *cmd, t_env **my_envp)
 	}
 }
 
-void	dup_fds(int **fd, int i, int size)
-{
-	if (i == 0)
-		dup2(fd[i][1], STDOUT_FILENO);
-	else if (i == size)
-		dup2(fd[i - 1][0], STDIN_FILENO);
-	else
-	{
-		dup2(fd[i][1], STDOUT_FILENO);
-		dup2(fd[i - 1][0], STDIN_FILENO);
-	}
-}
-
-void	alloc_fds(int **fd, int size)
+int	ft_pipe2(t_cmd *cmd, t_env **my_envp, pid_t *pid, int **fd)
 {
 	int	i;
+	int	size;
 
-	i = 0;
-	while (i <= size)
-		fd[i++] = malloc(sizeof(int) * 2);
-}
-
-void	fds_opertions(int **fd, pid_t	*pid, int size, int n)
-{
-	(void)pid;
-	if (n == 1)
+	i = -1;
+	size = ft_cmdsize(cmd) - 1;
+	while (++i <= size && cmd)
 	{
-		alloc_fds(fd, size);
-		pipe_fds(fd, size);
+		pid[i] = fork();
+		if (pid[i] == -1)
+			return (perror("fork"), 0);
+		else if (pid[i] == 0)
+		{
+			dup_fds(fd, i, size);
+			close_fds(fd, size);
+			if (!check_red(cmd))
+				continue ;
+			if (!builtins(cmd, *my_envp))
+				pipes_exec(cmd, my_envp);
+			exit(EXIT_SUCCESS);
+		}
+		cmd = cmd->next;
 	}
-	else if (n == 2)
-	{
-		close_fds(fd, size);
-		wait_pids(pid, size);
-		free(pid);
-		free_fds(fd, size);
-	}
+	return (1);
 }
 
 void	ft_pipe(t_cmd *cmd, t_env **my_envp)
@@ -90,25 +78,7 @@ void	ft_pipe(t_cmd *cmd, t_env **my_envp)
 	pid = malloc(sizeof(pid_t) * (size + 1));
 	fds_opertions(fd, pid, size, 1);
 	i = -1;
-	while (++i <= size && cmd)
-	{
-		pid[i] = fork();
-		if (pid[i] == -1)
-		{
-			perror("fork");
-			return ;
-		}
-		else if (pid[i] == 0)
-		{
-			dup_fds(fd, i, size);
-			close_fds(fd, size);
-			if (!check_red(cmd))
-				continue ;
-			if (!builtins(cmd, *my_envp))
-				pipes_exec(cmd, my_envp);
-			exit(EXIT_SUCCESS);
-		}
-		cmd = cmd->next;
-	}
+	if (!ft_pipe2(cmd, my_envp, pid, fd))
+		return ;
 	fds_opertions(fd, pid, size, 2);
 }
