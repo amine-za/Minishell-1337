@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 15:18:53 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/23 17:17:14 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/24 14:18:49 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ft_pipe2(t_cmd *cmd, t_env **my_envp, pid_t *pid, int **fd)
 	i = -1;
 	size = ft_cmdsize(cmd) - 1;
 	while (++i <= size && cmd)
-	{
+	{	
 		pid[i] = fork();
 		if (pid[i] == -1)
 			return (perror("fork"), 0);

@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:36:15 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/24 11:03:58 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/24 14:22:33 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ int	main(int ac, char **av, char **envp)
 			cmd = parse(cmd, my_envp, line);
 			if (!cmd)
 				continue ;
-
 		}
 		else
 		{
