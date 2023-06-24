@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 10:38:37 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/23 23:34:50 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/24 11:30:56 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	heredoc(t_cmd *cmd, int i)
 	if (cmd->delimiter[i + 1] == NULL)
 	{
 		cmd->fd1 = open(heredoc_file, O_RDONLY, 0777);
-		dup2(cmd->fd1, STDIN_FILENO);
+		dup2(STDIN_FILENO, cmd->fd1);
 		free(heredoc_file);
 		close (cmd->fd1);
 	}
