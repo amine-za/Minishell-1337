@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 11:46:17 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/18 12:18:12 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/24 18:40:31 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	cd(char **cmd, t_env *my_envp)
 		if (r != 0)
 			printf("cd: %s: No such file or directory\n", cmd[1]);
 	}
+	free(user_dir);
 }
 
 void	pwd(char **cmd)

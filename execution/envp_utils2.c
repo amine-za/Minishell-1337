@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 17:27:56 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/20 17:30:17 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/24 18:47:04 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	ft_upenv(char *key, char *value, t_env *envp)
 			break ;
 		current = current->next;
 	}
+	free(current->value);
 	current->value = ft_strdup(value);
 }
 
