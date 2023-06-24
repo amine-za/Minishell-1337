@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:36:15 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/24 19:16:10 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/24 20:05:37 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int	exec_one_cmd(t_cmd *cmd, t_env *my_envp, char *line)
 int	main_exc(char *line, t_cmd	*cmd, t_env	*my_envp)
 {
 	line = readline("minishell$ ");
+	ft_exsignals();
 	if (!line)
 		handle_exit(line);
 	if (*line)

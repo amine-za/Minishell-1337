@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:36:28 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/18 12:13:26 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/24 19:31:06 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_exit0(char **cmd)
 {
 	int	n;
 
-	n = 0;
+	n = g_glb.exit_status;
 	printf("exit\n");
 	if (cmd[1])
 		n = ft_atoi(cmd[1]);

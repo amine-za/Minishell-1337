@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:55:28 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/24 15:00:09 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/24 19:35:19 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	dup_in(t_cmd *cmd, int i)
 	cmd->fd0 = open(cmd->file[i], O_RDONLY, 0777);
 	if (cmd->fd0 == -1)
 	{
-		ft_error(cmd->file[i], strerror(errno), 126);
+		ft_error(cmd->file[i], strerror(errno), 1);
 		dup2(g_glb.o_stdin, STDIN_FILENO);
 		dup2(g_glb.o_stdout, STDOUT_FILENO);
 		return (0);

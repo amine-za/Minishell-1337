@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/03 21:50:35 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/24 15:00:08 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/24 20:06:16 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,12 @@ void	ft_signals(void)
 {
 	signal(SIGINT, handler);
 	signal(SIGQUIT, SIG_IGN);
+}
+
+void	ft_exsignals(void)
+{
+	signal(SIGINT, exe_sighandler);
+	signal(SIGQUIT, exe_sighandler);
 }
 
 void	herdoc_signals(void)

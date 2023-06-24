@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 11:46:17 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/24 18:58:11 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/24 19:34:40 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	cd(char **cmd, t_env *my_envp)
 		r = chdir(cmd[1]);
 		ft_upenv("PWD", getcwd(cwd, sizeof(cwd)), my_envp);
 		if (r != 0)
-			printf("cd: %s: No such file or directory\n", cmd[1]);
+			ft_error(cmd[1], "No such file or directory", 1);
 	}
 	free(user_dir);
 }
