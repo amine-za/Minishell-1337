@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 10:36:15 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/24 18:22:03 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/24 18:57:48 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ t_env	*ft_envnew(char *key, char *value, int is_equ)
 	node = (t_env *)malloc(sizeof(t_env));
 	if (!node)
 		return (NULL);
-	node->value = (char *)malloc((strlen(value) + 1) * sizeof(char));
+	node->value = (char *)malloc((ft_strlen(value) + 1) * sizeof(char));
 	if (!node->value)
 		return (free(node), NULL);
 	ft_strcpy(node->value, value);
-	node->key = (char *)malloc((strlen(key) + 1) * sizeof(char));
+	node->key = (char *)malloc((ft_strlen(key) + 1) * sizeof(char));
 	if (!node->key)
 	{
 		ft_free2(node->value, node);

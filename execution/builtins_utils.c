@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 11:46:17 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/24 18:40:31 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/24 18:58:11 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	echo(char **cmd)
 	i = 1;
 	while (cmd[i] != NULL)
 	{
-		if (strcmp(cmd[i], "-n") == 0)
+		if (ft_strcmp(cmd[i], "-n") == 0)
 			nflag = 1;
 		else
 		{
