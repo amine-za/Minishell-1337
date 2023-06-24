@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:47:09 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/23 16:07:47 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:56:52 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,14 @@ char	*env_chck(char *s, int indc, t_env *p)
 	while (++i < indc && s[i])
 		f_part[i] = s[i];
 	var_name = variable_name(s, 0);
+	printf("				var name is : %s\n", var_name);
 	f_part = search_for_var(p, var_name, f_part);
 	while (num_dllr != 1)
 	{
 		p = head;
 		free(var_name);
 		var_name = variable_name(s, 0);
+		printf("				var name is : %s\n", var_name);
 		f_part = search_for_var(p, var_name, f_part);
 		num_dllr--;
 	}
