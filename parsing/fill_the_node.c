@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 12:39:48 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/23 23:50:31 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/24 11:03:00 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	*count_red(char **ar)
 	int	i;
 	int	*count;
 
-	i = 0;
+	i = -1;
 	count = malloc(sizeof(int) * 3);
 	count[0] = 0;
 	count[1] = 0;
@@ -54,15 +54,15 @@ int	searche_for_red_and_fill(char **ar, t_cmd *cmd, int i)
 		if ((!ft_strcmp("<", ar[i]) || !ft_strcmp(">", ar[i])
 				|| !ft_strcmp(">>", ar[i])) && ar[i + 1])
 		{
-			free(cmd->red[j]);
-			cmd->red[j] = ft_strdup(ar[i]);
+			free(cmd->red[j + k]);
+			cmd->red[j + k] = ft_strdup(ar[i]);
 			free(cmd->file[j]);
 			cmd->file[j++] = ft_strdup(ar[i + 1]);
 		}
 		else if ((!ft_strcmp("<<", ar[i])) && ar[i + 1])
 		{
-			free(cmd->red[j]);
-			cmd->red[j++] = ft_strdup(ar[i]);
+			free(cmd->red[j + k]);
+			cmd->red[j + k] = ft_strdup(ar[i]);
 			free(cmd->delimiter[k]);
 			cmd->delimiter[k++] = ft_strdup(ar[i + 1]);
 		}
@@ -76,16 +76,7 @@ void	fill_red(t_cmd *cmd, char **ar)
 	static int	i;
 	int	*red_nb;
 
-	// printf("				••i = %d\n", i);
 	red_nb = count_red(&ar[i]);
-	cmd->red = NULL;
-	cmd->file = NULL;
-	cmd->delimiter = NULL;
-	// if (!red_nb[0])
-	// {
-	// 	free(red_nb);
-	// 	return;
-	// }
 	cmd->red = ft_calloc(sizeof(char *), red_nb[0] + 2);
 	if (red_nb[1] > 0)
 		cmd->file = ft_calloc(sizeof(char *), red_nb[1] + 2);
