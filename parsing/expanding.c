@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:16:01 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/24 18:33:47 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/24 21:28:14 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,37 +147,3 @@ char	**var_case(char **ar, t_env *env)
 	}
 	return (ar);
 }
-
-// char	*check_num_case(char *first_part, char *s, int sttc)
-// {
-// 	char	*str;
-
-// 	while (s[sttc])
-// 	{
-// 		if (s[sttc] == '$' && s[sttc + 1] && (ft_isdigit(s[sttc + 1])
-// 				|| s[sttc + 1] == '_'))
-// 			break ;
-// 		sttc++;
-// 	}
-// 	if (ft_isdigit(s[sttc + 1]))
-// 	{
-// 		if (s[sttc + 2])
-// 			str = &s[sttc + 2];
-// 		else
-// 			return (first_part);
-// 		sttc += 2;
-// 		while (str[sttc] && str[sttc] != '$')
-// 			sttc++;
-// 		str[sttc] = '\0';
-// 		first_part = ft_strjoin(first_part, str);
-// 		printf("firs part = %s\n", first_part);
-// 		sleep(1);
-// 		return (first_part);
-// 	}
-// 	return (NULL);
-// }
-
-	// if (!s[indc])
-	// 	indc = 0;
-	// if (s[indc] == '$')
-	// 	indc++;

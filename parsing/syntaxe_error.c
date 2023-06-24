@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 22:57:56 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/24 15:00:08 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/24 22:10:35 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,9 @@ int	redirection_err(char **ar)
 
 int	pipes_err(char **ar)
 {
-	int	i;
-	int	err;
+	int		i;
+	int		err;
+	t_inf	p;
 
 	i = 1;
 	err = 0;
@@ -64,12 +65,12 @@ int	pipes_err(char **ar)
 		err = 1;
 	while (ar[i])
 	{
-		if (ar[i][0] == '|' && ar[i - 1][0] == '|')
+		p = quotes_inf_for_var(p, ar[i], i);
+		if (ar[i][0] == '|' && ar[i - 1][0] == '|'
+				&& p.in_dbl != 1 && p.in_sgl != 1)
 			err = 1;
 		i++;
 	}
-	if (ar[i - 1][0] == '|')
-		err = 1;
 	if (err == 1)
 	{
 		ft_putstr_fd("minishell: syntax error\n", 2);

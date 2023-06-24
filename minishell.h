@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 14:50:18 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/24 20:07:05 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/24 20:41:44 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ char	**case_of_red_or_pipe(char **ar, char *s, int *i);
 char	**case_of_sgl_quote(char **ar, char *s, int *i, t_inf *p);
 char	**case_of_dbl_quotes(char **ar, char *s, int *i, t_inf *p);
 void	case_of_space(int *i);
-char	**els(char **ar, char *s, int *i);
+char	**els(char **ar, char *s, int *i, t_inf p);
 int		if_append_or_herdoc(char *s, int *i, t_inf *p);
 int		if_pipe_or_red( char *s, int *i, t_inf *p);
 char	**case_of_append_or_herdoc(char **ar, char *s, int *i);

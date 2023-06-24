@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:36:28 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/24 19:31:06 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/24 21:29:34 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ex_env(char **cmd, t_env *my_envp)
 
 	current = my_envp;
 	if (cmd[1] != NULL)
-		printf("env takes no arguments\n");
+		ft_putstr_fd("env takes no arguments\n", 2);
 	else
 	{
 		while (current)

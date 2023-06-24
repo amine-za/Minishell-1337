@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 11:46:17 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/24 19:34:40 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/24 21:29:21 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	pwd(char **cmd)
 	char	cwd[1024];
 
 	if (cmd[1] != NULL)
-		printf("pwd: too many arguments\n");
+		ft_putstr_fd("pwd: too many arguments\n", 2);
 	else
 	{
 		if (getcwd(cwd, sizeof(cwd)) != NULL)
@@ -100,7 +100,7 @@ void	env(char **cmd, t_env *my_envp)
 
 	current = my_envp;
 	if (cmd[1] != NULL)
-		printf("env takes no arguments\n");
+		ft_putstr_fd("env takes no arguments\n", 2);
 	else
 	{
 		while (current)

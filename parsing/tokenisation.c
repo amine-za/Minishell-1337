@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 17:22:16 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/24 14:59:46 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/24 22:11:41 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	**tokenisation(char **ar, char *s, t_inf p)
 		else if (s[i] == '\n')
 			break ;
 		else
-			ar = els(ar, s, &i);
+			ar = els(ar, s, &i, p);
 	}
 	return (ar);
 }

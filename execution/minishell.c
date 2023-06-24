@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:36:15 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/24 20:05:37 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/24 21:37:49 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ void	execute2(t_cmd	*cmd, t_env **my_envp)
 		envp = struct_to_env(my_envp);
 		if (execve(valid_path, cmd->cmd, envp) == -1)
 		{
-			ft_error(cmd->cmd[0], strerror(errno), errno);
-			exit(errno);
+			ft_error(cmd->cmd[0], "command not found", 127);
+			exit(127);
 		}
 	}
 	else if (!valid_path && error == 2)
 	{
-		ft_error(cmd->cmd[0], "command not found", errno);
+		ft_error(cmd->cmd[0], "command not found", 127);
 		exit(127);
 	}
 }
