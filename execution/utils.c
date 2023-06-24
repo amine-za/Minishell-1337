@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:35:52 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/23 23:43:55 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/24 10:03:47 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	check_key(char *str)
 	return (1);
 }
 
-void	backup_fds()
+void	backup_fds(void)
 {
 	dup2(g_glb.o_stdin, STDIN_FILENO);
 	dup2(g_glb.o_stdout, STDOUT_FILENO);

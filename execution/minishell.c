@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:36:15 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/23 23:54:36 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/24 11:03:58 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,47 @@ int	execute(t_cmd	*cmd, t_env **my_envp)
 	return (pid);
 }
 
+int	exec_one_cmd(t_cmd *cmd, t_env *my_envp, char *line)
+{
+	pid_t	pid;
+
+	if (!check_red(cmd, 0))
+	{
+		free(line);
+		return (0);
+	}
+	if (cmd->cmd[0])
+	{
+		if (builtins(cmd, my_envp))
+		{
+			backup_free(cmd, line);
+			return (0);
+		}
+		pid = execute(cmd, &my_envp);
+		waitpid(pid, &g_glb.status, 0);
+		g_glb.exit_status = WEXITSTATUS(g_glb.status);
+	}
+	return (1);
+}
+
+t_cmd	*parse(t_cmd *cmd, t_env *my_envp, char *line)
+{
+	cmd = parsing1(line, my_envp);
+	if (!cmd || (!cmd->cmd[0] && !cmd->red))
+	{
+		free(line);
+		return (NULL);
+	}
+	return (cmd);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_cmd	*cmd;
 	char	*line;
 	t_env	*my_envp;
-	pid_t	pid;
 
-	(void)ac;
-	(void)av;
-	g_glb.o_stdin = dup(STDIN_FILENO);
-	g_glb.o_stdout = dup(STDOUT_FILENO);
+	save_fds(ac, av);
 	my_envp = env_to_struct(envp);
 	using_history();
 	while (1)
@@ -71,19 +101,14 @@ int	main(int ac, char **av, char **envp)
 		ft_signals();
 		line = readline("minishell$ ");
 		if (!line)
-		{
-			free(line);
-			exit (g_glb.exit_status);
-		}
+			handle_exit(line);
 		if (*line)
 		{
 			add_history(line);
-			cmd = parsing1(line, my_envp);
-			if (!cmd || (!cmd->cmd[0] && !cmd->red))
-			{
-				free(line);
+			cmd = parse(cmd, my_envp, line);
+			if (!cmd)
 				continue ;
-			}
+
 		}
 		else
 		{
@@ -92,22 +117,8 @@ int	main(int ac, char **av, char **envp)
 		}
 		if (cmd->Rpipe == 0)
 		{
-			if (!check_red(cmd, 0))
-			{
-				free(line);
+			if (!exec_one_cmd(cmd, my_envp, line))
 				continue ;
-			}
-			if (cmd->cmd[0])
-			{
-				if (builtins(cmd, my_envp))
-				{
-					backup_free(cmd, line);
-					continue ;
-				}
-				pid = execute(cmd, &my_envp);
-				waitpid(pid, &g_glb.status, 0);
-				g_glb.exit_status = WEXITSTATUS(g_glb.status);
-			}
 		}
 		else
 		{

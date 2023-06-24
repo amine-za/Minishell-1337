@@ -14,10 +14,11 @@
 
 typedef struct g_glb
 {
-	int	status;
-	int	exit_status;
-	int		o_stdin;
-	int		o_stdout;
+	int				status;
+	int				exit_status;
+	int				o_stdin;
+	int				o_stdout;
+	sig_atomic_t	sigint;
 }	glb;
 
 extern glb	g_glb;
@@ -83,7 +84,12 @@ void	ft_free(char **s);
 void	free_string(void *str);
 t_cmd	*parsing1(char *s, t_env *env);
 int		syntaxe_err(char **ar);
+void	herdoc_signals();
 void	free_ll(t_cmd *cmd);
+void	save_fds(int ac , char **av);
+void	backup_fds(void);
+void    backup_free(t_cmd *cmd, char *line);
+void	handle_exit(char *line);
 
 // builtins-utils
 int		builtins(t_cmd *cmd, t_env *my_envp);
@@ -135,6 +141,6 @@ char        **els(char **ar, char *s, int *i);
 int         if_append_or_herdoc(char *s, int *i, t_inf *p);
 int         if_pipe_or_red( char *s, int *i, t_inf *p);
 char        **case_of_append_or_herdoc(char **ar, char *s, int *i);
-t_inf    	quotes_inf_for_var(t_inf p, char *ar, int i);
 int         glbl_var_fct(int j, int flag);
+t_inf        quotes_inf_for_var(t_inf p, char *ar, int i);
 #endif
