@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 14:50:18 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/24 18:11:00 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/24 20:07:05 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ void	save_fds(int ac, char **av);
 void	backup_fds(void);
 void	backup_free(t_cmd *cmd, char *line);
 void	handle_exit(char *line);
+void	exe_sighandler(int sig);
+void	ft_exsignals(void);
 // builtins-utils
 int		builtins(t_cmd *cmd, t_env *my_envp);
 t_env	*export(char **args, t_env *envp);
