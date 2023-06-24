@@ -135,5 +135,6 @@ char        **els(char **ar, char *s, int *i);
 int         if_append_or_herdoc(char *s, int *i, t_inf *p);
 int         if_pipe_or_red( char *s, int *i, t_inf *p);
 char        **case_of_append_or_herdoc(char **ar, char *s, int *i);
+t_inf    	quotes_inf_for_var(t_inf p, char *ar, int i);
 int         glbl_var_fct(int j, int flag);
 #endif

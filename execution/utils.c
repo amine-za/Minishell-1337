@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:35:52 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/22 00:14:20 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:43:55 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,10 @@ int	check_key(char *str)
 		i++;
 	}
 	return (1);
+}
+
+void	backup_fds()
+{
+	dup2(g_glb.o_stdin, STDIN_FILENO);
+	dup2(g_glb.o_stdout, STDOUT_FILENO);
 }
