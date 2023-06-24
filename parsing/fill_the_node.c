@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 12:39:48 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/24 11:03:00 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/24 12:08:38 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	*count_red(char **ar)
 	count[0] = 0;
 	count[1] = 0;
 	count[2] = 0;
-	// printf("					%s\n", ar[i]);
 	while (ar[++i] && ar[i][0] != '|')
 	{
 		if ((!ft_strcmp("<", ar[i]) || !ft_strcmp(">", ar[i])
@@ -74,7 +73,7 @@ int	searche_for_red_and_fill(char **ar, t_cmd *cmd, int i)
 void	fill_red(t_cmd *cmd, char **ar)
 {
 	static int	i;
-	int	*red_nb;
+	int			*red_nb;
 
 	red_nb = count_red(&ar[i]);
 	cmd->red = ft_calloc(sizeof(char *), red_nb[0] + 2);
@@ -132,8 +131,6 @@ t_cmd	*add_new(char **ar, t_cmd *prev)
 	while (ar[j] && ar[j][0] && ar[j][0] != '|')
 		j++;
 	ll->cmd = ft_calloc(sizeof(char *), j + 2);
-	// red_nb = count_red(ar);
-	// if (red_nb[0])
 	fill_red(ll, ar);
 	j = 0;
 	j = content_fill(ll, ar, j);

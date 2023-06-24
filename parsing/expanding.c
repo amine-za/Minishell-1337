@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:16:01 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/23 23:57:27 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/24 12:10:14 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,6 @@ char	*variable_name(char *s, int flag)
 			indc = i;
 		return (str);
 	}
-	if (!s[i])
-		indc = 0;
-	if (s[indc] == '$')
-		indc++;
 	return (NULL);
 }
 
@@ -167,3 +163,8 @@ char	**var_case(char **ar, t_env *env)
 // 	}
 // 	return (NULL);
 // }
+
+	// if (!s[indc])
+	// 	indc = 0;
+	// if (s[indc] == '$')
+	// 	indc++;
