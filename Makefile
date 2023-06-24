@@ -1,4 +1,5 @@
-NAME	= minishell
+NAME    = minishell
+USERNAME = azaghlou
 
 LIBFT	=	./libft/libft.a
 SRCS    =	./execution/minishell.c ./execution/builtins.c ./execution/redirections.c ./execution/pipes.c \
@@ -9,38 +10,38 @@ SRCS    =	./execution/minishell.c ./execution/builtins.c ./execution/redirection
 			./parsing/fill_the_node.c ./parsing/syntaxe_error.c ./parsing/env_things.c ./parsing/chr_join.c \
 			./parsing/tokenisation.c ./parsing/tokenisation_things.c ./parsing/tokenisation_things1.c
 
-OBJS	= ${SRCS:.c=.o}
+OBJS    = ${SRCS:.c=.o}
 
-CC		= cc
-CFLAGS	= -Wall -Wextra -Werror
-NRLFLAGS = -lreadline -g #-fsanitize=address
+CC      = cc
+CFLAGS  = -Wall -Wextra -Werror -g #-fsanitize=address
+IFLAGS  = -I/goinfre/${USERNAME}/homebrew/opt/readline/include
+LFLAGS  = -L/goinfre/${USERNAME}/homebrew/opt/readline/lib -lreadline
 
-RM		= rm -f
+RM      = rm -f
 
 %.o : %.c
-	${CC} ${CFLAGS} -c $^ -o $@
+	${CC} ${CFLAGS} ${IFLAGS} -c $< -o $@
 
-all:	${NAME}
+all:    ${NAME}
 
 ${LIBFT}:
 	@make -C ./libft
 
-${NAME}:	${OBJS} ${LIBFT}
-	$(CC) $(CFLAGS) $^ $(NRLFLAGS) -o $@
+${NAME}:    ${OBJS} ${LIBFT}
+	$(CC) $(CFLAGS) $(LFLAGS) $^ -o $@
 	@make clean -C ./libft
 
 clean:
 	$(RM) ${OBJS}
 
-fclean:	clean
+fclean: clean
 	@make fclean -C ./libft
 	$(RM) ${NAME}
 
-re:	fclean $(NAME)
+re: fclean $(NAME)
 
-my:	re
+my: re
 	clear
 	@rm -rf ${OBJS}
 
 .PHONY: all clean fclean re
-

@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 10:21:30 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/24 12:09:07 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/24 15:01:11 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	count_pipes(char *s)
 // 		for (int x = 0; ll->cmd[x]; x++)
 // 			printf("[%s] ", ll->cmd[x]);
 // 		printf("\n");
-// 		printf("Lpipe = %d || Rpipe = %d\n", ll->Lpipe, ll->Rpipe);
+// 		printf("lpipe = %d || rpipe = %d\n", ll->lpipe, ll->rpipe);
 // 		// printf("err = %d\n", ll->err);
 // 		printf("\nred --> ");
 // 		if (ll->red)

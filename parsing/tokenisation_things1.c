@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:59:44 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/21 18:00:11 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/24 14:59:46 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ char	**case_of_append_or_herdoc(char **ar, char *s, int *i)
 {
 	ar = chrjoin(ar, s[i[0]++], 1);
 	ar = chrjoin(ar, s[i[0]++], 0);
-	glbl_var_fct(1, 1);
+	t_glbl_var_fct(1, 1);
 	return (ar);
 }

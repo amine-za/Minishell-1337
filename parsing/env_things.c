@@ -6,11 +6,23 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/16 23:47:09 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/24 12:07:39 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/24 15:14:33 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	point_in_dollar(char *s, int indc)
+{
+	while (s[indc])
+	{
+		if (s[indc] == '$' && s[indc + 1] && (ft_isalnum(s[indc + 1])
+				|| s[indc + 1] == '_' || s[indc + 1] == '?'))
+			break ;
+		indc++;
+	}
+	return (indc);
+}
 
 t_inf	quotes_inf_for_var(t_inf p, char *ar, int i)
 {
@@ -47,31 +59,12 @@ void	env_chck_norm(char *f_part, char *s, int i, int indc)
 	}
 }
 
-char	*env_chck(char *s, int indc, t_env *p)
+char	*number_expen_case(char *f_part, char *var_name)
 {
-	int		i;
-	int		num_dllr;
-	t_env	*head;
-	char	*f_part;
-	char	*var_name;
+	int	i;
 
-	i = -1;
-	num_dllr = dollar_count(s);
-	head = p;
-	f_part = ft_calloc(1, ft_strlen(s) + 1);
-	while (++i < indc && s[i])
-		f_part[i] = s[i];
-	var_name = variable_name(s, 0);
-	f_part = search_for_var(p, var_name, f_part);
-	while (num_dllr != 1)
-	{
-		p = head;
-		free(var_name);
-		var_name = variable_name(s, 0);
-		f_part = search_for_var(p, var_name, f_part);
-		num_dllr--;
-	}
-	f_part = ft_strjoin2(f_part, variable_name(s, 1));
-	free(var_name);
-	return (free(s), f_part);
+	i = 0;
+	if (ft_isdigit(var_name[0]))
+		return (ft_strjoin2(f_part, &var_name[1]));
+	return (f_part);
 }

@@ -6,13 +6,13 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 17:22:16 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/23 21:46:06 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/24 14:59:46 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	glbl_var_fct(int j, int flag)
+int	t_glbl_var_fct(int j, int flag)
 {
 	static int	sttc;
 

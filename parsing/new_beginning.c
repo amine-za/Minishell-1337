@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 23:14:37 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/24 12:06:45 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/24 15:01:11 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ t_cmd	*fill_linked_list(t_cmd *ll, char **ar, int i, int count)
 	{
 		ll->next = add_new(ar, ll);
 		ll = ll->next;
-		ll->Lpipe = 0;
-		if (ll->prev->Rpipe == 1)
-			ll->Lpipe = 1;
+		ll->lpipe = 0;
+		if (ll->prev->rpipe == 1)
+			ll->lpipe = 1;
 	}
 	ll->next = NULL;
 	return (head);
@@ -83,7 +83,7 @@ t_cmd	*parsing1(char *s, t_env *env)
 	}
 	ll = add_new(ar, NULL);
 	head = ll;
-	ll->Lpipe = 0;
+	ll->lpipe = 0;
 	ll = fill_linked_list(ll, ar, i, count_pipes(s));
 	ll = head;
 	ft_free(ar);

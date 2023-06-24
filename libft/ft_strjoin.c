@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nettalha <nettalha@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 16:15:11 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/06 15:36:02 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/24 15:02:52 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		j++;
 	}
 	str[i + j] = '\0';
-	//free(&s2);
 	return (str);
 }
 
@@ -65,5 +64,5 @@ char	*ft_strjoin2(char *s1, char *s2)
 	}
 	str[i + j] = '\0';
 	free(s1);
-	return(str);
+	return (str);
 }

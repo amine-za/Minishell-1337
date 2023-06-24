@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:16:01 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/24 12:10:14 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/24 15:32:36 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,42 +40,26 @@ char	*put_var_in(char *str, char *s, char *var)
 	return (str);
 }
 
-int	indc_of_var_name(char *s, int indc)
-{
-	while (s[indc])
-	{
-		if (s[indc] == '$' && s[indc + 1] && (ft_isalpha(s[indc + 1])
-				|| s[indc + 1] == '_' || s[indc + 1] == '?'))
-			break ;
-		indc++;
-	}
-	return (indc);
-}
-
 char	*variable_name(char *s, int flag)
 {
 	static int	indc;
 	char		*str;
-	int			i;
 	int			j;
 
-	i = 0;
 	j = 0;
 	if (flag == 1 && indc == 0)
 		return ("\0");
 	else if (flag == 1)
 		return (&s[indc]);
-	indc = indc_of_var_name(s, indc);
-	i = indc;
-	if (s[i] == '$')
+	indc = point_in_dollar(s, indc);
+	if (s[indc] == '$')
 	{
-		str = ft_calloc(1, ft_strlen(&s[i++]) + 1);
-		while (s[i] && (ft_isalnum(s[i]) || s[i] == '_' || s[i] == '?'))
-			str[j++] = s[i++];
-		if (!s[i])
+		str = ft_calloc(1, ft_strlen(&s[indc++]) + 1);
+		while (s[indc] && (ft_isalnum(s[indc])
+				|| s[indc] == '_' || s[indc] == '?'))
+			str[j++] = s[indc++];
+		if (!s[indc])
 			indc = 0;
-		else
-			indc = i;
 		return (str);
 	}
 	return (NULL);
@@ -101,9 +85,38 @@ char	*search_for_var(t_env *p, char *var_name, char *f_part)
 		p = p->next;
 	}
 	if (p == NULL)
-		return (f_part);
+		return (number_expen_case(f_part, var_name));
 	f_part = ft_strjoin2(f_part, p->value);
 	return (f_part);
+}
+
+char	*env_chck(char *s, int indc, t_env *p)
+{
+	int		i;
+	int		num_dllr;
+	t_env	*head;
+	char	*f_part;
+	char	*var_name;
+
+	i = -1;
+	num_dllr = dollar_count(s);
+	head = p;
+	f_part = ft_calloc(1, ft_strlen(s) + 1);
+	while (++i < indc && s[i])
+		f_part[i] = s[i];
+	var_name = variable_name(s, 0);
+	f_part = search_for_var(p, var_name, f_part);
+	while (num_dllr != 1)
+	{
+		p = head;
+		free(var_name);
+		var_name = variable_name(s, 0);
+		f_part = search_for_var(p, var_name, f_part);
+		num_dllr--;
+	}
+	f_part = ft_strjoin2(f_part, variable_name(s, 1));
+	free(var_name);
+	return (free(s), f_part);
 }
 
 char	**var_case(char **ar, t_env *env)

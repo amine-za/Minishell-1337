@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:36:15 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/24 14:22:33 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/24 15:01:11 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-glb	g_glb;
+t_glb	g_glb;
 
 void	execute2(t_cmd	*cmd, t_env **my_envp)
 {
@@ -114,7 +114,7 @@ int	main(int ac, char **av, char **envp)
 			free(line);
 			continue ;
 		}
-		if (cmd->Rpipe == 0)
+		if (cmd->rpipe == 0)
 		{
 			if (!exec_one_cmd(cmd, my_envp, line))
 				continue ;

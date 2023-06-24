@@ -6,7 +6,7 @@
 /*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 12:39:48 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/24 12:08:38 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/24 15:01:11 by azaghlou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	content_fill(t_cmd *ll, char **ar, int j)
 		}
 		if (ar[i][0] == '|')
 		{
-			ll->Rpipe = 1;
+			ll->rpipe = 1;
 			i++;
 			break ;
 		}
@@ -126,7 +126,7 @@ t_cmd	*add_new(char **ar, t_cmd *prev)
 	ll->red = NULL;
 	ll->file = NULL;
 	ll->delimiter = NULL;
-	ll->Rpipe = 0;
+	ll->rpipe = 0;
 	ll->prev = prev;
 	while (ar[j] && ar[j][0] && ar[j][0] != '|')
 		j++;
