@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 10:38:37 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/24 15:00:09 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/24 17:37:48 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,19 +58,6 @@ void	heredoc(t_cmd *cmd, int i)
 		close (cmd->fd1);
 	}
 }
-
-// void	dup_heredoc(t_cmd *cmd, int i)
-// {
-// 	if (i == 0)
-// 		dup2(fd[i][1], cmd->fd1);
-// 	else if (i == size)
-// 		dup2(fd[i - 1][0], STDIN_FILENO);
-// 	else
-// 	{
-// 		dup2(fd[i][1], STDOUT_FILENO);
-// 		dup2(fd[i - 1][0], STDIN_FILENO);
-// 	}
-// }
 
 void	heredoc1(t_cmd *cmd, int i)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 17:36:15 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/24 15:01:11 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/24 18:11:09 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,32 @@ int	exec_one_cmd(t_cmd *cmd, t_env *my_envp, char *line)
 	return (1);
 }
 
-t_cmd	*parse(t_cmd *cmd, t_env *my_envp, char *line)
+int	main_exc(char *line, t_cmd	*cmd, t_env	*my_envp)
 {
-	cmd = parsing1(line, my_envp);
-	if (!cmd || (!cmd->cmd[0] && !cmd->red))
+	line = readline("minishell$ ");
+	if (!line)
+		handle_exit(line);
+	if (*line)
 	{
-		free(line);
-		return (NULL);
+		add_history(line);
+		cmd = parse(cmd, my_envp, line);
+		if (!cmd)
+			return (2);
 	}
-	return (cmd);
+	else
+		return (free(line), 2);
+	if (cmd->rpipe == 0)
+	{
+		if (!exec_one_cmd(cmd, my_envp, line))
+			return (2);
+	}
+	else
+	{
+		backup_fds();
+		ft_pipe(cmd, &my_envp);
+	}
+	backup_free(cmd, line);
+	return (0);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -93,38 +110,17 @@ int	main(int ac, char **av, char **envp)
 	char	*line;
 	t_env	*my_envp;
 
+	my_envp = NULL;
+	cmd = NULL;
+	line = NULL;
 	save_fds(ac, av);
 	my_envp = env_to_struct(envp);
 	using_history();
 	while (1)
 	{
 		ft_signals();
-		line = readline("minishell$ ");
-		if (!line)
-			handle_exit(line);
-		if (*line)
-		{
-			add_history(line);
-			cmd = parse(cmd, my_envp, line);
-			if (!cmd)
-				continue ;
-		}
-		else
-		{
-			free(line);
+		if (main_exc(line, cmd, my_envp) == 2)
 			continue ;
-		}
-		if (cmd->rpipe == 0)
-		{
-			if (!exec_one_cmd(cmd, my_envp, line))
-				continue ;
-		}
-		else
-		{
-			backup_fds();
-			ft_pipe(cmd, &my_envp);
-		}
-		backup_free(cmd, line);
 	}
 	return (0);
 }

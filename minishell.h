@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 14:50:18 by azaghlou          #+#    #+#             */
-/*   Updated: 2023/06/24 15:10:46 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/24 18:11:00 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ t_env	*ft_envadd_back(t_env *env, t_env *new_node);
 void	ft_envclear(t_env **env, void (*del)(void *));
 void	ft_printenv(t_env *env);
 
+t_cmd	*parse(t_cmd *cmd, t_env *my_envp, char *line);
 int		execute(t_cmd	*cmd, t_env **my_envp);
 void	pipes_exec(t_cmd	*cmd, t_env **my_envp);
 void	ft_pipe(t_cmd *cmd, t_env **my_envp);
@@ -88,6 +89,8 @@ int		ft_cmdsize(t_cmd *cmd);
 int		redirect(t_cmd	*cmd);
 int		check_red(t_cmd *cmd, int n);
 void	ft_herdoc(t_cmd *cmd, int n);
+void	heredoc1(t_cmd *cmd, int i);
+void	check_herdoc(t_cmd *cmd);
 char	*get_valid_path(t_cmd	*cmd, t_env *env, int *error);
 char	*getpath(char *cmd, t_env *env, int *error);
 int		check_key(char *str);

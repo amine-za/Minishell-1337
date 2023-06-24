@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 15:18:53 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/24 15:00:09 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/24 18:03:37 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	ft_pipe(t_cmd *cmd, t_env **my_envp)
 	pid = malloc(sizeof(pid_t) * (size + 1));
 	fds_opertions(fd, pid, size, 1);
 	i = -1;
+	check_herdoc(cmd);
 	if (!ft_pipe2(cmd, my_envp, pid, fd))
 		return ;
 	fds_opertions(fd, pid, size, 2);

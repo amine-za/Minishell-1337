@@ -6,7 +6,7 @@
 /*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 10:36:15 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/20 17:28:51 by nettalha         ###   ########.fr       */
+/*   Updated: 2023/06/24 18:22:03 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ void	ft_envdelone(char *str, t_env **env)
 				current->next->prev = current->prev;
 			if (current == *env)
 				*env = current->next;
+			free(current->key);
+			free(current->value);
 			free(current);
 			break ;
 		}

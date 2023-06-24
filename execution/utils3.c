@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azaghlou <azaghlou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nettalha <nettalha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 23:48:26 by nettalha          #+#    #+#             */
-/*   Updated: 2023/06/24 15:00:09 by azaghlou         ###   ########.fr       */
+/*   Updated: 2023/06/24 18:10:41 by nettalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+t_cmd	*parse(t_cmd *cmd, t_env *my_envp, char *line)
+{
+	cmd = parsing1(line, my_envp);
+	if (!cmd || (!cmd->cmd[0] && !cmd->red))
+	{
+		free(line);
+		return (NULL);
+	}
+	return (cmd);
+}
 
 void	backup_free(t_cmd *cmd, char *line)
 {
@@ -33,11 +44,24 @@ void	handle_exit(char *line)
 	exit(g_glb.exit_status);
 }
 
-void	check_herdoc(t_cmd *cmd, int n)
+void	check_herdoc(t_cmd *cmd)
 {
-	if (cmd->red[0])
+	t_cmd	*current;
+	int		i;
+
+	i = 0;
+	current = cmd;
+	while (current)
 	{
-		if (cmd->delimiter)
-			ft_herdoc(cmd, n);
+		if (current->red[0] && current->delimiter)
+		{
+			while (current->delimiter[i])
+			{
+				heredoc1(current, i);
+				i++;
+			}
+			i = 0;
+		}
+		current = current->next;
 	}
 }
