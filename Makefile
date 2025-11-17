@@ -20,16 +20,16 @@ LFLAGS  = -L/goinfre/${USERNAME}/homebrew/opt/readline/lib -lreadline
 RM      = rm -f
 
 %.o : %.c
-	${CC} ${CFLAGS} ${IFLAGS} -c $< -o $@
+	@cc ${CFLAGS} ${IFLAGS} -c $< -o $@
 
 all:    ${NAME}
 
 ${LIBFT}:
-	@make -C ./libft
+	@make -C --silent ./libft
 
 ${NAME}:    ${OBJS} ${LIBFT}
-	$(CC) $(CFLAGS) $(LFLAGS) $^ -o $@
-	@make clean -C ./libft
+	@cc $(CFLAGS) $^ -o $@ $(LFLAGS)
+	@make clean --silent -C ./libft
 
 clean:
 	$(RM) ${OBJS}

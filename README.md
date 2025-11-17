@@ -3,6 +3,11 @@
 
 Minishell is a simple shell created as part of my 1337 (42 Network) studies. It supports basic command execution, pipes, redirections, environment variables, and built-in commands like `cd`, `pwd`, `echo`, and more. It also handles signals (`Ctrl-C`, `Ctrl-D`) and offers a history feature.
 
+### Screenshot
+<p>
+    <img src="assets/Project_Implementation.jpg" width="32%" alt="Deployment Diagram" />
+</p>
+
 ## Features
 - Command execution based on `PATH` or relative/absolute paths.
 - History functionality for command recall.
