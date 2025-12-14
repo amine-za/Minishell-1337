@@ -71,13 +71,11 @@ void	ft_pipe(t_cmd *cmd, t_env **my_envp)
 	int		**fd;
 	pid_t	*pid;
 	int		size;
-	int		i;
 
 	size = ft_cmdsize(cmd) - 1;
 	fd = malloc(sizeof(int *) * (size + 1));
 	pid = malloc(sizeof(pid_t) * (size + 1));
 	fds_opertions(fd, pid, size, 1);
-	i = -1;
 	check_herdoc(cmd);
 	if (!ft_pipe2(cmd, my_envp, pid, fd))
 		return ;

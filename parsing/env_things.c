@@ -61,9 +61,6 @@ void	env_chck_norm(char *f_part, char *s, int i, int indc)
 
 char	*number_expen_case(char *f_part, char *var_name)
 {
-	int	i;
-
-	i = 0;
 	if (ft_isdigit(var_name[0]))
 		return (ft_strjoin2(f_part, &var_name[1]));
 	return (f_part);

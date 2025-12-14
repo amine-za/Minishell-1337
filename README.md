@@ -1,27 +1,99 @@
+#  Minishell - A Lightweight Bash Implementation
 
-# Minishell: As Beautiful as a Shell
+![Language](https://img.shields.io/badge/Language-C-blue)
+![Platform](https://img.shields.io/badge/Platform-Linux-green)
+![Build](https://img.shields.io/badge/Build-Makefile-orange)
+![Memory](https://img.shields.io/badge/Memory-Valgrind%20Clean-success)
 
-Minishell is a simple shell created as part of my 1337 (42 Network) studies. It supports basic command execution, pipes, redirections, environment variables, and built-in commands like `cd`, `pwd`, `echo`, and more. It also handles signals (`Ctrl-C`, `Ctrl-D`) and offers a history feature.
+**Minishell** is a custom shell implementation written in C as part of the 42 Network curriculum. It parses prompts, manages processes, and executes commands, replicating core Bash functionalities while adhering to strict memory management rules.
 
-### Screenshot
-<p>
-    <img src="assets/Project_Implementation.jpg" width="32%" alt="Deployment Diagram" />
-</p>
+<table>
+  <tr>
+    <td width="50%" valign="top">
+      <img src="assets/Custom-Unix-Asset.jpg" width="70%" alt="Feature 2" />
+      <br />
+      <img src="assets/Bash-Asset.png" width="70%" alt="Feature 1" />
+    </td>
+        <td width="50%" valign="top">
+      <img src="assets/Project_Implementation.jpg" width="70%" alt="Minishell Main View" />
+    </td>
+  </tr>
+</table>
 
-## Features
-- Command execution based on `PATH` or relative/absolute paths.
-- History functionality for command recall.
-- Input/output redirections (`<`, `>`, `<<`, `>>`).
-- Pipe support (`|` for piping output between commands).
-- Environment variable handling (`$VAR` expansion).
-- Special handling for `$?` (exit status of the last command).
-- Signal handling for `Ctrl-C`, `Ctrl-D`, and `Ctrl-\`.
-- Built-in commands: `echo`, `cd`, `pwd`, `export`, `unset`, `env`, `exit`.
-- Supports single and double quotes for escaping special characters.
 
-## How to Use
-1. Clone the repository.
-2. Run `make` to build the shell.
-3. Execute the program with `./minishell`.
+##  Features
 
-This project adheres to strict memory management rules, ensuring no leaks in user-defined code, and follows the 42 Norm.
+### Core Capabilities
+- **Command Execution:** Supports absolute, relative, and `$PATH` based execution.
+- **Pipelines:** Implements `|` to connect command outputs and inputs via file descriptors.
+- **Redirections:** Handles input (`<`, `<<`) and output (`>`, `>>`) streams.
+- **Environment Variables:** Expands `$VAR` and handles exit status `$?`.
+
+### Built-in Commands
+- `echo` (with `-n` option)
+- `cd` (with relative/absolute paths)
+- `pwd`
+- `export`
+- `unset`
+- `env`
+- `exit`
+
+### Signal Handling
+- **Ctrl-C:** Interrupts current process (SIGINT).
+- **Ctrl-D:** Exits the shell (EOF).
+- **Ctrl-\:** Ignores quit signal (SIGQUIT).
+
+---
+
+##  Technical Architecture
+
+This project was built from scratch without using high-level libraries (like `system()` or standard RegEx).
+
+1.  **Lexer & Tokenizer:** Breaks raw input strings into tokens (words, operators, quotes).
+2.  **Parser:** Validates syntax and builds a command table.
+3.  **Expander:** Processes environment variables and quote removal.
+4.  **Executor:**
+    - Uses `fork()` to create child processes.
+    - Uses `execve()` to execute binaries.
+    - Manages file descriptors (`dup2`, `pipe`) for redirection.
+    - Handles parent-child process synchronization via `waitpid()`.
+
+---
+
+##  Memory Management
+
+This project follows the **42 Norm**, enforcing strict coding standards.
+- **Zero Leaks:** All allocated memory is freed, even in error states.
+- **Error Handling:** Robust protection against segmentation faults and double-frees.
+- Verified using **Valgrind**.
+
+---
+
+##  How to Run
+
+1. **Clone the repository:**
+   ```bash
+    git clone https://github.com/amine-za/Minishell-1337.git
+    cd Minishell-1337
+   ```
+
+2. **Compile:**
+
+    ```Bash
+    make
+    ```
+
+3. **Run:**
+
+    ```Bash
+    ./minishell
+    ```
+---
+
+## Example Usage
+
+```bash
+    minishell$ echo "Hello World" | cat -e > outfile
+    minishell$ cat < outfile
+    Hello World$
+``` 
